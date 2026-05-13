@@ -1,0 +1,50 @@
+name: Rebuild knowledge embeddings
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "api/src/knowledge-base.js"
+      - "api/scripts/embed.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Prevent overlapping runs from racing on the same file.
+concurrency:
+  group: embeddings
+  cancel-in-progress: false
+
+jobs:
+  embed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Need a token that can push back to main.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Rebuild embeddings
+        working-directory: api
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: node scripts/embed.mjs
+
+      - name: Commit updated embeddings
+        run: |
+          if git diff --quiet -- api/src/embeddings.json; then
+            echo "Embeddings already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add api/src/embeddings.json
+          git commit -m "chore(api): rebuild embeddings [skip ci]"
+          git push

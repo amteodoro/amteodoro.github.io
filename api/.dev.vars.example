@@ -1,0 +1,2 @@
+# Cloudflare Worker dev secrets (not committed to git)
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
