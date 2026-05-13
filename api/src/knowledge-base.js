@@ -119,14 +119,19 @@ export const KNOWLEDGE_CHUNKS = [
 
     // === PROJECTS ===
     {
-        id: "project-retroreps",
+        id: "project-nomly",
         category: "projects",
-        content: `RetroReps.fit is one of my featured projects. It provides daily bodyweight workouts designed with a 100% retro aesthetic. No equipment needed, just discipline. The tech stack includes Next.js, TypeScript, and a custom Retro UI. It is available at https://retroreps.fit.`
+        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, designed for people with celiac disease. It lets users scan product barcodes to check for gluten safety, find celiac-friendly restaurants, generate gluten-free recipes, track their pantry of safe products, and share finds with the community. The tech stack includes React 19, TypeScript, TailwindCSS, an Express.js backend, the Google Gemini API for AI features, and Capacitor for iOS/Android delivery. It is live at https://www.nomly.xyz.`
     },
     {
         id: "project-fire",
         category: "projects",
-        content: `Portugal Fire Detection is one of my featured projects. It is an advanced system for real-time fire detection using satellite imagery and computer vision. The tech stack includes Python, PyTorch, and Remote Sensing technologies. This project demonstrates my expertise in applying computer vision to critical real-world problems.`
+        content: `Portugal Fire Detection is one of my featured projects. It is an advanced system for real-time fire detection using satellite imagery and computer vision. The tech stack includes Python, PyTorch, and Remote Sensing technologies. The live demo is on Hugging Face Spaces and the source is on GitHub. This project demonstrates my expertise in applying computer vision to critical real-world problems.`
+    },
+    {
+        id: "project-retroreps",
+        category: "projects",
+        content: `RetroReps.fit is one of my side projects. It provides daily bodyweight workouts designed with a 100% retro aesthetic. No equipment needed, just discipline. The tech stack includes Next.js, TypeScript, and a custom Retro UI. It is available at https://retroreps.fit.`
     },
 
     // === CONTACT ===

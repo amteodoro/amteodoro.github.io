@@ -41,64 +41,63 @@ function TabBar({ activeView, setActiveView }: { activeView: ViewMode; setActive
     }
   }
 
-  return (
-    <header className="fixed w-full top-0 z-50 bg-terminal-bg border-b-2 border-terminal-accent/40">
-      <div className="max-w-screen-2xl mx-auto">
-        <div className="flex items-center justify-between h-12 px-4 md:px-6">
-          {/* Left: Tab buttons */}
-          <div className="flex items-center h-full" role="tablist" aria-label="Navigation" onKeyDown={handleTablistKeyDown}>
-            <button
-              ref={tabTerminalRef}
-              id="tab-terminal"
-              onClick={() => setActiveView("terminal")}
-              role="tab"
-              aria-selected={activeView === "terminal"}
-              aria-controls="panel-terminal"
-              className={`
-                flex items-center gap-2 px-4 md:px-6 h-full font-mono text-xs md:text-sm font-bold uppercase tracking-wider
-                border-r border-terminal-accent/20 transition-[background-color,color,border-color] duration-200
-                ${activeView === "terminal"
-                  ? "bg-terminal-accent/15 text-terminal-accent border-b-2 border-b-terminal-accent -mb-[2px]"
-                  : "text-terminal-accent/80 hover:text-terminal-accent/80 hover:bg-terminal-accent/5"
-                }
-              `}
-            >
-              <Terminal className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">TERMINAL</span>
-            </button>
-            <button
-              ref={tabPortfolioRef}
-              id="tab-portfolio"
-              onClick={() => setActiveView("portfolio")}
-              role="tab"
-              aria-selected={activeView === "portfolio"}
-              aria-controls="panel-portfolio"
-              className={`
-                flex items-center gap-2 px-4 md:px-6 h-full font-mono text-xs md:text-sm font-bold uppercase tracking-wider
-                border-r border-terminal-accent/20 transition-[background-color,color,border-color] duration-200
-                ${activeView === "portfolio"
-                  ? "bg-terminal-accent/15 text-terminal-accent border-b-2 border-b-terminal-accent -mb-[2px]"
-                  : "text-terminal-accent/80 hover:text-terminal-accent/80 hover:bg-terminal-accent/5"
-                }
-              `}
-            >
-              <User className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">PORTFOLIO</span>
-            </button>
-          </div>
+  const isTerminal = activeView === "terminal"
+    const navBg = isTerminal ? "bg-terminal-bg border-terminal-accent/40" : "bg-background border-foreground/30"
+    const tabBase = "flex items-center gap-2 px-4 md:px-6 h-full font-mono text-xs md:text-sm font-bold uppercase tracking-wider transition-[background-color,color,border-color] duration-200"
+    const tabBorder = isTerminal ? "border-r border-terminal-accent/20" : "border-r border-foreground/20"
+    const activeTab = isTerminal
+      ? "bg-terminal-accent/15 text-terminal-accent border-b-2 border-b-terminal-accent -mb-[2px]"
+      : "bg-foreground/10 text-foreground border-b-2 border-b-foreground -mb-[2px]"
+    const inactiveTab = isTerminal
+      ? "text-terminal-accent/80 hover:text-terminal-accent hover:bg-terminal-accent/5"
+      : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
+    const statusColor = isTerminal ? "text-terminal-accent/50" : "text-foreground/50"
+    const onlineDot = isTerminal ? "bg-terminal-accent animate-pulse" : "bg-foreground animate-pulse"
 
-          {/* Right: Status indicators */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5 font-mono text-[10px] text-terminal-accent/50">
-              <span className={`w-1.5 h-1.5 rounded-full ${isOffline ? 'bg-destructive' : 'bg-terminal-accent animate-pulse'}`} />
-              <span className="hidden sm:inline">{isOffline ? 'OFFLINE' : 'ONLINE'}</span>
+    return (
+      <header className={`fixed w-full top-0 z-50 border-b-2 ${navBg}`}>
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="flex items-center justify-between h-12 px-4 md:px-6">
+            {/* Left: Tab buttons */}
+            <div className="flex items-center h-full" role="tablist" aria-label="Navigation" onKeyDown={handleTablistKeyDown}>
+              <button
+                ref={tabTerminalRef}
+                id="tab-terminal"
+                onClick={() => setActiveView("terminal")}
+                role="tab"
+                aria-selected={activeView === "terminal"}
+                aria-controls="panel-terminal"
+                className={`${tabBase} ${tabBorder} ${activeView === "terminal" ? activeTab : inactiveTab}`}
+              >
+                <Terminal className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">TERMINAL</span>
+              </button>
+              <button
+                ref={tabPortfolioRef}
+                id="tab-portfolio"
+                onClick={() => setActiveView("portfolio")}
+                role="tab"
+                aria-selected={activeView === "portfolio"}
+                aria-controls="panel-portfolio"
+                className={`${tabBase} ${tabBorder} ${activeView === "portfolio" ? activeTab : inactiveTab}`}
+              >
+                <User className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">PORTFOLIO</span>
+              </button>
             </div>
-            <ModeToggle />
+
+            {/* Right: Status indicators */}
+            <div className="flex items-center gap-3">
+              <div className={`flex items-center gap-1.5 font-mono text-[10px] ${statusColor}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${isOffline ? 'bg-destructive' : onlineDot}`} />
+                <span className="hidden sm:inline">{isOffline ? 'OFFLINE' : 'ONLINE'}</span>
+              </div>
+              <ModeToggle />
+            </div>
           </div>
         </div>
-      </div>
-    </header>
-  )
+      </header>
+    )
 }
 
 function PortfolioView({ isActive }: { isActive: boolean }) {
@@ -145,33 +144,36 @@ function PortfolioView({ isActive }: { isActive: boolean }) {
           <div className="max-w-6xl mx-auto">
             <div className="flex items-end justify-between mb-16 gap-8 flex-wrap">
               <h2 className="text-5xl md:text-6xl font-black uppercase italic font-display">Featured_Projects</h2>
-              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">02 / SELECTED</span>
+              <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">03 / SELECTED</span>
             </div>
             <div className="grid md:grid-cols-12 gap-x-8 gap-y-16 items-start">
-              {/* Lead project — spans 8/12, taller */}
+              {/* Lead project — Nomly, spans 8/12, taller */}
               <Card className="retro-outline bg-background overflow-hidden flex flex-col group md:col-span-8">
                 <div className="bg-foreground text-background px-6 py-5 flex justify-between items-center">
                   <span className="font-bold tracking-widest">PROJECT_01 / LEAD</span>
                   <Zap className="w-5 h-5" />
                 </div>
                 <div className="p-10 flex-1 flex flex-col">
-                  <h3 className="text-5xl md:text-6xl font-black mb-6 uppercase font-display leading-[0.9]">RetroReps.fit</h3>
+                  <h3 className="text-5xl md:text-6xl font-black mb-6 uppercase font-display leading-[0.9]">Nomly</h3>
                   <p className="text-xl mb-10 leading-snug max-w-xl">
-                    Daily bodyweight workouts designed with a 100% retro aesthetic. No equipment, just discipline.
+                    AI companion for safer gluten-free living — barcode scans, restaurant finder, pantry tracker.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-10">
-                    {["Next.js", "Retro UI", "Fitness"].map(tag => (
+                    {["React", "Gemini AI", "Mobile"].map(tag => (
                       <span key={tag} className="border-2 border-foreground px-2 py-1 text-xs font-black uppercase">{tag}</span>
                     ))}
                   </div>
                   <Button asChild className="retro-button w-full md:w-auto md:self-start mt-auto px-10 h-14 text-lg">
-                    <Link href="https://retroreps.fit" target="_blank" rel="noopener noreferrer" aria-label="Visit RetroReps.fit (opens in new tab)">VISIT_SITE →</Link>
+                    <Link href="https://www.nomly.xyz" target="_blank" rel="noopener noreferrer" aria-label="Visit Nomly (opens in new tab)">VISIT_SITE →</Link>
                   </Button>
                 </div>
               </Card>
 
-              {/* Secondary project — 4/12, offset down for asymmetry */}
-              <Card className="retro-outline bg-background overflow-hidden flex flex-col group md:col-span-4 md:mt-24">
+              {/* Spacer column to preserve asymmetric lead row */}
+              <div className="hidden md:block md:col-span-4" aria-hidden="true" />
+
+              {/* Secondary — Portugal Fire Detection */}
+              <Card className="retro-outline bg-background overflow-hidden flex flex-col group md:col-span-6">
                 <div className="bg-background text-foreground border-b-2 border-foreground px-4 py-3 flex justify-between items-center">
                   <span className="font-bold tracking-widest text-sm">PROJECT_02 / RESEARCH</span>
                   <Code className="w-4 h-4" />
@@ -192,6 +194,30 @@ function PortfolioView({ isActive }: { isActive: boolean }) {
                     </Button>
                     <Button asChild variant="outline" className="retro-button flex-1 h-10 text-xs">
                       <Link href="https://github.com/amteodoro/portugal-fire-detection" target="_blank" rel="noopener noreferrer" aria-label="Portugal Fire Detection source on GitHub (opens in new tab)">VIEW_CODE →</Link>
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Tertiary — RetroReps.fit (equal emphasis to Fire) */}
+              <Card className="retro-outline bg-background overflow-hidden flex flex-col group md:col-span-6">
+                <div className="bg-background text-foreground border-b-2 border-foreground px-4 py-3 flex justify-between items-center">
+                  <span className="font-bold tracking-widest text-sm">PROJECT_03 / SIDE</span>
+                  <Zap className="w-4 h-4" />
+                </div>
+                <div className="p-6 flex-1 flex flex-col">
+                  <h3 className="text-2xl font-black mb-3 uppercase font-display leading-tight">RetroReps.fit</h3>
+                  <p className="text-base mb-6 leading-tight">
+                    Daily bodyweight workouts designed with a 100% retro aesthetic. No equipment, just discipline.
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {["Next.js", "Retro UI", "Fitness"].map(tag => (
+                      <span key={tag} className="border-2 border-foreground px-2 py-1 text-[10px] font-black uppercase">{tag}</span>
+                    ))}
+                  </div>
+                  <div className="mt-auto">
+                    <Button asChild className="retro-button w-full h-10 text-xs">
+                      <Link href="https://retroreps.fit" target="_blank" rel="noopener noreferrer" aria-label="Visit RetroReps.fit (opens in new tab)">VISIT_SITE →</Link>
                     </Button>
                   </div>
                 </div>

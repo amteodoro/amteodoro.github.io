@@ -35,7 +35,7 @@ const TOPICS_TEXT = `I CAN ANSWER ABOUT:
 - about / identity
 - experience (Nimble Portal, Instituto de Telecomunicações, INESC-ID)
 - education and PhD
-- projects (RetroReps.fit, Portugal Fire Detection)
+- projects (Nomly, Portugal Fire Detection, RetroReps.fit)
 - publications and research
 - skills (computer vision, NLP, GenAI, MLOps, frontend)
 - contact
