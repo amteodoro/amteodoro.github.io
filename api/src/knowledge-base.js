@@ -131,7 +131,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "project-retroreps",
         category: "projects",
-        content: `RetroReps.fit is one of my side projects. It provides daily bodyweight workouts designed with a 100% retro aesthetic. No equipment needed, just discipline. The tech stack includes Next.js, TypeScript, and a custom Retro UI. It is available at https://retroreps.fit.`
+        content: `RetroReps.fit is one of my side projects. It provides daily bodyweight workouts designed with a 100% retro aesthetic. No equipment needed, just discipline. The tech stack is intentionally minimal: vanilla JavaScript, HTML, and CSS with no framework, no bundler, and no npm — all static files served by Nginx in Docker. It is available at https://retroreps.fit.`
     },
 
     // === CONTACT ===
