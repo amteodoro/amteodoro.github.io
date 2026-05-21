@@ -211,7 +211,7 @@ function PortfolioView({ isActive }: { isActive: boolean }) {
                     Daily bodyweight workouts designed with a 100% retro aesthetic. No equipment, just discipline.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {["Next.js", "Retro UI", "Fitness"].map(tag => (
+                    {["Vanilla JS", "Retro UI", "Fitness"].map(tag => (
                       <span key={tag} className="border-2 border-foreground px-2 py-1 text-[10px] font-black uppercase">{tag}</span>
                     ))}
                   </div>
