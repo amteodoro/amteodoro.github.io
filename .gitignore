@@ -52,3 +52,6 @@ DESIGN_FIXES.md
 # v0 / shadcn scaffolding placeholders (unused)
 public/placeholder.*
 public/placeholder-*
+
+# generated at build time (preview page config)
+public/preview/_config.js
