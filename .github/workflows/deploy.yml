@@ -30,16 +30,10 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install pnpm
-        run: npm install -g pnpm@10
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Build static site
-        run: pnpm run export
+        run: node -e "require('fs').rmSync('out',{recursive:true,force:true});require('fs').cpSync('public','out',{recursive:true});require('fs').writeFileSync('out/.nojekyll','');require('fs').writeFileSync('out/_config.js','window.AMT_API_URL = '+JSON.stringify(process.env.CHATBOT_API_URL||'')+';\n')"
         env:
-          NEXT_PUBLIC_CHATBOT_API_URL: ${{ secrets.CHATBOT_API_URL }}
+          CHATBOT_API_URL: ${{ secrets.CHATBOT_API_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

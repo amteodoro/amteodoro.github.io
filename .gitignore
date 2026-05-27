@@ -1,14 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-node_modules/
-
-# next.js
-/.next/
+# build output
 /out/
-
-# production
-/build
 
 # debug
 npm-debug.log*
@@ -20,13 +13,6 @@ yarn-error.log*
 .env*
 !.env.example
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
 # API
 api/node_modules
 api/.wrangler
@@ -35,6 +21,7 @@ api/.dev.vars
 
 # pnpm
 .pnpm-store/
+node_modules/
 
 # macOS / OS cruft
 .DS_Store
@@ -48,10 +35,3 @@ Thumbs.db
 # internal working notes (not for the public repo)
 AUDIT_REPORT.md
 DESIGN_FIXES.md
-
-# v0 / shadcn scaffolding placeholders (unused)
-public/placeholder.*
-public/placeholder-*
-
-# generated at build time (preview page config)
-public/preview/_config.js
