@@ -65,6 +65,20 @@
     --accent-fg: #000000;
   }
 
+  /* ===== Accent palettes — broadcast the accent beyond tiny dots ===== */
+  body[data-palette="red"]  .sec-title em,
+  body[data-palette="cyan"] .sec-title em { color: var(--accent); font-style: italic; font-weight: 400; }
+  body[data-palette="red"]  .sec-num,
+  body[data-palette="cyan"] .sec-num { color: var(--accent); }
+  body[data-palette="red"]  ::selection,
+  body[data-palette="cyan"] ::selection { background: var(--accent); color: var(--accent-fg); }
+  body[data-palette="red"]  .sug:hover,
+  body[data-palette="cyan"] .sug:hover { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  body[data-palette="red"]  .proj-head .badge,
+  body[data-palette="cyan"] .proj-head .badge { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  body[data-palette="red"]  .spec-photo,
+  body[data-palette="cyan"] .spec-photo { box-shadow: inset 0 0 0 4px var(--accent); }
+
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body {
@@ -193,7 +207,7 @@
   .topbar-tab:last-child { border-right: none; }
   .topbar-tab:hover { color: var(--ink); }
   .topbar-tab[aria-selected="true"] {
-    color: var(--ink); font-weight: 700; background: var(--ink); color: var(--bg);
+    font-weight: 700; background: var(--accent); color: var(--accent-fg);
   }
   .topbar-tab .dot {
     width: 5px; height: 5px; border-radius: 0;
@@ -327,8 +341,7 @@
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 56px;
-    align-items: stretch;
-    min-height: calc(100vh - 36px - 200px);
+    align-items: start;
   }
   @media (max-width: 880px) { .hero { grid-template-columns: 1fr; gap: 36px; } }
 
@@ -365,7 +378,7 @@
     max-width: 620px;
     color: var(--ink);
   }
-  .hero-blurb b { font-weight: 600; background: var(--ink); color: var(--bg); padding: 0 6px; }
+  .hero-blurb b { font-weight: 600; background: var(--accent); color: var(--accent-fg); padding: 0 6px; }
 
   .hero-ctas {
     margin-top: 44px;
@@ -397,6 +410,7 @@
     background: var(--bg);
     display: flex; flex-direction: column;
     box-shadow: 6px 6px 0 var(--ink);
+    align-self: start;
   }
   .spec-head {
     background: var(--ink); color: var(--bg);
@@ -412,24 +426,30 @@
   body[data-palette="cyan"] .rec-dot { color: var(--accent); }
   .spec-photo {
     aspect-ratio: 1 / 1;
-    background:
-      repeating-linear-gradient(135deg, transparent 0 9px, var(--dim) 9px 10px),
-      var(--bg-deep);
+    background: var(--bg-deep);
     border-bottom: var(--rule) solid var(--ink);
     position: relative;
-    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
   }
-  .spec-photo .corner { position: absolute; width: 18px; height: 18px; border: 2px solid var(--ink); }
+  .spec-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.05);
+  }
+  .spec-photo .corner { position: absolute; width: 18px; height: 18px; border: 2px solid var(--ink); z-index: 2; }
   .spec-photo .corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
   .spec-photo .corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
   .spec-photo .corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
   .spec-photo .corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
-  .spec-photo .ph-label {
+  .spec-photo .ph-tag {
+    position: absolute; bottom: 10px; left: 10px;
     font-family: var(--mono);
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ink); background: var(--bg);
-    padding: 6px 10px;
+    padding: 4px 8px;
     border: 1px solid var(--ink);
+    z-index: 2;
   }
 
   .spec-fields {
@@ -969,7 +989,7 @@
   }
   .msg.system .prefix { color: var(--muted); }
   .msg.user   .prefix { color: var(--ink); }
-  .msg.assist .prefix { color: var(--ink); background: var(--ink); color: var(--bg); padding: 0 6px; }
+  .msg.assist .prefix { background: var(--accent); color: var(--accent-fg); padding: 0 6px; }
   .msg .body  { white-space: pre-wrap; }
   .msg.system .body { color: var(--ink-soft); border-bottom: 1px dashed var(--dim); padding-bottom: 14px; }
 
@@ -1004,7 +1024,7 @@
   }
   .term-input input::placeholder { color: var(--muted); opacity: .8; }
   .term-input .send {
-    appearance: none; background: var(--ink); color: var(--bg); border: none;
+    appearance: none; background: var(--accent); color: var(--accent-fg); border: none;
     padding: 8px 14px; font-family: var(--mono); font-size: 11px;
     letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
     font-weight: 700;
@@ -1158,9 +1178,10 @@ TEODORO.</h1>
               <span><span class="rec-dot">●</span> REC</span>
             </div>
             <div class="spec-photo">
+              <img src="portrait.jpeg" alt="Portrait of Afonso Teodoro" loading="lazy" decoding="async" />
               <span class="corner tl"></span><span class="corner tr"></span>
               <span class="corner bl"></span><span class="corner br"></span>
-              <span class="ph-label">SUBJECT PORTRAIT — DROP IMG</span>
+              <span class="ph-tag">SUBJECT · 91·LX</span>
             </div>
             <div class="spec-fields">
               <div class="spec-field k">NAME</div>             <div class="spec-field v">Afonso Teodoro</div>
@@ -1197,6 +1218,18 @@ TEODORO.</h1>
         </header>
 
         <div class="exp-axis" id="exp-axis"><!-- injected --></div>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true">
+          <span class="lbl">END · 01</span>
+          <svg viewBox="0 0 800 22" preserveAspectRatio="none">
+            <line x1="0" y1="11" x2="800" y2="11" stroke="#15130f" stroke-width="1" stroke-dasharray="2,4"/>
+            <circle cx="200" cy="11" r="3.5" fill="#15130f"/>
+            <circle cx="400" cy="11" r="3.5" fill="#f1ede2" stroke="#15130f" stroke-width="1.25"/>
+            <circle cx="600" cy="11" r="3.5" fill="#15130f"/>
+          </svg>
+          <span class="lbl">BEGIN · 02</span>
+        </div>
       </section>
 
       <!-- 02 / FIELD PROJECTS -->
@@ -1211,6 +1244,18 @@ TEODORO.</h1>
         </header>
 
         <div class="proj-grid" id="proj-grid"><!-- injected --></div>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true">
+          <span class="lbl">END · 02</span>
+          <svg viewBox="0 0 800 22" preserveAspectRatio="none">
+            <line x1="0" y1="11" x2="800" y2="11" stroke="#15130f" stroke-width="1" stroke-dasharray="2,4"/>
+            <circle cx="200" cy="11" r="3.5" fill="#15130f"/>
+            <circle cx="400" cy="11" r="3.5" fill="#f1ede2" stroke="#15130f" stroke-width="1.25"/>
+            <circle cx="600" cy="11" r="3.5" fill="#15130f"/>
+          </svg>
+          <span class="lbl">BEGIN · 03</span>
+        </div>
       </section>
 
       <!-- 03 / PUBLICATIONS -->
@@ -1234,6 +1279,18 @@ TEODORO.</h1>
             VIEW FULL GOOGLE SCHOLAR PROFILE <span class="arr">↗</span>
           </a>
         </div>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true">
+          <span class="lbl">END · 03</span>
+          <svg viewBox="0 0 800 22" preserveAspectRatio="none">
+            <line x1="0" y1="11" x2="800" y2="11" stroke="#15130f" stroke-width="1" stroke-dasharray="2,4"/>
+            <circle cx="200" cy="11" r="3.5" fill="#15130f"/>
+            <circle cx="400" cy="11" r="3.5" fill="#f1ede2" stroke="#15130f" stroke-width="1.25"/>
+            <circle cx="600" cy="11" r="3.5" fill="#15130f"/>
+          </svg>
+          <span class="lbl">BEGIN · 04</span>
+        </div>
       </section>
 
       <!-- 04 / INSTRUMENTATION -->
@@ -1251,6 +1308,18 @@ TEODORO.</h1>
         <div class="fig-caption">
           <span class="num">FIG. 04.2</span>
           <span>PROFICIENCY ESTIMATED FROM USAGE × YEARS · NORMALIZED PER BAY</span>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider" aria-hidden="true">
+          <span class="lbl">END · 04</span>
+          <svg viewBox="0 0 800 22" preserveAspectRatio="none">
+            <line x1="0" y1="11" x2="800" y2="11" stroke="#15130f" stroke-width="1" stroke-dasharray="2,4"/>
+            <circle cx="200" cy="11" r="3.5" fill="#15130f"/>
+            <circle cx="400" cy="11" r="3.5" fill="#f1ede2" stroke="#15130f" stroke-width="1.25"/>
+            <circle cx="600" cy="11" r="3.5" fill="#15130f"/>
+          </svg>
+          <span class="lbl">BEGIN · 05</span>
         </div>
       </section>
 

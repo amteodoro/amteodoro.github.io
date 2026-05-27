@@ -141,6 +141,25 @@ export const KNOWLEDGE_CHUNKS = [
         content: `You can reach me via email at afonso.teodoro91@gmail.com. My LinkedIn profile is at linkedin.com/in/afonso-teodoro. My GitHub is at github.com/amteodoro. My Google Scholar profile is at scholar.google.com/citations?user=TV9RYGAAAAAJ.`
     },
 
+    // === AVAILABILITY & CONSULTING ===
+    {
+        id: "availability",
+        category: "availability",
+        content: `Yes, I am currently accepting consulting work. My status on this page reads "operational, accepting work" for a reason. I take on selected AI and machine-learning engagements alongside my ongoing role at Nimble Portal — typically computer vision, NLP, RAG/LLM systems, and end-to-end ML delivery. If you have a problem in mind, the fastest path is to email me at afonso.teodoro91@gmail.com with a short description of the use case, the data you have, and the timeline. I will tell you honestly whether it is a good fit.`
+    },
+    {
+        id: "consulting-engagements",
+        category: "availability",
+        content: `The engagements I am best suited for: building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, fine-tuning and deploying LLMs, designing RAG systems on top of bespoke knowledge bases, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon but work remotely with clients across Europe and the US. I do not take on pure generic web development — my focus stays on the AI/ML layer.`
+    },
+
+    // === STACK SUMMARY ===
+    {
+        id: "stack-summary",
+        category: "skills",
+        content: `My day-to-day stack: Python as the primary language, PyTorch and TensorFlow for deep learning, FastAPI for backends, Docker for packaging, Weights & Biases for experiment tracking, and Git for everything. For LLM work I lean on the OpenAI, Anthropic, and OpenRouter APIs, plus LangChain when the workflow warrants it. On the frontend I use React, TypeScript, and vanilla JavaScript depending on the project — this very site is vanilla JS, while Nomly runs on React 19 with TailwindCSS. For infrastructure I use Cloudflare Workers for lightweight APIs and serverless edges, and standard Docker/Linux for heavier deployments.`
+    },
+
     // === HOBBIES & PERSONAL ===
     {
         id: "hobbies-fitness",
