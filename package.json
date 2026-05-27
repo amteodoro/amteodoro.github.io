@@ -11,7 +11,8 @@
     "serve": "npx serve out",
     "serve:all": "npx -y concurrently -n frontend,api -c cyan,yellow \"npx serve out\" \"cd api && npm run dev\"",
     "lint": "next lint",
-    "export": "next build && touch ./out/.nojekyll"
+    "preview:config": "node -e \"require('fs').writeFileSync('public/preview/_config.js', 'window.AMT_API_URL = ' + JSON.stringify(process.env.NEXT_PUBLIC_CHATBOT_API_URL || '') + ';\\n')\"",
+    "export": "pnpm run preview:config && next build && touch ./out/.nojekyll"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
