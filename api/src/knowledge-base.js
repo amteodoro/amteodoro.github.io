@@ -177,6 +177,26 @@ export const KNOWLEDGE_CHUNKS = [
         category: "availability",
         content: `How I work: I take end-to-end ownership from research to production rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
     },
+    {
+        id: "employment-stance",
+        category: "availability",
+        content: `Recruiters often ask if I am open to full-time roles. My focus right now is consulting engagements alongside my ongoing role at Nimble Portal, so I am not actively job-hunting. For an exceptional fit — senior data scientist or AI engineer work with real CV/NLP/GenAI depth — I am open to a conversation. The honest first step is an email to afonso.teodoro91@gmail.com with the role and what the team is building.`
+    },
+    {
+        id: "cofounder-stance",
+        category: "availability",
+        content: `On joining startups as a technical co-founder or founding engineer: my current commitments come first, so I do not take co-founder roles by default. Where I can help founders today is fractional or advisory work — technical due diligence, ML strategy, and building the first production version of an AI product. If you think your case is different, email me at afonso.teodoro91@gmail.com and make the pitch.`
+    },
+    {
+        id: "cv-pointer",
+        category: "contact",
+        content: `My CV is available directly on this site: use the DOWNLOAD CV button in the dossier view (next to EXPLORE WORK in the hero), or fetch it directly at https://amteodoro.github.io/cv_afonso.pdf. For the publication record, my Google Scholar profile is linked in the OPEN CHANNEL section.`
+    },
+    {
+        id: "engagement-logistics",
+        category: "availability",
+        content: `Engagement logistics: I am based in Lisbon, Portugal (WET/WEST timezone) and work remotely with clients across Europe and the US. Typical engagements start with a short scoping call, then a written proposal with milestones. I can usually start a new engagement within a few weeks; email afonso.teodoro91@gmail.com to check current availability.`
+    },
 
     // === CONTACT ===
     {
