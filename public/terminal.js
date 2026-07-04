@@ -14,6 +14,7 @@
   let messages = []; // {role: 'system'|'user'|'assistant', content}
   let booted = false;
   let pending = false;
+  const asked = new Set();
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"]/g, (c) => ({
@@ -81,7 +82,9 @@
     lbl.textContent = "SUGGESTED · QUERIES";
     const row = document.createElement("div");
     row.className = "row";
-    (window.AMT.suggestedPrompts || []).forEach((p) => {
+    const remaining = (window.AMT.suggestedPrompts || []).filter((p) => !asked.has(p));
+    if (!remaining.length) return;
+    remaining.forEach((p) => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "sug";
@@ -219,6 +222,7 @@
       scrollEl.innerHTML = "";
       greeting();
       input.value = "";
+      asked.clear();
       return;
     }
     if (cmd === "dossier" || cmd === "/dossier") {
@@ -253,6 +257,7 @@
     }
 
     clearSuggestions();
+    asked.add(q);
     addMessage({ role: "user", content: q });
     messages.push({ role: "user", content: q });
     input.value = "";
@@ -265,6 +270,7 @@
     clearTyping();
     addMessage({ role: "assistant", content: reply });
     messages.push({ role: "assistant", content: reply });
+    addSuggestions();
 
     pending = false;
     send.disabled = false;
