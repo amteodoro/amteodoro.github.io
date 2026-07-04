@@ -220,9 +220,9 @@
     if (cmd === "clear" || cmd === "/clear") {
       messages = [];
       scrollEl.innerHTML = "";
+      asked.clear();
       greeting();
       input.value = "";
-      asked.clear();
       return;
     }
     if (cmd === "dossier" || cmd === "/dossier") {
