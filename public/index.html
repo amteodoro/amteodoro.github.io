@@ -1030,6 +1030,8 @@
   .msg.user   .prefix { color: var(--ink); }
   .msg.assist .prefix { background: var(--accent); color: var(--accent-fg); padding: 0 6px; }
   .msg .body  { white-space: pre-wrap; }
+  .msg .body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .msg .body a:hover { background: var(--ink); color: var(--bg); }
   .msg.system .body { color: var(--ink-soft); border-bottom: 1px dashed var(--dim); padding-bottom: 14px; }
 
   .typing .dot {

@@ -24,6 +24,23 @@
     }[c]));
   }
 
+  // Escape first, then wrap emails / URLs / known bare domains in anchors.
+  // ponytail: bare-domain matching is a whitelist, not a general URL parser —
+  // extend KNOWN_HOSTS if new domains appear in KB answers.
+  const KNOWN_HOSTS = /\b((?:www\.|linkedin\.com|github\.com|scholar\.google\.com|nomly\.xyz|retroreps\.fit|huggingface\.co|amteodoro\.github\.io)[^\s<,)]*)/gi;
+  function linkify(s) {
+    return escapeHtml(s).replace(
+      new RegExp(
+        `([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,})|(https?:\\/\\/[^\\s<]+)|${KNOWN_HOSTS.source}`,
+        "gi"
+      ),
+      (m, email) =>
+        email
+          ? `<a href="mailto:${email}">${email}</a>`
+          : `<a href="${m.startsWith("http") ? m : "https://" + m}" target="_blank" rel="noopener noreferrer">${m}</a>`
+    );
+  }
+
   function scrollDown() {
     requestAnimationFrame(() => {
       scrollEl.scrollTop = scrollEl.scrollHeight;
@@ -43,7 +60,11 @@
         : "> AFONSO";
     const body = document.createElement("span");
     body.className = "body";
-    body.textContent = m.content;
+    if (m.role === "user") {
+      body.textContent = m.content;
+    } else {
+      body.innerHTML = linkify(m.content);
+    }
     div.appendChild(prefix);
     div.appendChild(body);
     scrollEl.appendChild(div);
