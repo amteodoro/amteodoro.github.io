@@ -44,6 +44,7 @@
       tabs[k].setAttribute("aria-selected", k === name ? "true" : "false");
     }
     document.body.dataset.view = name;
+    try { localStorage.setItem("amt-view", name); } catch (e) {}
     if (name === "terminal" && window.AMT_terminal) {
       setTimeout(() => window.AMT_terminal.focus(), 50);
     }
@@ -214,5 +215,7 @@
   });
 
   // Default view
-  setView("terminal");
+  let savedView = null;
+  try { savedView = localStorage.getItem("amt-view"); } catch (e) {}
+  setView(savedView === "dossier" ? "dossier" : "terminal");
 })();
