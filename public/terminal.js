@@ -14,6 +14,7 @@
   let messages = []; // {role: 'system'|'user'|'assistant', content}
   let booted = false;
   let pending = false;
+  const asked = new Set();
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"]/g, (c) => ({
@@ -22,6 +23,23 @@
       ">": "&gt;",
       '"': "&quot;",
     }[c]));
+  }
+
+  // Escape first, then wrap emails / URLs / known bare domains in anchors.
+  // ponytail: bare-domain matching is a whitelist, not a general URL parser —
+  // extend KNOWN_HOSTS if new domains appear in KB answers.
+  const KNOWN_HOSTS = /\b((?:www\.|linkedin\.com|github\.com|scholar\.google\.com|nomly\.xyz|retroreps\.fit|huggingface\.co|amteodoro\.github\.io)[^\s<,)]*)/gi;
+  function linkify(s) {
+    return escapeHtml(s).replace(
+      new RegExp(
+        `([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,})|(https?:\\/\\/[^\\s<]+)|${KNOWN_HOSTS.source}`,
+        "gi"
+      ),
+      (m, email) =>
+        email
+          ? `<a href="mailto:${email}">${email}</a>`
+          : `<a href="${m.startsWith("http") ? m : "https://" + m}" target="_blank" rel="noopener noreferrer">${m}</a>`
+    );
   }
 
   function scrollDown() {
@@ -33,6 +51,11 @@
   function addMessage(m) {
     const div = document.createElement("div");
     div.className = "msg " + (m.role === "assistant" ? "assist" : m.role);
+    if (m.role === "assistant") {
+      div.setAttribute("role", "status");
+      div.setAttribute("aria-live", "polite");
+      div.setAttribute("aria-atomic", "true");
+    }
     const prefix = document.createElement("span");
     prefix.className = "prefix";
     prefix.textContent =
@@ -43,7 +66,11 @@
         : "> AFONSO";
     const body = document.createElement("span");
     body.className = "body";
-    body.textContent = m.content;
+    if (m.role === "user") {
+      body.textContent = m.content;
+    } else {
+      body.innerHTML = linkify(m.content);
+    }
     div.appendChild(prefix);
     div.appendChild(body);
     scrollEl.appendChild(div);
@@ -60,7 +87,11 @@
     lbl.textContent = "SUGGESTED · QUERIES";
     const row = document.createElement("div");
     row.className = "row";
-    (window.AMT.suggestedPrompts || []).forEach((p) => {
+    row.setAttribute("role", "list");
+    row.setAttribute("aria-label", "Suggested queries");
+    const remaining = (window.AMT.suggestedPrompts || []).filter((p) => !asked.has(p));
+    if (!remaining.length) return;
+    remaining.forEach((p) => {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "sug";
@@ -72,7 +103,10 @@
         input.value = p;
         submit(p);
       });
-      row.appendChild(b);
+      const item = document.createElement("div");
+      item.setAttribute("role", "listitem");
+      item.appendChild(b);
+      row.appendChild(item);
     });
     wrap.appendChild(lbl);
     wrap.appendChild(row);
@@ -115,6 +149,20 @@
       setTimeout(step, 220 + Math.random() * 140);
     };
     step();
+  }
+
+  function terminalIsVisible() {
+    let view = document.body.dataset.view;
+    let sidebar = document.body.dataset.sidebar;
+    // terminal.js loads before app.js restores persisted view/sidebar state.
+    // Read storage during boot so a saved dossier view does not steal focus.
+    if (!window.AMT_switchView) {
+      try {
+        view = localStorage.getItem("amt-view") || view;
+        sidebar = localStorage.getItem("amt-sidebar") || sidebar;
+      } catch (e) {}
+    }
+    return view === "terminal" || sidebar === "open";
   }
 
   function printBootLine(text) {
@@ -196,6 +244,7 @@
     if (cmd === "clear" || cmd === "/clear") {
       messages = [];
       scrollEl.innerHTML = "";
+      asked.clear();
       greeting();
       input.value = "";
       return;
@@ -215,7 +264,7 @@
       addMessage({
         role: "assistant",
         content:
-          "Afonso Teodoro — PhD in Computer Science (IST Lisbon). AI Consultant at Nimble Portal. CV, NLP, GenAI. Based in Lisbon.",
+          "Afonso Teodoro — PhD in Electrical and Computer Engineering (IST Lisbon), focused on computer vision and AI. AI Consultant at Nimble Portal. CV, NLP, GenAI. Based in Lisbon.",
       });
       input.value = "";
       return;
@@ -232,6 +281,7 @@
     }
 
     clearSuggestions();
+    asked.add(q);
     addMessage({ role: "user", content: q });
     messages.push({ role: "user", content: q });
     input.value = "";
@@ -244,6 +294,7 @@
     clearTyping();
     addMessage({ role: "assistant", content: reply });
     messages.push({ role: "assistant", content: reply });
+    addSuggestions();
 
     pending = false;
     send.disabled = false;
@@ -273,13 +324,13 @@
 
   boot(() => {
     booted = true;
-    input.focus();
+    if (terminalIsVisible()) input.focus();
     greeting();
   });
 
   window.AMT_terminal = {
     focus() {
-      if (booted && !pending) input.focus();
+      if (booted && !pending && terminalIsVisible()) input.focus();
     },
   };
 })();

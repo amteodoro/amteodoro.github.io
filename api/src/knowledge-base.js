@@ -7,24 +7,24 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "identity-overview",
         category: "about",
-        content: `My name is Afonso Teodoro. I am an AI consultant and researcher based in Lisbon, Portugal. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have spent the last decade turning research-grade machine learning into systems that survive contact with real users, real data, and real production constraints.`
+        content: `My name is Afonso Teodoro. I am an AI consultant and researcher based in Lisbon, Portugal. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have worked in machine learning since 2013: first in academic research, and since 2019 in industry, shipping solutions that solve real client problems.`
     },
     {
         id: "identity-focus",
         category: "about",
-        content: `My core focus is computer vision, natural language processing, and applied deep learning. I work the full path from a paper or prototype to a deployed service: data, modelling, evaluation, packaging, and the API or UI in front of it. I am happiest when the problem is technically real and the user is too.`
+        content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it, taking end-to-end ownership when the engagement calls for it. I am happiest when the problem is technically real and the user is too.`
     },
 
     // === PROFESSIONAL EXPERIENCE ===
     {
         id: "exp-nimble",
         category: "experience",
-        content: `Since 2019 I have been an AI consultant at Nimble Portal. I lead end-to-end delivery of machine learning systems for client problems: training computer vision and NLP models in PyTorch and TensorFlow, wrapping them in Python services with FastAPI, packaging them with Docker, and building light annotation and review interfaces in React when the project needs them. I work on the AI layer and the immediate scaffolding around it — not on long-running web product teams.`
+        content: `Since 2019 I have been an AI consultant at Nimble Portal, working with client stakeholders and delivery teams to put machine-learning systems into use. In one anonymized insurance-operations engagement, I helped build a document-understanding workflow processing around 150,000 invoices per month, with 70%+ of reimbursements handled automatically. I also built the annotation platform for a vehicle-photo damage detector, trained the models that supported insurance underwriting and fraud-prevention workflows, and exposed them through a service. In an insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and worked on diarization for analytics. My work spans data, modelling, annotation/review tooling, APIs, and delivery.`
     },
     {
         id: "exp-phd",
         category: "experience",
-        content: `From 2015 to 2019 I held a PhD scholarship as a researcher at Instituto de Telecomunicações. I developed machine learning and optimization methods for image restoration (deblurring, super-resolution, denoising, inpainting), MRI reconstruction, and image fusion for remote sensing. The work produced several publications in IEEE journals and conferences and accumulated most of the citations I have today.`
+        content: `From 2015 to 2019 I held a PhD scholarship as a researcher at Instituto de Telecomunicações. I developed machine learning and optimization methods for image restoration (deblurring, super-resolution, denoising, inpainting), MRI reconstruction, and image fusion for remote sensing. The work produced several publications in IEEE journals and conferences.`
     },
     {
         id: "exp-msc-fellowship",
@@ -41,19 +41,19 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "edu-phd",
         category: "education",
-        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, considered the top engineering school in Portugal. The thesis covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
+        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, one of Portugal’s leading engineering schools. The thesis covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
     },
 
     // === PUBLICATIONS (overview + top 3 by citations) ===
     {
         id: "pub-overview",
         category: "publications",
-        content: `I have published in top-tier venues including IEEE Transactions on Image Processing, IEEE Transactions on Computational Imaging, IEEE Transactions on Geoscience and Remote Sensing, IEEE ICIP, IEEE MLSP, ICPRAM, and LVA/ICA. The work spans image restoration, plug-and-play priors, MRI reconstruction, and hyperspectral imaging. My papers have accumulated over 400 citations in total. The full list is on Google Scholar: scholar.google.com/citations?user=TV9RYGAAAAAJ.`
+        content: `I have published in peer-reviewed venues including IEEE Transactions on Image Processing, IEEE Transactions on Computational Imaging, and IEEE Transactions on Geoscience and Remote Sensing. The work spans image restoration, plug-and-play priors, MRI reconstruction, and hyperspectral imaging. Google Scholar lists 400+ citations. The full list is on Google Scholar: https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en.`
     },
     {
         id: "pub-tip2018",
         category: "publications",
-        content: `My most-cited paper is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing in 2018. It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
+        content: `One of my most-cited papers is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing in 2018. It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
     },
     {
         id: "pub-icip2016",
@@ -63,87 +63,87 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "pub-icpram2015",
         category: "publications",
-        content: `"Single-frame Image Denoising and Inpainting Using Gaussian Mixtures" was published at ICPRAM in 2015. It addresses denoising and inpainting (filling in missing image regions) within a single Gaussian-mixture framework, and was one of the first papers from my PhD research line.`
+        content: `"Single-frame Image Denoising and Inpainting Using Gaussian Mixtures" was published at ICPRAM in 2015. It addresses denoising and inpainting (filling in missing image regions) within a single Gaussian-mixture framework. It grew out of my MSc thesis and became a stepping stone for my later PhD work.`
     },
 
     // === SKILLS ===
     {
         id: "skills-languages",
         category: "skills",
-        content: `Python is my primary language and the one I reach for by default for anything AI- or data-related. JavaScript and TypeScript are my second working language: I use them for frontends (React with TailwindCSS) and for serverless backends on Cloudflare Workers. I have used SQL and C++ when projects required them, but I would not list them as headline skills.`
+        content: `Python is my primary language and the one I reach for by default for anything AI- or data-related. JavaScript and TypeScript are my second working languages.`
     },
     {
         id: "skills-ai-core",
         category: "skills",
-        content: `My core machine-learning skills are in computer vision (classification, detection, segmentation, image restoration), natural language processing (information extraction, semantic matching, intent classification), and speech (speech-to-text and diarization). I work in PyTorch and TensorFlow, mostly PyTorch for new work. I am comfortable across the lifecycle: dataset design, training, evaluation, packaging, and serving.`
+        content: `My core machine-learning skills are in computer vision (classification, detection, segmentation, and image restoration) and natural language processing (information extraction, semantic matching, and intent classification). I have also worked on speech-to-text and diarization. I work primarily in PyTorch, with TensorFlow where projects require it. I am comfortable across the lifecycle: dataset design, training, evaluation, packaging, and serving.`
     },
     {
         id: "skills-llm",
         category: "skills",
-        content: `For LLM and RAG work I split things into techniques and tooling. Techniques I use: retrieval-augmented generation, prompt engineering, evaluation harnesses for LLM outputs, and agent-style orchestration. Fine-tuning I have applied to computer vision models, not to LLMs — I have not trained custom LLM weights in production. Tooling I use: the Hugging Face Transformers library (not to be confused with the Transformer architecture itself), LangChain when the workflow warrants it, and the OpenAI, Anthropic, and OpenRouter APIs. This very site runs a small RAG system on a Cloudflare Worker.`
+        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have applied fine-tuning to computer-vision models, not to LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
     },
     {
         id: "skills-mlops",
         category: "skills",
-        content: `On the engineering side I work with Docker for packaging, FastAPI for Python services, Git for everything, and Weights & Biases for experiment tracking. I am comfortable wiring up CI/CD pipelines and serving models behind HTTP APIs, on standard Linux hosts or on edge runtimes like Cloudflare Workers.`
+        content: `On the engineering side I work with Docker for packaging, FastAPI for Python services, and Git for everything. I have experience wiring up CI/CD pipelines and serving models behind HTTP APIs.`
     },
     {
         id: "skills-frontend",
         category: "skills",
-        content: `I am capable on the frontend but I do not market myself as a frontend developer. I have shipped a production React + TypeScript + TailwindCSS app (Nomly) and a vanilla-JS static site (this one), and I can build the UI that an AI tool needs without help. The framing is: I can ship the interface for my AI systems, but the AI/ML layer is the headline service.`
+        content: `I build the frontend needed to ship AI products; AI/ML remains my headline service. I have shipped a production React app (Nomly) and a vanilla-JavaScript static site (this one). I can build the interface an AI tool needs.`
     },
 
     // === STACK SUMMARY ===
     {
         id: "stack-summary",
         category: "skills",
-        content: `My day-to-day stack: Python as the primary language, PyTorch and TensorFlow for deep learning, FastAPI for Python services, Docker for packaging, Weights & Biases for experiment tracking, and Git for everything. For LLM work I use the OpenAI, Anthropic, and OpenRouter APIs plus the Hugging Face Transformers library, and LangChain when the workflow warrants it. On the frontend I use React with TypeScript and TailwindCSS, or vanilla JavaScript when a project does not need a framework. For infrastructure I use Cloudflare Workers for lightweight APIs and standard Docker/Linux for heavier deployments.`
+        content: `My current working stack is Python, primarily PyTorch with TensorFlow where projects require it, FastAPI, Docker, and Git. For LLM applications I use RAG, prompt design, workflow orchestration, Hugging Face Transformers, LangChain when useful, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. On the frontend I use React or vanilla JavaScript, depending on the product.`
     },
 
     // === DOMAINS / PROBLEM AREAS ===
     {
         id: "domains-production",
         category: "domains",
-        content: `The problems I have shipped most often in production are: document understanding and information extraction from documents, image classification, object detection and segmentation, semantic matching, speech-to-text, speaker diarization, and intent classification. These are the areas where I can talk concretely about data, evaluation, and trade-offs rather than in generalities.`
+        content: `The production problems I have worked on include document understanding and information extraction, image classification, object detection and segmentation, semantic matching, and intent classification. I have also worked on speech-to-text and speaker diarization. These are areas where I can talk concretely about data, evaluation, and trade-offs rather than in generalities.`
     },
     {
         id: "domains-academia",
         category: "domains",
-        content: `My academic work was concentrated in image reconstruction and restoration: denoising, deblurring, super-resolution, inpainting, MRI reconstruction, and remote-sensing image fusion. It is the lineage behind my PhD and the bulk of my publications.`
+        content: `My academic work focused on image reconstruction and restoration — denoising, deblurring, super-resolution, and inpainting — with related work in MRI reconstruction and remote-sensing image fusion. This work formed the core of my PhD and most of my publications.`
     },
     {
         id: "domains-personal",
         category: "domains",
-        content: `Outside client work I have a handful of personal projects that are live but not production-grade: a fire detection demo using satellite imagery, the Nomly app for safer gluten-free living, and the RetroReps.fit bodyweight-workout site. They exist because I wanted to build them, not because someone paid for them.`
+        content: `Outside client work, my main personal product is Nomly, an app for safer gluten-free living. I also maintain a satellite-imagery fire-detection demo and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
     },
 
     // === PROJECTS ===
     {
         id: "project-nomly",
         category: "projects",
-        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes to check for gluten safety, find celiac-friendly restaurants, generate gluten-free recipes, track a pantry of safe products, and share finds with the community. The stack is React with TypeScript and TailwindCSS, an Express.js backend, the Google Gemini API for the AI features, and Capacitor for iOS and Android packaging. It is live at https://www.nomly.xyz.`
+        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. Nomly is built in React and runs as a browser-based app, with AI features supporting safer gluten-free decisions. It is available at https://www.nomly.xyz.`
     },
     {
         id: "project-fire",
         category: "projects",
-        content: `Portugal Fire Detection is a side project for real-time fire detection on satellite imagery using computer vision. The stack is Python and PyTorch on top of remote-sensing imagery. There is a live demo on Hugging Face Spaces and the source is on GitHub. It is a demo, not a production system.`
+        content: `Portugal Fire Detection is a research demo for detecting fires using computer vision on satellite imagery. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
     },
     {
         id: "project-retroreps",
         category: "projects",
-        content: `RetroReps.fit is a side project that serves daily bodyweight workouts with an unapologetically retro aesthetic. The stack is intentionally minimal: vanilla JavaScript, HTML, and CSS, with no framework, no bundler, and no npm, served as static files by Nginx in Docker. It is live at https://retroreps.fit.`
+        content: `RetroReps.fit is a side project that serves daily bodyweight workouts with an unapologetically retro aesthetic. I built it for my own use, as a practical nudge toward healthier habits. It is intentionally minimal, built with vanilla JavaScript, HTML, and CSS. It is live at https://retroreps.fit.`
     },
 
     // === RESEARCH AREAS ===
     {
         id: "research-image-restoration",
         category: "research",
-        content: `My PhD research centred on image restoration and reconstruction: deblurring (removing motion or out-of-focus blur), super-resolution (increasing resolution), denoising (removing noise), and inpainting (filling in missing regions). I developed methods that combined convex optimization with learned priors based on Gaussian mixture models.`
+        content: `My PhD research centred on image restoration and reconstruction: deblurring (removing motion or out-of-focus blur), super-resolution (increasing resolution), denoising (removing noise), and inpainting (filling in missing regions). I developed methods that combined optimization with learned priors based on Gaussian mixture models.`
     },
     {
         id: "research-plug-and-play",
         category: "research",
-        content: `A significant chunk of my research is in plug-and-play (PnP) priors: a framework where a sophisticated denoiser is used as a building block inside an optimization loop for inverse problems. My contribution was scene-adapted PnP algorithms with convergence guarantees, which addressed a real gap in the theory at the time.`
+        content: `A significant chunk of my research is in plug-and-play (PnP) priors: a framework where a sophisticated denoiser is used as a building block inside an optimization loop for inverse problems. My contribution was scene-adapted PnP algorithms with theoretical convergence guarantees.`
     },
     {
         id: "research-remote-sensing",
@@ -153,52 +153,67 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "research-mri",
         category: "research",
-        content: `During the PhD I also worked on MRI reconstruction: recovering high-quality medical images from undersampled or noisy MRI data, which is how MRI scans can be made faster without losing diagnostic quality.`
+        content: `During my PhD I also worked on MRI reconstruction from undersampled or noisy data.`
     },
 
     // === AVAILABILITY & CONSULTING ===
     {
         id: "availability",
         category: "availability",
-        content: `Yes, I am currently accepting consulting work — that is what "operational, accepting work" on this page means. I take on selected AI and machine-learning engagements alongside my ongoing role at Nimble Portal. The fastest way in is an email to afonso.teodoro91@gmail.com with a short description of the use case, the data you have, and the timeline. I will tell you honestly whether it is a good fit.`
+        content: `I consider selected consulting engagements in AI and machine learning. The fastest way in is an email to afonso.teodoro91@gmail.com with a short description of the use case, the data you have, and the timeline. I will tell you honestly whether it is a good fit.`
     },
     {
         id: "consulting-engagements",
         category: "availability",
-        content: `The engagements I am best suited for: building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon but work remotely with clients across Europe and the US.`
+        content: `The engagements I am best suited for include building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon and work remotely with clients internationally.`
     },
     {
         id: "carve-outs",
         category: "availability",
-        content: `What I do not take on: pure web or frontend development for hire — frontend is a tool I use, not the service I sell. Pure data engineering or warehouse/ETL-only work — not my craft. And generic "ChatGPT wrapper" projects where the value is a thin prompt around someone else's model: if there is no real ML or AI problem underneath, I am the wrong person for it.`
+        content: `Frontend is a supporting capability I use to ship AI products, rather than my primary service. I can work with data systems when they support an AI project, but pure warehouse or ETL work is not my focus.`
     },
     {
         id: "methodology",
         category: "availability",
-        content: `How I work: I take end-to-end ownership from research to production rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
+        content: `How I work: I can take end-to-end ownership from research to production when the engagement calls for it, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
+    },
+    {
+        id: "employment-stance",
+        category: "availability",
+        content: `I am open to discussing exceptional full-time opportunities that align with my experience in computer vision, NLP, and GenAI. If you are building something technically serious and think there may be a strong fit, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`
+    },
+    {
+        id: "cofounder-stance",
+        category: "availability",
+        content: `I have never taken on a technical co-founder role, but I would consider taking that risk for a strong fit and a problem worth building. I am also open to advising founders on technical due diligence, ML strategy, and the first production version of an AI product. If you think there is a fit, email me at afonso.teodoro91@gmail.com with the pitch.`
+    },
+    {
+        id: "cv-pointer",
+        category: "contact",
+        content: `My CV is available on this site via the DOWNLOAD CV button in the dossier view, or directly at https://amteodoro.github.io/cv_afonso.pdf. For my publication record, visit my Google Scholar profile at https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en; it is also linked in the OPEN CHANNEL section.`
+    },
+    {
+        id: "engagement-logistics",
+        category: "availability",
+        content: `Engagement logistics: I am based in Lisbon and work remotely with clients internationally. Typical engagements start with a short scoping call, then a written proposal with milestones. Timing depends on my current commitments; email afonso.teodoro91@gmail.com to check availability.`
     },
 
     // === CONTACT ===
     {
         id: "contact-info",
         category: "contact",
-        content: `You can reach me by email at afonso.teodoro91@gmail.com. My LinkedIn is at linkedin.com/in/afonso-teodoro, my GitHub is github.com/amteodoro, and my Google Scholar profile is at scholar.google.com/citations?user=TV9RYGAAAAAJ.`
+        content: `You can reach me by email at afonso.teodoro91@gmail.com. My LinkedIn is https://www.linkedin.com/in/afonso-teodoro/, my GitHub is https://github.com/amteodoro, and my Google Scholar profile is https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en.`
     },
 
     // === HOBBIES & PERSONAL ===
     {
-        id: "hobbies-fitness",
-        category: "hobbies",
-        content: `I am into bodyweight training and general fitness, which is the reason RetroReps.fit exists — I wanted the workout site I would actually use. The thesis there is discipline over equipment.`
-    },
-    {
         id: "hobbies-coding",
         category: "hobbies",
-        content: `Outside of paid work I enjoy building small web applications and creative coding projects, usually with a retro or terminal aesthetic. This site is one of them.`
+        content: `I enjoy building small web applications and creative coding side projects, often with a retro or terminal aesthetic.`
     },
     {
         id: "hobbies-research",
         category: "hobbies",
-        content: `I read AI research for fun — mostly computer vision, NLP, and the latest on LLM systems — and I like to understand a new technique well enough to know when it would actually help a real project.`
+        content: `I read AI research for fun — mostly in computer vision, NLP, and LLM applications — and like to understand a new technique well enough to know when it would actually help a real project.`
     }
 ];

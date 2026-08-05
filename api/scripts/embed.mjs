@@ -62,6 +62,9 @@ async function getEmbeddings(texts) {
     }
 
     const data = await response.json();
+    if (!Array.isArray(data.data) || data.data.length !== texts.length) {
+        throw new Error(`Embedding API returned ${data.data?.length ?? 0} vectors for ${texts.length} inputs`);
+    }
     return data.data.map(d => d.embedding);
 }
 
@@ -94,4 +97,7 @@ async function main() {
     console.log(`Embedding dimensions: ${allEmbeddings[0].embedding.length}`);
 }
 
-main().catch(console.error);
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});

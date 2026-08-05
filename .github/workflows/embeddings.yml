@@ -37,6 +37,10 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: node scripts/embed.mjs
 
+      - name: Verify embeddings
+        working-directory: api
+        run: npm run check:embeddings
+
       - name: Commit updated embeddings
         run: |
           if git diff --quiet -- api/src/embeddings.json; then

@@ -70,13 +70,13 @@
 <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
   <defs>
     <pattern id="g-scan" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(21,19,15,0.12)" stroke-width="1"/>
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--dim)" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="400" height="300" fill="url(#g-scan)"/>
 
   <!-- BARCODE -->
-  <g transform="translate(36,52)" stroke="#15130f" stroke-width="2">
+  <g transform="translate(36,52)" stroke="var(--ink)" stroke-width="2">
     <line x1="0"   y1="0" x2="0"   y2="88"/>
     <line x1="6"   y1="0" x2="6"   y2="88"/>
     <line x1="14"  y1="0" x2="14"  y2="88" stroke-width="3"/>
@@ -93,56 +93,56 @@
     <line x1="92"  y1="0" x2="92"  y2="88" stroke-width="3"/>
     <line x1="100" y1="0" x2="100" y2="88"/>
   </g>
-  <text x="36" y="160" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#15130f">5 901234 567893</text>
+  <text x="36" y="160" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--ink)">5 901234 567893</text>
 
   <!-- SCAN BEAM -->
-  <rect x="30" y="60" width="112" height="2" fill="#15130f">
+  <rect x="30" y="60" width="112" height="2" fill="var(--ink)">
     <animate attributeName="y" values="50;144;50" dur="2.4s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/>
   </rect>
 
   <!-- ARROW -->
-  <g stroke="#15130f" stroke-width="1.5" fill="none">
+  <g stroke="var(--ink)" stroke-width="1.5" fill="none">
     <line x1="160" y1="100" x2="218" y2="100"/>
     <polyline points="210,94 218,100 210,106"/>
   </g>
 
   <!-- VERDICT PANEL -->
   <g transform="translate(232,40)">
-    <rect x="0" y="0" width="140" height="120" fill="#f1ede2" stroke="#15130f" stroke-width="1.5"/>
-    <text x="10" y="16" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="#8b857a">VERDICT</text>
+    <rect x="0" y="0" width="140" height="120" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+    <text x="10" y="16" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
 
     <!-- 3-state vertical switch -->
     <g transform="translate(14,28)">
       <!-- track -->
-      <rect x="0" y="0" width="10" height="82" fill="#f1ede2" stroke="#15130f" stroke-width="1"/>
-      <line x1="0" y1="27" x2="10" y2="27" stroke="#15130f" stroke-width="1"/>
-      <line x1="0" y1="55" x2="10" y2="55" stroke="#15130f" stroke-width="1"/>
+      <rect x="0" y="0" width="10" height="82" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>
+      <line x1="0" y1="27" x2="10" y2="27" stroke="var(--ink)" stroke-width="1"/>
+      <line x1="0" y1="55" x2="10" y2="55" stroke="var(--ink)" stroke-width="1"/>
       <!-- thumb -->
-      <rect x="-3" y="4" width="16" height="18" fill="#15130f">
+      <rect x="-3" y="4" width="16" height="18" fill="var(--ink)">
         <animate attributeName="y" values="4;32;60;32;4;4" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="7.2s" repeatCount="indefinite"/>
       </rect>
     </g>
 
     <!-- 3 labels with dot LEDs -->
-    <g transform="translate(38,30)" font-family="JetBrains Mono" font-size="10" letter-spacing="1" fill="#15130f">
+    <g transform="translate(38,30)" font-family="JetBrains Mono" font-size="10" letter-spacing="1" fill="var(--ink)">
       <!-- GLUTEN FREE -->
       <g>
-        <circle cx="0" cy="8" r="3.5" fill="#15130f" stroke="#15130f" stroke-width="1">
+        <circle cx="0" cy="8" r="3.5" fill="var(--ink)" stroke="var(--ink)" stroke-width="1">
           <animate attributeName="fill-opacity" values="1;0.15;0.15;0.15;1;1" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="7.2s" repeatCount="indefinite"/>
         </circle>
         <text x="10" y="12" font-weight="700">GLUTEN FREE</text>
       </g>
       <!-- CAUTION -->
       <g transform="translate(0,28)">
-        <circle cx="0" cy="8" r="3.5" fill="#15130f" stroke="#15130f" stroke-width="1">
+        <circle cx="0" cy="8" r="3.5" fill="var(--ink)" stroke="var(--ink)" stroke-width="1">
           <animate attributeName="fill-opacity" values="0.15;1;0.15;1;0.15;0.15" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="7.2s" repeatCount="indefinite"/>
         </circle>
         <text x="10" y="12" font-weight="700">CAUTION</text>
       </g>
       <!-- CONTAINS GLUTEN -->
       <g transform="translate(0,56)">
-        <circle cx="0" cy="8" r="3.5" fill="#15130f" stroke="#15130f" stroke-width="1">
+        <circle cx="0" cy="8" r="3.5" fill="var(--ink)" stroke="var(--ink)" stroke-width="1">
           <animate attributeName="fill-opacity" values="0.15;0.15;1;0.15;0.15;0.15" keyTimes="0;0.2;0.4;0.6;0.8;1" dur="7.2s" repeatCount="indefinite"/>
         </circle>
         <text x="10" y="12" font-weight="700">CONTAINS</text>
@@ -151,16 +151,16 @@
   </g>
 
   <!-- AXIS -->
-  <g stroke="#15130f" stroke-width="0.6">
+  <g stroke="var(--ink)" stroke-width="0.6">
     <line x1="20" y1="272" x2="380" y2="272"/>
     <line x1="20"  y1="272" x2="20"  y2="276"/>
     <line x1="140" y1="272" x2="140" y2="276"/>
     <line x1="232" y1="272" x2="232" y2="276"/>
     <line x1="380" y1="272" x2="380" y2="276"/>
   </g>
-  <text x="20"  y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="#8b857a">SCAN</text>
-  <text x="154" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="#8b857a">LOOKUP</text>
-  <text x="252" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="#8b857a">VERDICT</text>
+  <text x="20"  y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">SCAN</text>
+  <text x="154" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">LOOKUP</text>
+  <text x="252" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
 </svg>`;
   }
 
@@ -169,30 +169,30 @@
 <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
   <defs>
     <pattern id="g-sat" width="16" height="16" patternUnits="userSpaceOnUse">
-      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(21,19,15,0.1)" stroke-width="1"/>
+      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="var(--dim)" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="400" height="300" fill="url(#g-sat)"/>
 
   <!-- orbit arc -->
-  <path d="M 20 60 Q 200 -40 380 60" fill="none" stroke="#15130f" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M 20 60 Q 200 -40 380 60" fill="none" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3,3"/>
 
   <!-- TWO SATELLITES: Sentinel-2 (left) + Sentinel-3 (right) -->
   <g transform="translate(140,42)">
-    <rect x="-8" y="-8" width="16" height="16" fill="#15130f"/>
-    <rect x="-22" y="-3" width="12" height="6" fill="#f1ede2" stroke="#15130f"/>
-    <rect x="10"  y="-3" width="12" height="6" fill="#f1ede2" stroke="#15130f"/>
-    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#15130f">SENTINEL-2</text>
+    <rect x="-8" y="-8" width="16" height="16" fill="var(--ink)"/>
+    <rect x="-22" y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
+    <rect x="10"  y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
+    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">SENTINEL-2</text>
   </g>
   <g transform="translate(260,42)">
-    <rect x="-8" y="-8" width="16" height="16" fill="#15130f"/>
-    <rect x="-22" y="-3" width="12" height="6" fill="#f1ede2" stroke="#15130f"/>
-    <rect x="10"  y="-3" width="12" height="6" fill="#f1ede2" stroke="#15130f"/>
-    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#15130f">SENTINEL-3</text>
+    <rect x="-8" y="-8" width="16" height="16" fill="var(--ink)"/>
+    <rect x="-22" y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
+    <rect x="10"  y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
+    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">SENTINEL-3</text>
   </g>
 
   <!-- downlink cones -->
-  <g stroke="#15130f" stroke-width="0.8" fill="none" stroke-dasharray="2,2">
+  <g stroke="var(--ink)" stroke-width="0.8" fill="none" stroke-dasharray="2,2">
     <line x1="140" y1="52" x2="155" y2="200"/>
     <line x1="140" y1="52" x2="225" y2="200"/>
     <line x1="260" y1="52" x2="205" y2="200"/>
@@ -200,21 +200,21 @@
   </g>
 
   <!-- source tags: FIRMS + MODIS -->
-  <g font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="#15130f">
-    <rect x="30" y="95" width="54" height="16" fill="#f1ede2" stroke="#15130f" stroke-width="1"/>
+  <g font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">
+    <rect x="30" y="95" width="54" height="16" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>
     <text x="57" y="106" text-anchor="middle">FIRMS</text>
-    <rect x="316" y="95" width="54" height="16" fill="#f1ede2" stroke="#15130f" stroke-width="1"/>
+    <rect x="316" y="95" width="54" height="16" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>
     <text x="343" y="106" text-anchor="middle">MODIS</text>
-    <line x1="84"  y1="103" x2="150" y2="160" stroke="#15130f" stroke-width="0.6" stroke-dasharray="2,2"/>
-    <line x1="316" y1="103" x2="250" y2="160" stroke="#15130f" stroke-width="0.6" stroke-dasharray="2,2"/>
+    <line x1="84"  y1="103" x2="150" y2="160" stroke="var(--ink)" stroke-width="0.6" stroke-dasharray="2,2"/>
+    <line x1="316" y1="103" x2="250" y2="160" stroke="var(--ink)" stroke-width="0.6" stroke-dasharray="2,2"/>
   </g>
 
   <!-- portugal outline (very abstract polygon) -->
   <g transform="translate(120,190)">
     <polygon points="0,0 60,-10 120,5 160,15 165,40 150,80 110,90 70,80 30,70 -5,40"
-             fill="rgba(21,19,15,0.06)" stroke="#15130f" stroke-width="1.25"/>
+             fill="var(--dim-2)" stroke="var(--ink)" stroke-width="1.25"/>
     <!-- detected fire markers -->
-    <g fill="#15130f">
+    <g fill="var(--ink)">
       <circle cx="40" cy="35" r="3"/>
       <circle cx="80" cy="55" r="4"/>
       <circle cx="105" cy="20" r="2.5"/>
@@ -222,7 +222,7 @@
       <circle cx="55" cy="70" r="2.5"/>
     </g>
     <!-- crosshair -->
-    <g stroke="#15130f" stroke-width="0.8" fill="none">
+    <g stroke="var(--ink)" stroke-width="0.8" fill="none">
       <circle cx="80" cy="55" r="14">
         <animate attributeName="r" values="14;18;14" dur="2.2s" repeatCount="indefinite"/>
         <animate attributeName="stroke-opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite"/>
@@ -231,7 +231,7 @@
       <line x1="80"  y1="35" x2="80"  y2="75"/>
     </g>
   </g>
-  <text x="120" y="292" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="#8b857a">DETECT · FUSED · S2 + S3 + FIRMS + MODIS</text>
+  <text x="120" y="292" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">DETECT · FUSED · S2 + S3 + FIRMS + MODIS</text>
 </svg>`;
   }
 
@@ -240,16 +240,16 @@
 <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
   <defs>
     <pattern id="g-reps" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(21,19,15,0.1)" stroke-width="1"/>
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--dim)" stroke-width="1"/>
     </pattern>
   </defs>
   <rect width="400" height="300" fill="url(#g-reps)"/>
   <!-- "rep" wave -->
-  <g stroke="#15130f" stroke-width="1.25" fill="none">
+  <g stroke="var(--ink)" stroke-width="1.25" fill="none">
     <path d="M 20 150 L 60 150 L 80 90 L 100 210 L 140 150 L 180 150 L 200 90 L 220 210 L 260 150 L 300 150 L 320 90 L 340 210 L 380 150"/>
   </g>
   <!-- bars histogram -->
-  <g fill="#15130f">
+  <g fill="var(--ink)">
     <rect x="40"  y="240" width="14" height="30"/>
     <rect x="60"  y="225" width="14" height="45"/>
     <rect x="80"  y="200" width="14" height="70"/>
@@ -267,9 +267,9 @@
     <rect x="320" y="205" width="14" height="65"/>
     <rect x="340" y="230" width="14" height="40"/>
   </g>
-  <line x1="20" y1="275" x2="380" y2="275" stroke="#15130f" stroke-width="1"/>
-  <text x="20" y="40" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#15130f">DAILY · BODYWEIGHT · NO EQUIPMENT</text>
-  <text x="20" y="55" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#8b857a">REPS / DAY · 28-DAY ROLLING WINDOW</text>
+  <line x1="20" y1="275" x2="380" y2="275" stroke="var(--ink)" stroke-width="1"/>
+  <text x="20" y="40" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--ink)">DAILY · BODYWEIGHT · NO EQUIPMENT</text>
+  <text x="20" y="55" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--muted)">REPS / DAY · 28-DAY ROLLING WINDOW</text>
 </svg>`;
   }
 
@@ -455,11 +455,36 @@
     axisObs.observe(axis);
   }
 
+  function setupSchematicMotion() {
+    const svgs = document.querySelectorAll(".proj-schematic svg");
+    if (!svgs.length) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      svgs.forEach((svg) => svg.querySelectorAll("animate").forEach((node) => node.remove()));
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (typeof target.pauseAnimations !== "function") return;
+          if (isIntersecting) target.unpauseAnimations();
+          else target.pauseAnimations();
+        });
+      },
+      { threshold: 0.05 }
+    );
+    svgs.forEach((svg) => observer.observe(svg));
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     renderExperience();
     renderProjects();
     renderPapers();
     renderSkills();
     setupScrollReveal();
+    setupSchematicMotion();
   });
 })();

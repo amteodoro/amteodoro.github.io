@@ -73,7 +73,7 @@ async function generateAnswer(question, contextChunks, history, apiKey) {
 
 CRITICAL RULES:
 1. ONLY answer using the information provided in the CONTEXT below. Do NOT invent, hallucinate, or add any information that is not explicitly stated in the context.
-2. If the question cannot be answered from the context, respond politely: "I don't have that information available. Feel free to contact me directly at afonso.teodoro91@gmail.com for more details!"
+2. If the question cannot be answered from the context, say so briefly and point somewhere useful instead of a dead end. Example: "I don't have that in my knowledge base. The DOSSIER view above has the structured version — including a DOWNLOAD CV button — or email me directly at afonso.teodoro91@gmail.com." Vary the phrasing naturally; always include the email.
 3. Keep responses concise, friendly, and professional.
 4. Match the retro-hacker tone of the website — be confident and direct, but approachable.
 5. Use plain text formatting. Do not use markdown headers or bullet points with special characters.
