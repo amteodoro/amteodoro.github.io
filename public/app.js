@@ -34,6 +34,20 @@
     dossier:  $("#tab-dossier"),
   };
 
+  function syncPanelAccessibility() {
+    const dossierActive = document.body.dataset.view === "dossier";
+    const sidebarOpen = document.body.dataset.sidebar === "open";
+    const terminalVisible = !dossierActive || sidebarOpen;
+
+    [
+      [views.terminal, terminalVisible],
+      [views.dossier, dossierActive],
+    ].forEach(([panel, visible]) => {
+      panel.setAttribute("aria-hidden", visible ? "false" : "true");
+      panel.inert = !visible;
+    });
+  }
+
   function setView(name) {
     if (!views[name]) return;
     // The terminal is ALWAYS rendered — its layout changes via body data attrs.
@@ -42,8 +56,10 @@
     views.dossier.classList.remove("hidden");
     for (const k in tabs) {
       tabs[k].setAttribute("aria-selected", k === name ? "true" : "false");
+      tabs[k].setAttribute("tabindex", k === name ? "0" : "-1");
     }
     document.body.dataset.view = name;
+    syncPanelAccessibility();
     try { localStorage.setItem("amt-view", name); } catch (e) {}
     if (name === "terminal" && window.AMT_terminal) {
       setTimeout(() => window.AMT_terminal.focus(), 50);
@@ -64,9 +80,12 @@
       e.preventDefault();
       const order = ["terminal", "dossier"];
       const cur = order.findIndex((n) => tabs[n] === document.activeElement);
+      if (cur < 0) return;
       let next = cur;
-      if (e.key === "ArrowRight" || e.key === "End") next = (cur + 1) % order.length;
-      if (e.key === "ArrowLeft"  || e.key === "Home") next = (cur - 1 + order.length) % order.length;
+      if (e.key === "ArrowRight") next = (cur + 1) % order.length;
+      if (e.key === "ArrowLeft") next = (cur - 1 + order.length) % order.length;
+      if (e.key === "Home") next = 0;
+      if (e.key === "End") next = order.length - 1;
       tabs[order[next]].focus();
       setView(order[next]);
     }
@@ -93,7 +112,9 @@
     tickH.style.top = y + "px";
     probeTop.style.left = x + "px";
     probeTop.textContent = pad(x, 4);
-    cursorReadout.textContent = pad(x, 4) + "," + pad(y, 4);
+    const cursor = pad(x, 4) + "," + pad(y, 4);
+    cursorReadout.textContent = cursor;
+    cursorReadout.setAttribute("aria-label", "Cursor " + cursor);
     if (!probesShown) {
       tickV.classList.add("visible");
       tickH.classList.add("visible");
@@ -117,7 +138,12 @@
      ("left"|"right"). Both persist in localStorage. Side swap runs a
      two-stage animation: slide out → flip anchor → slide back in. */
   function setSidebar(open, opts = {}) {
+    const hadTerminalFocus = !!document.activeElement && views.terminal.contains(document.activeElement);
     document.body.dataset.sidebar = open ? "open" : "closed";
+    const toggle = $("#sidebar-toggle");
+    if (toggle) toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    syncPanelAccessibility();
+    if (!open && hadTerminalFocus && toggle) toggle.focus();
     if (!opts.silent) {
       try { localStorage.setItem("amt-sidebar", open ? "open" : "closed"); } catch (e) {}
     }
@@ -192,14 +218,19 @@
     const hh = pad(d.getUTCHours(), 2);
     const mm = pad(d.getUTCMinutes(), 2);
     const ss = pad(d.getUTCSeconds(), 2);
-    clockEl.textContent = hh + ":" + mm + ":" + ss + "Z";
+    const utc = hh + ":" + mm + ":" + ss + "Z";
+    clockEl.textContent = utc;
+    clockEl.setAttribute("aria-label", "UTC " + utc);
   }
   tick(); setInterval(tick, 1000);
 
   /* ============ OFFLINE DETECT ============ */
   function setLink() {
     const ok = navigator.onLine !== false;
-    $("#link-state").textContent = ok ? "ONLINE" : "OFFLINE";
+    const state = ok ? "ONLINE" : "OFFLINE";
+    const linkState = $("#link-state");
+    linkState.textContent = state;
+    linkState.setAttribute("aria-label", "Network status: " + state.toLowerCase());
   }
   setLink();
   window.addEventListener("online",  setLink);

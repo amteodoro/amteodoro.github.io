@@ -10,9 +10,13 @@ window.AMT = {
       start: "2019",
       end: "PRESENT",
       desc:
-        "End-to-end ML systems against tangible business problems. Design and deploy " +
-        "CV and NLP models (TensorFlow, PyTorch), containerize with Docker, ship Python " +
-        "API endpoints (FastAPI) and ReactJS annotation platforms.",
+        "ML systems against tangible business problems. For one anonymized insurance-operations " +
+        "client, I helped build a document-understanding workflow processing around 150k invoices " +
+        "per month, with 70%+ of reimbursements handled automatically. I also built the annotation " +
+        "platform for a vehicle-photo damage detector, trained the models supporting insurance " +
+        "underwriting and fraud-prevention workflows, and built a service around them. In an " +
+        "insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and " +
+        "worked on diarization for analytics. My work spans models, review tooling, APIs, and delivery.",
       tag: "INDUSTRY",
       ref: "01.04",
     },
@@ -83,9 +87,8 @@ window.AMT = {
       badge: "DEMO",
       title: "Portugal Fire Detection",
       desc:
-        "Real-time wildfire detection over Portugal from satellite imagery. Combines " +
-        "Sentinel-2 and Sentinel-3 multispectral scenes with NASA FIRMS and MODIS " +
-        "hotspot products. Public live demo.",
+        "Research demo for detecting fires in satellite imagery using computer vision. " +
+        "Public demo and source.",
       specs: [
         ["CLASS",   "Remote sensing · CV"],
         ["DATASET", "Sentinel-2/3 · FIRMS · MODIS"],
@@ -105,8 +108,8 @@ window.AMT = {
       badge: "SIDE",
       title: "RetroReps.fit",
       desc:
-        "Daily bodyweight workouts wrapped in a 100% retro aesthetic. No equipment, " +
-        "no subscription, just discipline — and a deeply opinionated UI.",
+        "Daily bodyweight workouts wrapped in a 100% retro aesthetic. Built for " +
+        "practical consistency with minimal equipment.",
       specs: [
         ["CLASS",   "Web · daily prompt"],
         ["DEPLOY",  "Production · web"],
@@ -161,7 +164,7 @@ window.AMT = {
         { name: "Docker",     level: 0.85 },
         { name: "FastAPI",    level: 0.88 },
         { name: "Git",        level: 0.92 },
-        { name: "W&B",        level: 0.75 },
+        { name: "HTTP APIs",  level: 0.84 },
         { name: "CI/CD",      level: 0.70 },
       ],
     },
@@ -179,12 +182,12 @@ window.AMT = {
   ],
 
   // First-person system prompt content used by the terminal AI
-  bio: `Subject: A. M. Teodoro — AI consultant, PhD in Computer Science (Instituto Superior Técnico, Lisbon).
+  bio: `Subject: A. M. Teodoro — AI consultant, PhD in Electrical and Computer Engineering (Instituto Superior Técnico, Lisbon), with a computer-vision and AI focus.
 Specialties: computer vision, deep learning, NLP, remote sensing, image restoration & reconstruction (denoising, deblurring, super-resolution, MRI reconstruction).
 Currently AI Consultant at Nimble Portal (2019 →). PhD researcher at Instituto de Telecomunicações (2015–2019). Earlier: MSc fellowship at IT (2014–15) and INESC-ID (2013, Project ARGUS).
 Selected projects: Nomly (gluten-free AI companion, nomly.xyz), Portugal Fire Detection (satellite CV, HF Space + GitHub), RetroReps.fit (retro fitness web app).
 Notable publications: image fusion via scene-adapted GMM denoising (TIP 2018), class-adapted image priors (ICIP 2016), GMM-based single-frame denoising/inpainting (ICPRAM 2015), scene-adapted PnP with convergence (MLSP 2017), hyperspectral plug-and-play priors (LVA/ICA 2017, TGRS 2020).
-Approx. 393 citations on Google Scholar.
+400+ citations on Google Scholar.
 Tone: precise, dry-witty, technically grounded, never markets himself with empty hype.
 Lives in Lisbon, Portugal. Email: afonso.teodoro91@gmail.com.`,
 

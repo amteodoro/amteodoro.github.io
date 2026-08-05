@@ -51,6 +51,11 @@
   function addMessage(m) {
     const div = document.createElement("div");
     div.className = "msg " + (m.role === "assistant" ? "assist" : m.role);
+    if (m.role === "assistant") {
+      div.setAttribute("role", "status");
+      div.setAttribute("aria-live", "polite");
+      div.setAttribute("aria-atomic", "true");
+    }
     const prefix = document.createElement("span");
     prefix.className = "prefix";
     prefix.textContent =
@@ -82,6 +87,8 @@
     lbl.textContent = "SUGGESTED · QUERIES";
     const row = document.createElement("div");
     row.className = "row";
+    row.setAttribute("role", "list");
+    row.setAttribute("aria-label", "Suggested queries");
     const remaining = (window.AMT.suggestedPrompts || []).filter((p) => !asked.has(p));
     if (!remaining.length) return;
     remaining.forEach((p) => {
@@ -96,7 +103,10 @@
         input.value = p;
         submit(p);
       });
-      row.appendChild(b);
+      const item = document.createElement("div");
+      item.setAttribute("role", "listitem");
+      item.appendChild(b);
+      row.appendChild(item);
     });
     wrap.appendChild(lbl);
     wrap.appendChild(row);
@@ -139,6 +149,20 @@
       setTimeout(step, 220 + Math.random() * 140);
     };
     step();
+  }
+
+  function terminalIsVisible() {
+    let view = document.body.dataset.view;
+    let sidebar = document.body.dataset.sidebar;
+    // terminal.js loads before app.js restores persisted view/sidebar state.
+    // Read storage during boot so a saved dossier view does not steal focus.
+    if (!window.AMT_switchView) {
+      try {
+        view = localStorage.getItem("amt-view") || view;
+        sidebar = localStorage.getItem("amt-sidebar") || sidebar;
+      } catch (e) {}
+    }
+    return view === "terminal" || sidebar === "open";
   }
 
   function printBootLine(text) {
@@ -240,7 +264,7 @@
       addMessage({
         role: "assistant",
         content:
-          "Afonso Teodoro — PhD in Computer Science (IST Lisbon). AI Consultant at Nimble Portal. CV, NLP, GenAI. Based in Lisbon.",
+          "Afonso Teodoro — PhD in Electrical and Computer Engineering (IST Lisbon), focused on computer vision and AI. AI Consultant at Nimble Portal. CV, NLP, GenAI. Based in Lisbon.",
       });
       input.value = "";
       return;
@@ -300,13 +324,13 @@
 
   boot(() => {
     booted = true;
-    input.focus();
+    if (terminalIsVisible()) input.focus();
     greeting();
   });
 
   window.AMT_terminal = {
     focus() {
-      if (booted && !pending) input.focus();
+      if (booted && !pending && terminalIsVisible()) input.focus();
     },
   };
 })();
