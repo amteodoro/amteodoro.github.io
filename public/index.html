@@ -374,6 +374,13 @@
   }
   .sec-meta .key { color: var(--muted); text-align: right; }
   .sec-meta .val { color: var(--ink); font-weight: 500; text-align: right; }
+  /* Phones: the 3-column header was wider than the screen (nowrap meta),
+     which widened the whole page — including the terminal view. */
+  @media (max-width: 720px) {
+    .sec-head { grid-template-columns: auto 1fr; gap: 14px 18px; margin-bottom: 32px; }
+    .sec-meta { grid-column: 1 / -1; justify-content: start; white-space: normal; }
+    .sec-meta .key, .sec-meta .val { text-align: left; }
+  }
 
   /* ============ HERO / IDENTIFICATION ============ */
   .hero {
@@ -383,11 +390,16 @@
     align-items: start;
   }
   @media (max-width: 880px) { .hero { grid-template-columns: 1fr; gap: 36px; } }
+  .hero > * { min-width: 0; }
+  @media (max-width: 480px) {
+    .hero-tag { font-size: 12px; }
+    .hero-tag > span { white-space: normal !important; }
+  }
 
   .name {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(56px, 12vw, 168px);
+    font-size: clamp(44px, 12vw, 168px);
     line-height: 0.82;
     letter-spacing: -0.045em;
     text-transform: uppercase;
@@ -441,6 +453,7 @@
   .btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); background: var(--ink); color: var(--bg); }
   .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
   .btn .arr { display: inline-block; }
+  @media (max-width: 480px) { .btn { white-space: normal; } }
   .btn--ghost { box-shadow: none; }
   .btn--ghost:hover { box-shadow: none; background: var(--ink); color: var(--bg); }
 
@@ -630,10 +643,13 @@
     display: flex; flex-direction: column;
     position: relative;
   }
-  .proj--lead { grid-column: span 8; }
+  .proj--lead { grid-column: span 12; }
+  .proj, .proj-body > * { min-width: 0; }
   .proj--reg  { grid-column: span 6; }
   @media (max-width: 880px) {
-    .proj--lead, .proj--reg { grid-column: span 12; }
+    /* 12 columns × 28px gaps is wider than a small phone; use one column. */
+    .proj-grid { grid-template-columns: 1fr; }
+    .proj--lead, .proj--reg { grid-column: auto; }
   }
 
   .proj-head {
@@ -815,7 +831,7 @@
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 56px;
-    align-items: stretch;
+    align-items: start;
   }
   @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 36px; } }
   .ct-headline {
@@ -842,10 +858,15 @@
   }
   .ct-row:last-child { border-bottom: none; }
   .ct-row .k { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
-  .ct-row .v { font-weight: 500; letter-spacing: 0.02em; }
+  .ct-row .v { font-weight: 500; letter-spacing: 0.02em; min-width: 0; overflow-wrap: anywhere; }
   .ct-row .arr { text-align: right; font-weight: 700; transform: translateX(-4px); transition: transform .15s; }
   .ct-row:hover .arr { transform: translateX(0); }
   .ct-row:hover .v { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 480px) {
+    .ct-channels { padding: 10px 18px; }
+    .ct-row { grid-template-columns: 1fr 16px; }
+    .ct-row .k { display: none; }
+  }
 
   /* ============ FOOTER ============ */
   .pagefoot {
@@ -990,6 +1011,15 @@
     box-shadow: 3px 3px 0 var(--ink);
   }
   .sidebar-toggle .st-glyph { font-size: 13px; }
+  /* Phones: a mid-edge vertical tab covers body text; use a corner button. */
+  @media (max-width: 720px) {
+    body[data-side] .sidebar-toggle {
+      top: auto; bottom: 16px; right: 16px; left: auto;
+      writing-mode: horizontal-tb; transform: none;
+      flex-direction: row; padding: 12px 14px; gap: 8px;
+      box-shadow: 3px 3px 0 var(--accent);
+    }
+  }
   /* Visible only in dossier view and only when sidebar is closed */
   body:not([data-view="dossier"]) .sidebar-toggle,
   body[data-view="dossier"][data-sidebar="open"] .sidebar-toggle {
@@ -1019,7 +1049,7 @@
   .term-scroll::-webkit-scrollbar { width: 6px; }
   .term-scroll::-webkit-scrollbar-thumb { background: var(--ink); opacity: .3; }
 
-  .boot-line { white-space: pre; font-size: 12.5px; color: var(--ink-soft); }
+  .boot-line { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12.5px; color: var(--ink-soft); }
   .boot-line .ok { color: var(--ink); font-weight: 700; }
 
   .msg { margin: 14px 0; max-width: 920px; }
@@ -1061,8 +1091,8 @@
   }
   .term-input .caret { color: var(--ink); font-weight: 700; animation: pulse 1.2s infinite; }
   .term-input input {
-    flex: 1; appearance: none; background: transparent; border: none;
-    font-family: var(--mono); font-size: 14px; color: var(--ink);
+    flex: 1; min-width: 0; appearance: none; background: transparent; border: none;
+    font-family: var(--mono); font-size: 16px; color: var(--ink);
   }
   .term-input input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
   .term-input input::placeholder { color: var(--muted); opacity: .8; }
