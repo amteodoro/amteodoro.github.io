@@ -4,3 +4,11 @@ compatibility_date = "2024-01-01"
 
 [vars]
 ALLOWED_ORIGIN = "https://amteodoro.github.io"
+
+# Per-IP rate limit for /api/chat: 10 questions per minute.
+# namespace_id is any integer unique within your Cloudflare account.
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }

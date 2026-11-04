@@ -8,6 +8,24 @@
 
 import EMBEDDINGS from './embeddings.json';
 
+// Must match the model used in scripts/embed.mjs — changing it means rebuilding embeddings.json.
+const EMBED_MODEL = 'nvidia/llama-nemotron-embed-vl-1b-v2:free';
+
+// Answer models, tried in order. OpenRouter falls through to the next one if a model is
+// unavailable, so one model being withdrawn no longer takes the chatbot down.
+// Changing these does NOT require rebuilding embeddings.
+const CHAT_MODELS = [
+    'anthropic/claude-haiku-5.5',
+    'openai/gpt-6-luna',
+    'google/gemini-3.1-flash-lite',
+];
+
+const MAX_QUESTION_CHARS = 500;
+// Question (500) + 8 history messages (8 x 2000) fits comfortably; reject anything
+// larger before reading or parsing it.
+const MAX_BODY_BYTES = 32 * 1024;
+const UPSTREAM_TIMEOUT_MS = 25000;
+
 // ── Cosine similarity ──────────────────────────────────────────
 function cosineSimilarity(a, b) {
     let dot = 0, magA = 0, magB = 0;
@@ -33,12 +51,13 @@ function retrieveContext(queryEmbedding, topK = 5) {
 async function embedQuery(query, apiKey) {
     const res = await fetch('https://openrouter.ai/api/v1/embeddings', {
         method: 'POST',
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
         headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            model: 'nvidia/llama-nemotron-embed-vl-1b-v2:free',
+            model: EMBED_MODEL,
             input: [query],
         }),
     });
@@ -91,14 +110,15 @@ ${contextText}`;
 
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
+        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
         headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            model: 'nvidia/nemotron-3-super-120b-a12b:free',
+            models: CHAT_MODELS,
             messages,
-            max_tokens: 2000,
+            max_tokens: 500,
             temperature: 0.3,
         }),
     });
@@ -109,7 +129,9 @@ ${contextText}`;
     }
 
     const data = await res.json();
-    return data.choices[0].message.content;
+    const answer = data.choices?.[0]?.message?.content;
+    if (!answer) throw new Error('LLM returned an empty answer');
+    return answer;
 }
 
 // ── CORS headers ───────────────────────────────────────────────
@@ -125,7 +147,7 @@ function corsHeaders(origin, env) {
 
     return {
         'Access-Control-Allow-Origin': isAllowed ? origin : allowed[0],
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Max-Age': '86400',
     };
@@ -142,8 +164,18 @@ export default {
             return new Response(null, { status: 204, headers: cors });
         }
 
-        // Only accept POST to /api/chat
         const url = new URL(request.url);
+        const json = (body, status) => new Response(JSON.stringify(body), {
+            status,
+            headers: { ...cors, 'Content-Type': 'application/json' },
+        });
+
+        // Cheap liveness check for the frontend boot screen (no upstream calls).
+        if (request.method === 'GET' && url.pathname === '/health') {
+            return json({ ok: Boolean(env.OPENROUTER_API_KEY) }, 200);
+        }
+
+        // Only accept POST to /api/chat
         if (request.method !== 'POST' || url.pathname !== '/api/chat') {
             return new Response(
                 JSON.stringify({ error: 'Not found. Use POST /api/chat' }),
@@ -151,13 +183,44 @@ export default {
             );
         }
 
+        // Abuse controls run before the body is read or parsed.
+        // Per-IP rate limit: CORS only restricts browsers, so this is what
+        // actually protects the OpenRouter key from scripted abuse.
+        if (env.RATE_LIMITER) {
+            const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+            const { success } = await env.RATE_LIMITER.limit({ key: ip });
+            if (!success) {
+                return json({ error: 'Too many questions — give it a minute.' }, 429);
+            }
+        }
+
         try {
-            const { question, history } = await request.json();
+            const declared = Number(request.headers.get('Content-Length') || 0);
+            if (declared > MAX_BODY_BYTES) {
+                return json({ error: 'Request too large.' }, 413);
+            }
+            // Content-Length can be absent or wrong (chunked uploads), so also cap the
+            // bytes actually read.
+            const raw = await request.text();
+            if (raw.length > MAX_BODY_BYTES) {
+                return json({ error: 'Request too large.' }, 413);
+            }
+            let parsed;
+            try {
+                parsed = JSON.parse(raw);
+            } catch {
+                return json({ error: 'Invalid JSON.' }, 400);
+            }
+            const { question, history } = parsed || {};
             if (!question || typeof question !== 'string' || question.trim().length === 0) {
                 return new Response(
                     JSON.stringify({ error: 'Please provide a "question" field.' }),
                     { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } }
                 );
+            }
+
+            if (question.length > MAX_QUESTION_CHARS) {
+                return json({ error: `Please keep questions under ${MAX_QUESTION_CHARS} characters.` }, 400);
             }
 
             const apiKey = env.OPENROUTER_API_KEY;

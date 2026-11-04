@@ -20,6 +20,8 @@ concurrency:
 
 jobs:
   build:
+    # Only main is ever published, including on manual runs.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,7 +33,7 @@ jobs:
           node-version: "20"
 
       - name: Build static site
-        run: node -e "require('fs').rmSync('out',{recursive:true,force:true});require('fs').cpSync('public','out',{recursive:true});require('fs').writeFileSync('out/.nojekyll','');require('fs').writeFileSync('out/_config.js','window.AMT_API_URL = '+JSON.stringify(process.env.CHATBOT_API_URL||'')+';\n')"
+        run: node -e "require('fs').rmSync('out',{recursive:true,force:true});require('fs').cpSync('public','out',{recursive:true});require('fs').writeFileSync('out/.nojekyll','');require('fs').copyFileSync('out/Afonso_Teodoro_CV.pdf','out/cv_afonso.pdf');require('fs').writeFileSync('out/_config.js','window.AMT_API_URL = '+JSON.stringify(process.env.CHATBOT_API_URL||'')+';\n')"
         env:
           CHATBOT_API_URL: ${{ secrets.CHATBOT_API_URL }}
 

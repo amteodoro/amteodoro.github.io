@@ -35,10 +35,14 @@
         `([a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,})|(https?:\\/\\/[^\\s<]+)|${KNOWN_HOSTS.source}`,
         "gi"
       ),
-      (m, email) =>
-        email
-          ? `<a href="mailto:${email}">${email}</a>`
-          : `<a href="${m.startsWith("http") ? m : "https://" + m}" target="_blank" rel="noopener noreferrer">${m}</a>`
+      (m, email) => {
+        if (email) return `<a href="mailto:${email}">${email}</a>`;
+        // Sentence punctuation after a URL ("...detection.") is not part of it.
+        const trail = (m.match(/[.,;:!?]+$/) || [""])[0];
+        const url = trail ? m.slice(0, -trail.length) : m;
+        const href = url.startsWith("http") ? url : "https://" + url;
+        return `<a href="${href}" target="_blank" rel="noopener noreferrer">${url}</a>${trail}`;
+      }
     );
   }
 
@@ -125,23 +129,41 @@
     "LOADING KNOWLEDGE_BASE..........  [ OK ]",
     "LOADING CONTEXT_ENGINE..........  [ OK ]",
     "LOADING MEMORY_MODULES..........  [ OK ]",
-    "ESTABLISHING UPLINK · RAG-WORKER .... [ READY ]",
-    "────────────────────────────────────────────",
   ];
+  const BOOT_RULE = "────────────────────────────────────────────";
+
+  // Real liveness check, so the boot screen never claims READY when the API is down.
+  let apiOnline = Boolean(API_URL);
+  const healthCheck = !API_URL
+    ? Promise.resolve(false)
+    : fetch(API_URL.replace(/\/$/, "") + "/health", { signal: AbortSignal.timeout(5000) })
+        .then((r) => r.ok)
+        .catch(() => false);
 
   function boot(onDone) {
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const finish = () =>
+      healthCheck.then((ok) => {
+        apiOnline = ok;
+        printBootLine(
+          ok
+            ? "ESTABLISHING UPLINK · RAG-WORKER .... [ READY ]"
+            : "ESTABLISHING UPLINK · RAG-WORKER .... [ OFFLINE ]"
+        );
+        printBootLine(BOOT_RULE);
+        setTimeout(onDone, reduced ? 0 : 360);
+      });
     if (reduced) {
       BOOT_LINES.forEach((l) => printBootLine(l));
-      onDone();
+      finish();
       return;
     }
     let i = 0;
     const step = () => {
       if (i >= BOOT_LINES.length) {
-        setTimeout(onDone, 360);
+        finish();
         return;
       }
       printBootLine(BOOT_LINES[i]);
@@ -169,7 +191,7 @@
     const d = document.createElement("div");
     d.className = "boot-line";
     const html = escapeHtml(text).replace(
-      /\[ (OK|READY) \]/g,
+      /\[ (OK|READY|OFFLINE) \]/g,
       '[ <span class="ok">$1</span> ]'
     );
     d.innerHTML = html;
@@ -194,7 +216,15 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question, history: prior }),
+        signal: AbortSignal.timeout(45000),
       });
+      if (res.status === 429) {
+        return "// RATE LIMITED — that's a lot of questions. Give it a minute, or email afonso.teodoro91@gmail.com.";
+      }
+      if (res.status === 400) {
+        const data = await res.json().catch(() => ({}));
+        return "// " + (data.error || "Couldn't process that question.");
+      }
       if (!res.ok) throw new Error("API returned " + res.status);
       const data = await res.json();
       return data.answer || "";
@@ -305,9 +335,12 @@
   /* ============ INIT ============ */
   function greeting() {
     const g =
-      "Hi — I'm a small AI agent trained on Afonso's bio, projects, and papers. " +
+      "Hi — I'm a small AI agent that answers from a knowledge base of Afonso's bio, projects, and papers. " +
       "Ask me anything about his work, the PhD, the stack, or how to get in touch. " +
-      "Or switch to the DOSSIER view above for the structured version.";
+      "Or switch to the DOSSIER view above for the structured version." +
+      (apiOnline
+        ? ""
+        : "\n\nHeads-up: the knowledge engine is unreachable right now. The DOSSIER view has everything, or email afonso.teodoro91@gmail.com.");
     messages.push({ role: "system", content: g });
     addMessage({ role: "system", content: g });
     addSuggestions();
