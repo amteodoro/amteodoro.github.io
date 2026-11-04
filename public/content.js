@@ -195,7 +195,7 @@ Lives in Lisbon, Portugal. Email: afonso.teodoro91@gmail.com.`,
     "What do you actually do?",
     "Tell me about Nomly",
     "What's your PhD about?",
-    "Are you available for consulting?",
+    "Are you open to new roles?",
     "What's your stack?",
   ],
 };
