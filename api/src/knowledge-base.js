@@ -12,7 +12,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "identity-focus",
         category: "about",
-        content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it, taking end-to-end ownership when the engagement calls for it. I am happiest when the problem is technically real and the user is too.`
+        content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it. I have owned components from model training through to the deployed API, working closely with the engineers and client stakeholders around them. I am happiest when the problem is technically real and the user is too.`
     },
 
     // === PROFESSIONAL EXPERIENCE ===
@@ -41,7 +41,18 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "edu-phd",
         category: "education",
-        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, one of Portugal’s leading engineering schools. The thesis covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
+        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, one of Portugal’s leading engineering schools. My thesis, "Mixture Models for Inverse Imaging Problems — Going Beyond Denoising in a Plug-and-Play Fashion", was supervised by Professor Mário Figueiredo and covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
+    },
+
+    {
+        id: "edu-msc",
+        category: "education",
+        content: `Before the PhD I did an MSc in Electrical and Computer Engineering at Instituto Superior Técnico (2012–2014), finishing with 18 out of 20. My MSc thesis, "Single-frame Image Denoising and Inpainting using Gaussian Mixture Models", was supervised by Professor Mário Figueiredo and Doctor Mariana Almeida.`
+    },
+    {
+        id: "award-ibm",
+        category: "education",
+        content: `In 2019 I received the IBM Scientific Prize for my work "Adapt to survive – Targeted priors in plug-and-play image restoration", part of my PhD research.`
     },
 
     // === PUBLICATIONS (overview + top 3 by citations) ===
@@ -53,7 +64,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "pub-tip2018",
         category: "publications",
-        content: `One of my most-cited papers is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing in 2018. It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
+        content: `One of my most-cited papers is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing (2019). It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
     },
     {
         id: "pub-icip2016",
@@ -80,7 +91,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "skills-llm",
         category: "skills",
-        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have applied fine-tuning to computer-vision models, not to LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
+        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have fine-tuned computer-vision models and a speech-to-text model (Whisper), but not LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
     },
     {
         id: "skills-mlops",
@@ -121,12 +132,12 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "project-nomly",
         category: "projects",
-        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. Nomly is built in React and runs as a browser-based app, with AI features supporting safer gluten-free decisions. It is available at https://www.nomly.xyz.`
+        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. When a barcode is not in the database, you can photograph the ingredient label and an AI model reads it, flagging hidden gluten sources such as barley malt, rye, or wheat starch; you can also turn on screening for soy, eggs, nuts, or dairy. Nomly is built in React and runs in the browser; it can be installed to the home screen like an app (there is no App Store listing). It is available at https://www.nomly.xyz.`
     },
     {
         id: "project-fire",
         category: "projects",
-        content: `Portugal Fire Detection is a research demo for detecting fires using computer vision on satellite imagery. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
+        content: `Portugal Fire Detection is a personal project that monitors fires over Portugal. It ingests active-fire data from NASA FIRMS (VIIRS and MODIS), Meteosat and Sentinel-3, searches Sentinel-2 imagery, and runs a MobileViT classifier (PyTorch, Hugging Face Transformers) over Sentinel-2 tiles to flag burning vegetation. Users can draw areas of interest and get email alerts; the backend uses FastAPI and PostGIS. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
     },
     {
         id: "project-retroreps",
@@ -175,7 +186,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "methodology",
         category: "availability",
-        content: `How I work: I can take end-to-end ownership from research to production when the engagement calls for it, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
+        content: `How I work: I take ownership of my part of a system from research through to production, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
     },
     {
         id: "employment-stance",
