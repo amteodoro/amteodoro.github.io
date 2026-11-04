@@ -7,7 +7,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "identity-overview",
         category: "about",
-        content: `My name is Afonso Teodoro. I am an AI consultant and researcher based in Lisbon, Portugal. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have worked in machine learning since 2013: first in academic research, and since 2019 in industry, shipping solutions that solve real client problems.`
+        content: `My name is Afonso Teodoro. I am an AI engineer and researcher based in Lisbon, Portugal, currently working as an AI consultant. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have worked in machine learning since 2013: first in academic research, and since 2019 in industry, shipping solutions that solve real client problems.`
     },
     {
         id: "identity-focus",
@@ -160,12 +160,12 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "availability",
         category: "availability",
-        content: `I consider selected consulting engagements in AI and machine learning. The fastest way in is an email to afonso.teodoro91@gmail.com with a short description of the use case, the data you have, and the timeline. I will tell you honestly whether it is a good fit.`
+        content: `I am currently looking for a senior, lead, or founding AI role — ideally remote from Lisbon, and I am open to relocating for the right team. Alongside that, I take on a small number of selected consulting engagements. The fastest way in is an email to afonso.teodoro91@gmail.com: for a role, describe the team and what it is building; for consulting, the use case, the data you have, and the timeline.`
     },
     {
         id: "consulting-engagements",
         category: "availability",
-        content: `The engagements I am best suited for include building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon and work remotely with clients internationally.`
+        content: `For consulting, the engagements I am best suited for include building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon and work remotely with clients internationally.`
     },
     {
         id: "carve-outs",
@@ -180,12 +180,12 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "employment-stance",
         category: "availability",
-        content: `I am open to discussing exceptional full-time opportunities that align with my experience in computer vision, NLP, and GenAI. If you are building something technically serious and think there may be a strong fit, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`
+        content: `My main goal right now is a senior, lead, or founding AI role at a company building technically serious products with computer vision, NLP, or LLMs. I prefer working remotely from Lisbon and can relocate for the right role. If you are hiring, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`
     },
     {
         id: "cofounder-stance",
         category: "availability",
-        content: `I have never taken on a technical co-founder role, but I would consider taking that risk for a strong fit and a problem worth building. I am also open to advising founders on technical due diligence, ML strategy, and the first production version of an AI product. If you think there is a fit, email me at afonso.teodoro91@gmail.com with the pitch.`
+        content: `Founding-engineer and other early technical roles are among the roles I am looking for. I have not been a co-founder before, but I would consider it for a strong team and a problem worth building. I am also open to advising founders on technical due diligence, ML strategy, and the first production version of an AI product. If you think there is a fit, email me at afonso.teodoro91@gmail.com with the pitch.`
     },
     {
         id: "cv-pointer",
@@ -195,7 +195,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "engagement-logistics",
         category: "availability",
-        content: `Engagement logistics: I am based in Lisbon and work remotely with clients internationally. Typical engagements start with a short scoping call, then a written proposal with milestones. Timing depends on my current commitments; email afonso.teodoro91@gmail.com to check availability.`
+        content: `Consulting logistics: I am based in Lisbon and work remotely with clients internationally. Typical engagements start with a short scoping call, then a written proposal with milestones. Timing depends on my current commitments; email afonso.teodoro91@gmail.com to check availability.`
     },
 
     // === CONTACT ===
