@@ -63,9 +63,31 @@ window.AMT = {
 
   projects: [
     {
+      id: "proj-intrinsic",
+      lead: true,
+      idLabel: "PROJ_01 / AI SYSTEM",
+      badge: "LIVE",
+      title: "Intrinsic",
+      desc:
+        "Explainable value-investing verdicts. Scores each stock criterion by criterion " +
+        "against published methods — Graham, Buffett, Lynch, Greenblatt, Piotroski — and a " +
+        "LangGraph tool-calling agent writes the analysis, kept visibly separate from the " +
+        "computed figures.",
+      specs: [
+        ["CLASS",   "AI research tool · web"],
+        ["DEPLOY",  "Self-hosted · Docker Compose · nginx"],
+        ["STATUS",  "Public demo · bring your own key"],
+      ],
+      stack: ["LangGraph", "FastAPI", "Next.js", "PostgreSQL"],
+      links: [
+        { href: "https://192-227-212-42.sslip.io/", label: "TRY APP ↗", primary: true },
+      ],
+      schematic: "verdict",
+    },
+    {
       id: "proj-nomly",
       lead: true,
-      idLabel: "PROJ_01 / LEAD",
+      idLabel: "PROJ_02 / PRODUCT",
       badge: "LIVE",
       title: "Nomly",
       desc:
@@ -86,7 +108,7 @@ window.AMT = {
     {
       id: "proj-fires",
       lead: false,
-      idLabel: "PROJ_02 / SYSTEM",
+      idLabel: "PROJ_03 / REMOTE SENSING",
       badge: "DEMO",
       title: "Portugal Fire Detection",
       desc:
@@ -108,7 +130,7 @@ window.AMT = {
     {
       id: "proj-reps",
       lead: false,
-      idLabel: "PROJ_03 / SIDE",
+      idLabel: "PROJ_04 / SIDE",
       badge: "SIDE",
       title: "RetroReps.fit",
       desc:
@@ -157,7 +179,7 @@ window.AMT = {
         { name: "Fine-tuning (vision, speech)", level: 0.78 },
         { name: "RAG",              level: 0.90 },
         { name: "Prompt eng.",      level: 0.92 },
-        { name: "LangChain",        level: 0.72 },
+        { name: "LangChain / LangGraph", level: 0.76 },
         { name: "Eval pipelines",   level: 0.68 },
       ],
     },
@@ -187,7 +209,7 @@ window.AMT = {
 
   suggestedPrompts: [
     "What do you actually do?",
-    "Tell me about Nomly",
+    "Tell me about Intrinsic",
     "What's your PhD about?",
     "Are you open to new roles?",
     "What's your stack?",
