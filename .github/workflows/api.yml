@@ -17,6 +17,9 @@ concurrency:
 
 jobs:
   embed-and-deploy:
+    # Secrets (OpenRouter, Cloudflare) and contents:write are only ever exposed to
+    # code on main — a manual run from another branch is skipped.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
