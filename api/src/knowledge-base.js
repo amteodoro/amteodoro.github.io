@@ -7,12 +7,12 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "identity-overview",
         category: "about",
-        content: `My name is Afonso Teodoro. I am an AI consultant and researcher based in Lisbon, Portugal. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have worked in machine learning since 2013: first in academic research, and since 2019 in industry, shipping solutions that solve real client problems.`
+        content: `My name is Afonso Teodoro. I am an AI engineer and researcher based in Lisbon, Portugal, currently working as an AI consultant. I hold a PhD in Electrical and Computer Engineering from Instituto Superior Técnico (IST), with a final grade of 19 out of 20. I have worked in machine learning since 2013: first in academic research, and since 2019 in industry, shipping solutions that solve real client problems.`
     },
     {
         id: "identity-focus",
         category: "about",
-        content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it, taking end-to-end ownership when the engagement calls for it. I am happiest when the problem is technically real and the user is too.`
+        content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it. I have owned components from model training through to the deployed API, working closely with the engineers and client stakeholders around them. I am happiest when the problem is technically real and the user is too.`
     },
 
     // === PROFESSIONAL EXPERIENCE ===
@@ -41,7 +41,18 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "edu-phd",
         category: "education",
-        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, one of Portugal’s leading engineering schools. The thesis covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
+        content: `I did my PhD in Electrical and Computer Engineering at Instituto Superior Técnico (IST) in Lisbon, one of Portugal’s leading engineering schools. My thesis, "Mixture Models for Inverse Imaging Problems — Going Beyond Denoising in a Plug-and-Play Fashion", was supervised by Professor Mário Figueiredo and covered image restoration and reconstruction with optimization methods and learned priors. I finished with a final grade of 19 out of 20.`
+    },
+
+    {
+        id: "edu-msc",
+        category: "education",
+        content: `Before the PhD I did an MSc in Electrical and Computer Engineering at Instituto Superior Técnico (2012–2014), finishing with 18 out of 20. My MSc thesis, "Single-frame Image Denoising and Inpainting using Gaussian Mixture Models", was supervised by Professor Mário Figueiredo and Doctor Mariana Almeida.`
+    },
+    {
+        id: "award-ibm",
+        category: "education",
+        content: `In 2019 I received the IBM Scientific Prize for my work "Adapt to survive – Targeted priors in plug-and-play image restoration", part of my PhD research.`
     },
 
     // === PUBLICATIONS (overview + top 3 by citations) ===
@@ -53,7 +64,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "pub-tip2018",
         category: "publications",
-        content: `One of my most-cited papers is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing in 2018. It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
+        content: `One of my most-cited papers is "A convergent image fusion algorithm using scene-adapted Gaussian-mixture-based denoising", published in IEEE Transactions on Image Processing (2019). It introduces an image fusion method based on Gaussian-mixture denoising with formal convergence guarantees. It is the paper I would point to first if you want a representative read of my PhD work.`
     },
     {
         id: "pub-icip2016",
@@ -80,7 +91,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "skills-llm",
         category: "skills",
-        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have applied fine-tuning to computer-vision models, not to LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
+        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have fine-tuned computer-vision models and a speech-to-text model (Whisper), but not LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain and LangGraph for tool-calling agents when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
     },
     {
         id: "skills-mlops",
@@ -114,24 +125,30 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "domains-personal",
         category: "domains",
-        content: `Outside client work, my main personal product is Nomly, an app for safer gluten-free living. I also maintain a satellite-imagery fire-detection demo and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
+        content: `Outside client work, I build my own products: Intrinsic, an explainable value-investing research app with a LangGraph agent; Nomly, an app for safer gluten-free living; a satellite-imagery fire-detection service; and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
     },
 
     // === PROJECTS ===
     {
         id: "project-nomly",
         category: "projects",
-        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. Nomly is built in React and runs as a browser-based app, with AI features supporting safer gluten-free decisions. It is available at https://www.nomly.xyz.`
+        content: `Nomly is one of my featured projects — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. When a barcode is not in the database, you can photograph the ingredient label and an AI model reads it, flagging hidden gluten sources such as barley malt, rye, or wheat starch; you can also turn on screening for soy, eggs, nuts, or dairy. Nomly is built in React and runs in the browser; it can be installed to the home screen like an app (there is no App Store listing). It is available at https://www.nomly.xyz.`
     },
     {
         id: "project-fire",
         category: "projects",
-        content: `Portugal Fire Detection is a research demo for detecting fires using computer vision on satellite imagery. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
+        content: `Portugal Fire Detection is a personal project that monitors fires over Portugal. It ingests active-fire data from NASA FIRMS (VIIRS and MODIS), Meteosat and Sentinel-3, searches Sentinel-2 imagery, and runs a MobileViT classifier (PyTorch, Hugging Face Transformers) over Sentinel-2 tiles to flag burning vegetation. Users can draw areas of interest and get email alerts; the backend uses FastAPI and PostGIS. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
     },
     {
         id: "project-retroreps",
         category: "projects",
         content: `RetroReps.fit is a side project that serves daily bodyweight workouts with an unapologetically retro aesthetic. I built it for my own use, as a practical nudge toward healthier habits. It is intentionally minimal, built with vanilla JavaScript, HTML, and CSS. It is live at https://retroreps.fit.`
+    },
+
+    {
+        id: "project-intrinsic",
+        category: "projects",
+        content: `Intrinsic is my lead personal project: a web app for explainable value-investing research. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI, PostgreSQL, SQLAlchemy and Alembic on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx, and has over 850 backend tests. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
     },
 
     // === RESEARCH AREAS ===
@@ -160,12 +177,12 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "availability",
         category: "availability",
-        content: `I consider selected consulting engagements in AI and machine learning. The fastest way in is an email to afonso.teodoro91@gmail.com with a short description of the use case, the data you have, and the timeline. I will tell you honestly whether it is a good fit.`
+        content: `I am currently looking for a senior, lead, or founding AI role — ideally remote from Lisbon, and I am open to relocating for the right team. Alongside that, I take on a small number of selected consulting engagements. The fastest way in is an email to afonso.teodoro91@gmail.com: for a role, describe the team and what it is building; for consulting, the use case, the data you have, and the timeline.`
     },
     {
         id: "consulting-engagements",
         category: "availability",
-        content: `The engagements I am best suited for include building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon and work remotely with clients internationally.`
+        content: `For consulting, the engagements I am best suited for include building computer vision or NLP pipelines from scratch, productionising machine-learning prototypes, designing RAG systems on top of bespoke knowledge bases, fine-tuning vision models, technical due diligence on AI claims, and advisory work on ML strategy. I am based in Lisbon and work remotely with clients internationally.`
     },
     {
         id: "carve-outs",
@@ -175,27 +192,27 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "methodology",
         category: "availability",
-        content: `How I work: I can take end-to-end ownership from research to production when the engagement calls for it, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
+        content: `How I work: I take ownership of my part of a system from research through to production, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
     },
     {
         id: "employment-stance",
         category: "availability",
-        content: `I am open to discussing exceptional full-time opportunities that align with my experience in computer vision, NLP, and GenAI. If you are building something technically serious and think there may be a strong fit, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`
+        content: `My main goal right now is a senior, lead, or founding AI role at a company building technically serious products with computer vision, NLP, or LLMs. I prefer working remotely from Lisbon and can relocate for the right role. If you are hiring, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`
     },
     {
         id: "cofounder-stance",
         category: "availability",
-        content: `I have never taken on a technical co-founder role, but I would consider taking that risk for a strong fit and a problem worth building. I am also open to advising founders on technical due diligence, ML strategy, and the first production version of an AI product. If you think there is a fit, email me at afonso.teodoro91@gmail.com with the pitch.`
+        content: `Founding-engineer and other early technical roles are among the roles I am looking for. I have not been a co-founder before, but I would consider it for a strong team and a problem worth building. I am also open to advising founders on technical due diligence, ML strategy, and the first production version of an AI product. If you think there is a fit, email me at afonso.teodoro91@gmail.com with the pitch.`
     },
     {
         id: "cv-pointer",
         category: "contact",
-        content: `My CV is available on this site via the DOWNLOAD CV button in the dossier view, or directly at https://amteodoro.github.io/cv_afonso.pdf. For my publication record, visit my Google Scholar profile at https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en; it is also linked in the OPEN CHANNEL section.`
+        content: `My CV is available on this site via the DOWNLOAD CV button in the dossier view, or directly at https://amteodoro.github.io/Afonso_Teodoro_CV.pdf. For my publication record, visit my Google Scholar profile at https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en; it is also linked in the OPEN CHANNEL section.`
     },
     {
         id: "engagement-logistics",
         category: "availability",
-        content: `Engagement logistics: I am based in Lisbon and work remotely with clients internationally. Typical engagements start with a short scoping call, then a written proposal with milestones. Timing depends on my current commitments; email afonso.teodoro91@gmail.com to check availability.`
+        content: `Consulting logistics: I am based in Lisbon and work remotely with clients internationally. Typical engagements start with a short scoping call, then a written proposal with milestones. Timing depends on my current commitments; email afonso.teodoro91@gmail.com to check availability.`
     },
 
     // === CONTACT ===
