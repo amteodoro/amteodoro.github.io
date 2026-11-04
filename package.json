@@ -5,7 +5,7 @@
   "description": "amteodoro.github.io — static personal site (HTML/CSS/JS) + Cloudflare Workers chatbot API.",
   "scripts": {
     "config": "node -e \"require('fs').mkdirSync('out',{recursive:true});require('fs').writeFileSync('out/_config.js', 'window.AMT_API_URL = ' + JSON.stringify(process.env.NEXT_PUBLIC_CHATBOT_API_URL || '') + ';\\n')\"",
-    "build": "node -e \"require('fs').rmSync('out',{recursive:true,force:true});require('fs').cpSync('public','out',{recursive:true});require('fs').writeFileSync('out/.nojekyll','')\" && pnpm run config",
+    "build": "node -e \"require('fs').rmSync('out',{recursive:true,force:true});require('fs').cpSync('public','out',{recursive:true});require('fs').writeFileSync('out/.nojekyll','');require('fs').copyFileSync('out/Afonso_Teodoro_CV.pdf','out/cv_afonso.pdf')\" && pnpm run config",
     "export": "pnpm run build",
     "serve": "npx -y serve out",
     "dev:api": "cd api && npm run dev",
