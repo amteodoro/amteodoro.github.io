@@ -69,10 +69,10 @@ window.AMT = {
       badge: "LIVE",
       title: "Intrinsic",
       desc:
-        "Explainable value-investing verdicts. Scores each stock criterion by criterion " +
-        "against published methods — Graham, Buffett, Lynch, Greenblatt, Piotroski — and a " +
-        "LangGraph tool-calling agent writes the analysis, kept visibly separate from the " +
-        "computed figures.",
+        "Born from my passion for investing — it's the tool I use to analyse stocks and " +
+        "opportunities. Scores each stock criterion by criterion against published methods " +
+        "(Graham, Buffett, Lynch, Greenblatt, Piotroski), and a LangGraph tool-calling agent " +
+        "writes the analysis, kept visibly separate from the computed figures.",
       specs: [
         ["CLASS",   "AI research tool · web"],
         ["DEPLOY",  "Self-hosted · Docker Compose · nginx"],
@@ -91,9 +91,10 @@ window.AMT = {
       badge: "LIVE",
       title: "Nomly",
       desc:
-        "AI companion for safer gluten-free living. Scan a barcode, or photograph an unfamiliar " +
-        "ingredient label and let the AI read it for hidden gluten sources. Restaurant finder and " +
-        "pantry tracker — daily decisions de-risked for the coeliac community.",
+        "Coeliac disease is part of daily life at home, and finding safe products and " +
+        "restaurants was a constant struggle. So I built Nomly: scan a barcode, or photograph an unfamiliar ingredient " +
+        "label and let the AI read it for hidden gluten. Restaurant finder and pantry tracker " +
+        "included.",
       specs: [
         ["CLASS",   "Consumer app · mobile-first"],
         ["DEPLOY",  "Production · installable web app"],
@@ -112,7 +113,7 @@ window.AMT = {
       badge: "DEMO",
       title: "Portugal Fire Detection",
       desc:
-        "Fire monitoring for Portugal: ingests NASA FIRMS, Meteosat and Sentinel-2/3 data, " +
+        "Motivated by Portugal's fire seasons. Ingests NASA FIRMS, Meteosat and Sentinel-2/3 data, " +
         "runs a MobileViT classifier over Sentinel-2 tiles, and emails alerts for areas you draw. " +
         "Public demo and source.",
       specs: [
