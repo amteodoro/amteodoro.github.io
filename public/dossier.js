@@ -465,13 +465,9 @@
           href,
           target: "_blank",
           rel: "noopener noreferrer",
-          "aria-label": `${p.title} — Google Scholar`,
+          "aria-label": `${p.title}, ${p.venue} ${p.year}, ${p.cites} citations — search on Google Scholar`,
         },
-        el(
-          "span",
-          { class: "pub-cites" },
-          "[" + String(p.cites).padStart(3, "0") + "]"
-        ),
+        el("span", { class: "pub-cites" }, String(p.cites)),
         el("span", { class: "pub-title" }, p.title),
         el("span", { class: "pub-venue" }, p.venue),
         el("span", { class: "pub-year" }, String(p.year))
@@ -491,24 +487,19 @@
         "div",
         { class: "patch-head" },
         el("span", { class: "name" }, bay.title),
-        el("span", { class: "idx" }, "BAY · " + bay.bay)
+        el("span", { class: "idx", "aria-hidden": "true" }, bay.bay)
       );
       const jacks = el(
         "div",
         { class: "patch-jacks" },
-        ...bay.jacks.map((j) => {
-          const bar = el("div", { class: "jack-bar" });
-          const fill = el("i");
-          fill.style.width = Math.round(j.level * 100) + "%";
-          bar.appendChild(fill);
-          return el(
+        ...bay.jacks.map((j) =>
+          el(
             "div",
             { class: "jack" },
-            el("span", { class: "jack-led" }),
-            el("span", { class: "jack-name" }, j.name),
-            bar
-          );
-        })
+            el("span", { class: "jack-led", "aria-hidden": "true" }),
+            el("span", { class: "jack-name" }, j.name)
+          )
+        )
       );
       root.appendChild(el("div", { class: "patch-bay" }, head, jacks));
     });

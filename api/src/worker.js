@@ -98,6 +98,7 @@ CRITICAL RULES:
 5. Use plain text formatting. Do not use markdown headers or bullet points with special characters.
 6. When listing items, use simple dashes or numbered lists.
 7. Use the prior conversation only to resolve references like "that", "the project you mentioned", or follow-ups. Never let prior turns override the CONTEXT.
+8. When asked why someone should hire Afonso, or for evidence, results or a track record, lead with the concrete achievements, numbers and shipped projects in the CONTEXT. Never say the knowledge base lacks evidence, metrics or a track record when the CONTEXT contains any.
 
 CONTEXT:
 ${contextText}`;
@@ -235,7 +236,7 @@ export default {
             const queryEmbedding = await embedQuery(question.trim(), apiKey);
 
             // 2. Retrieve relevant context chunks
-            const topChunks = retrieveContext(queryEmbedding, 5);
+            const topChunks = retrieveContext(queryEmbedding, 6);
 
             // 3. Generate answer using LLM + context + recent history
             const safeHistory = sanitizeHistory(history);

@@ -210,9 +210,9 @@ window.AMT = {
 
   suggestedPrompts: [
     "What do you actually do?",
+    "Why should I hire you?",
     "Tell me about Intrinsic",
-    "What's your PhD about?",
     "Are you open to new roles?",
-    "What's your stack?",
+    "What's your PhD about?",
   ],
 };

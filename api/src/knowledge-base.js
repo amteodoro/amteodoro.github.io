@@ -15,6 +15,12 @@ export const KNOWLEDGE_CHUNKS = [
         content: `My core focus spans computer vision, NLP, and applied deep learning, with current work also covering LLM application systems: retrieval-augmented generation, prompt engineering, and workflow orchestration. I work across the path from data and modelling through evaluation, packaging, deployment, and the API or interface around it. I have owned components from model training through to the deployed API, working closely with the engineers and client stakeholders around them. I am happiest when the problem is technically real and the user is too.`
     },
 
+    {
+        id: "evidence-why-hire",
+        category: "about",
+        content: `Why hire me, and the evidence behind it: since 2019 I have shipped production machine learning for insurance operations. I helped build a document-understanding pipeline that processes around 150,000 invoices a month, with 70%+ of reimbursements settled without human review. For a vehicle-damage detection system used in underwriting and fraud prevention, I trained the detection models and built the annotation platform and the inference service. In a call-centre pilot I fine-tuned Whisper for domain-specific speech-to-text. On my own I designed, built and shipped Intrinsic (an explainable value-investing research app with a LangGraph agent and 850+ backend tests), Nomly (a gluten-free safety app that uses AI to read ingredient labels) and a satellite fire-detection service. My PhD at IST (19/20) won the IBM Scientific Prize 2019, and my research has 400+ citations. That track record of research depth plus shipped production systems is what I bring to a senior, lead or founding AI role.`
+    },
+
     // === PROFESSIONAL EXPERIENCE ===
     {
         id: "exp-nimble",

@@ -67,7 +67,7 @@
         ? "// SYSTEM"
         : m.role === "user"
         ? "> YOU"
-        : "> AFONSO";
+        : "> AFONSO·AI";
     const body = document.createElement("span");
     body.className = "body";
     if (m.role === "user") {
@@ -88,11 +88,11 @@
     wrap.id = "sug-block";
     const lbl = document.createElement("div");
     lbl.className = "lbl";
-    lbl.textContent = "SUGGESTED · QUERIES";
+    lbl.textContent = "TRY ASKING";
     const row = document.createElement("div");
     row.className = "row";
     row.setAttribute("role", "list");
-    row.setAttribute("aria-label", "Suggested queries");
+    row.setAttribute("aria-label", "Suggested questions");
     const remaining = (window.AMT.suggestedPrompts || []).filter((p) => !asked.has(p));
     if (!remaining.length) return;
     remaining.forEach((p) => {
@@ -123,16 +123,12 @@
     if (s) s.remove();
   }
 
-  /* ============ BOOT ============ */
-  const BOOT_LINES = [
-    "BOOTING TEODORO_AI v2.0.0...",
-    "LOADING KNOWLEDGE_BASE..........  [ OK ]",
-    "LOADING CONTEXT_ENGINE..........  [ OK ]",
-    "LOADING MEMORY_MODULES..........  [ OK ]",
-  ];
-  const BOOT_RULE = "────────────────────────────────────────────";
-
-  // Real liveness check, so the boot screen never claims READY when the API is down.
+  /* ============ STATUS ============ */
+  // One real status line (from the API health check) instead of a boot sequence.
+  const linkState = document.getElementById("link-state");
+  function setLinkState(text) {
+    if (linkState) linkState.textContent = text;
+  }
   let apiOnline = Boolean(API_URL);
   const healthCheck = !API_URL
     ? Promise.resolve(false)
@@ -141,50 +137,21 @@
         .catch(() => false);
 
   function boot(onDone) {
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    const finish = () =>
-      healthCheck.then((ok) => {
-        apiOnline = ok;
-        printBootLine(
-          ok
-            ? "ESTABLISHING UPLINK · RAG-WORKER .... [ READY ]"
-            : "ESTABLISHING UPLINK · RAG-WORKER .... [ OFFLINE ]"
-        );
-        printBootLine(BOOT_RULE);
-        setTimeout(onDone, reduced ? 0 : 360);
-      });
-    if (reduced) {
-      BOOT_LINES.forEach((l) => printBootLine(l));
-      finish();
-      return;
-    }
-    let i = 0;
-    const step = () => {
-      if (i >= BOOT_LINES.length) {
-        finish();
-        return;
-      }
-      printBootLine(BOOT_LINES[i]);
-      i++;
-      setTimeout(step, 220 + Math.random() * 140);
-    };
-    step();
+    healthCheck.then((ok) => {
+      apiOnline = ok;
+      setLinkState(ok ? "READY" : "OFFLINE");
+      printBootLine(
+        ok
+          ? "KNOWLEDGE BASE · WORK, PROJECTS, PAPERS .... [ READY ]"
+          : "KNOWLEDGE BASE · WORK, PROJECTS, PAPERS .... [ OFFLINE ]"
+      );
+      onDone();
+    });
   }
 
   function terminalIsVisible() {
-    let view = document.body.dataset.view;
-    let sidebar = document.body.dataset.sidebar;
-    // terminal.js loads before app.js restores persisted view/sidebar state.
-    // Read storage during boot so a saved dossier view does not steal focus.
-    if (!window.AMT_switchView) {
-      try {
-        view = localStorage.getItem("amt-view") || view;
-        sidebar = localStorage.getItem("amt-sidebar") || sidebar;
-      } catch (e) {}
-    }
-    return view === "terminal" || sidebar === "open";
+    // body[data-view|data-sidebar] are restored before first paint (inline script).
+    return document.body.dataset.view === "terminal" || document.body.dataset.sidebar === "open";
   }
 
   function printBootLine(text) {
@@ -241,10 +208,10 @@
     div.id = "typing-ind";
     const prefix = document.createElement("span");
     prefix.className = "prefix";
-    prefix.textContent = "> AFONSO";
+    prefix.textContent = "> AFONSO·AI";
     const body = document.createElement("span");
     body.className = "body";
-    body.innerHTML = '<span class="dot">▓</span><span class="dot">▓</span><span class="dot">▓</span> <span style="opacity:.5; font-size:11px; letter-spacing:.18em;">PROCESSING…</span>';
+    body.innerHTML = '<span class="dot">▓</span><span class="dot">▓</span><span class="dot">▓</span> <span class="typing-lbl">THINKING…</span>';
     div.appendChild(prefix);
     div.appendChild(body);
     scrollEl.appendChild(div);
@@ -266,7 +233,7 @@
       addMessage({
         role: "assistant",
         content:
-          "Commands: HELP · CLEAR · DOSSIER · WHOAMI · CONTACT. Otherwise ask me anything — projects, the PhD, my stack, what I'm available for.",
+          "Commands: HELP · CLEAR · PROFILE · WHOAMI · CONTACT. Otherwise ask me anything — projects, the PhD, my stack, what I'm available for.",
       });
       input.value = "";
       return;
@@ -279,11 +246,11 @@
       input.value = "";
       return;
     }
-    if (cmd === "dossier" || cmd === "/dossier") {
+    if (["dossier", "/dossier", "profile", "/profile"].includes(cmd)) {
       addMessage({ role: "user", content: q });
       addMessage({
         role: "assistant",
-        content: "Switching to the dossier view…",
+        content: "Switching to the profile view…",
       });
       input.value = "";
       setTimeout(() => window.AMT_switchView && window.AMT_switchView("dossier"), 600);
@@ -294,7 +261,7 @@
       addMessage({
         role: "assistant",
         content:
-          "Afonso Teodoro — PhD in Electrical and Computer Engineering (IST Lisbon), focused on computer vision and AI. AI Consultant at Nimble Portal. CV, NLP, GenAI. Based in Lisbon.",
+          "Afonso Teodoro — AI engineer with a PhD in Electrical and Computer Engineering (IST Lisbon). Production computer-vision, NLP and LLM systems since 2019, currently as an AI consultant at Nimble Portal. Based in Lisbon; open to senior, lead and founding AI roles.",
       });
       input.value = "";
       return;
@@ -335,12 +302,12 @@
   /* ============ INIT ============ */
   function greeting() {
     const g =
-      "Hi — I'm a small AI agent that answers from a knowledge base of Afonso's bio, projects, and papers. " +
-      "Ask me anything about his work, the PhD, the stack, or how to get in touch. " +
-      "Or switch to the DOSSIER view above for the structured version." +
+      "This assistant answers as Afonso, from a knowledge base of his work, projects and papers. " +
+      "Ask about his experience, projects, the PhD, his stack or availability. " +
+      "Or switch to PROFILE above for the structured version." +
       (apiOnline
         ? ""
-        : "\n\nHeads-up: the knowledge engine is unreachable right now. The DOSSIER view has everything, or email afonso.teodoro91@gmail.com.");
+        : "\n\nHeads-up: the knowledge base is unreachable right now. The PROFILE view has everything, or email afonso.teodoro91@gmail.com.");
     messages.push({ role: "system", content: g });
     addMessage({ role: "system", content: g });
     addSuggestions();
