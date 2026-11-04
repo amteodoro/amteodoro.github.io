@@ -37,3 +37,9 @@ AUDIT_REPORT.md
 DESIGN_FIXES.md
 docs/
 
+
+# stray screenshots / images at the repo root (site images live in public/)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
