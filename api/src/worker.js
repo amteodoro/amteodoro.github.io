@@ -21,6 +21,9 @@ const CHAT_MODELS = [
 ];
 
 const MAX_QUESTION_CHARS = 500;
+// Question (500) + 8 history messages (8 x 2000) fits comfortably; reject anything
+// larger before reading or parsing it.
+const MAX_BODY_BYTES = 32 * 1024;
 const UPSTREAM_TIMEOUT_MS = 25000;
 
 // ── Cosine similarity ──────────────────────────────────────────
@@ -180,8 +183,35 @@ export default {
             );
         }
 
+        // Abuse controls run before the body is read or parsed.
+        // Per-IP rate limit: CORS only restricts browsers, so this is what
+        // actually protects the OpenRouter key from scripted abuse.
+        if (env.RATE_LIMITER) {
+            const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+            const { success } = await env.RATE_LIMITER.limit({ key: ip });
+            if (!success) {
+                return json({ error: 'Too many questions — give it a minute.' }, 429);
+            }
+        }
+
         try {
-            const { question, history } = await request.json();
+            const declared = Number(request.headers.get('Content-Length') || 0);
+            if (declared > MAX_BODY_BYTES) {
+                return json({ error: 'Request too large.' }, 413);
+            }
+            // Content-Length can be absent or wrong (chunked uploads), so also cap the
+            // bytes actually read.
+            const raw = await request.text();
+            if (raw.length > MAX_BODY_BYTES) {
+                return json({ error: 'Request too large.' }, 413);
+            }
+            let parsed;
+            try {
+                parsed = JSON.parse(raw);
+            } catch {
+                return json({ error: 'Invalid JSON.' }, 400);
+            }
+            const { question, history } = parsed || {};
             if (!question || typeof question !== 'string' || question.trim().length === 0) {
                 return new Response(
                     JSON.stringify({ error: 'Please provide a "question" field.' }),
@@ -191,16 +221,6 @@ export default {
 
             if (question.length > MAX_QUESTION_CHARS) {
                 return json({ error: `Please keep questions under ${MAX_QUESTION_CHARS} characters.` }, 400);
-            }
-
-            // Per-IP rate limit. CORS only restricts browsers, so this is what
-            // actually protects the OpenRouter key from scripted abuse.
-            if (env.RATE_LIMITER) {
-                const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
-                const { success } = await env.RATE_LIMITER.limit({ key: ip });
-                if (!success) {
-                    return json({ error: 'Too many questions — give it a minute.' }, 429);
-                }
             }
 
             const apiKey = env.OPENROUTER_API_KEY;
