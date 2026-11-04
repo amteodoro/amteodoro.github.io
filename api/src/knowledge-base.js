@@ -91,7 +91,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "skills-llm",
         category: "skills",
-        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have fine-tuned computer-vision models and a speech-to-text model (Whisper), but not LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
+        content: `For LLM application work I use retrieval-augmented generation, prompt engineering, and workflow orchestration. I have fine-tuned computer-vision models and a speech-to-text model (Whisper), but not LLMs — I have not trained custom LLM weights in production. My usual tooling includes Hugging Face Transformers, LangChain and LangGraph for tool-calling agents when the workflow warrants it, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. This very site runs a small RAG system for its chatbot.`
     },
     {
         id: "skills-mlops",
@@ -125,14 +125,14 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "domains-personal",
         category: "domains",
-        content: `Outside client work, my main personal product is Nomly, an app for safer gluten-free living. I also maintain a satellite-imagery fire-detection demo and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
+        content: `Outside client work, I build my own products: Intrinsic, an explainable value-investing research app with a LangGraph agent; Nomly, an app for safer gluten-free living; a satellite-imagery fire-detection service; and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
     },
 
     // === PROJECTS ===
     {
         id: "project-nomly",
         category: "projects",
-        content: `Nomly is my lead featured project — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. When a barcode is not in the database, you can photograph the ingredient label and an AI model reads it, flagging hidden gluten sources such as barley malt, rye, or wheat starch; you can also turn on screening for soy, eggs, nuts, or dairy. Nomly is built in React and runs in the browser; it can be installed to the home screen like an app (there is no App Store listing). It is available at https://www.nomly.xyz.`
+        content: `Nomly is one of my featured projects — an AI companion for safer gluten-free living, aimed at people with celiac disease. It lets you scan product barcodes for gluten safety, find celiac-friendly restaurants, track a pantry of safe products, and share finds with the community. When a barcode is not in the database, you can photograph the ingredient label and an AI model reads it, flagging hidden gluten sources such as barley malt, rye, or wheat starch; you can also turn on screening for soy, eggs, nuts, or dairy. Nomly is built in React and runs in the browser; it can be installed to the home screen like an app (there is no App Store listing). It is available at https://www.nomly.xyz.`
     },
     {
         id: "project-fire",
@@ -143,6 +143,12 @@ export const KNOWLEDGE_CHUNKS = [
         id: "project-retroreps",
         category: "projects",
         content: `RetroReps.fit is a side project that serves daily bodyweight workouts with an unapologetically retro aesthetic. I built it for my own use, as a practical nudge toward healthier habits. It is intentionally minimal, built with vanilla JavaScript, HTML, and CSS. It is live at https://retroreps.fit.`
+    },
+
+    {
+        id: "project-intrinsic",
+        category: "projects",
+        content: `Intrinsic is my lead personal project: a web app for explainable value-investing research. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI, PostgreSQL, SQLAlchemy and Alembic on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx, and has over 850 backend tests. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
     },
 
     // === RESEARCH AREAS ===

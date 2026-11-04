@@ -273,7 +273,95 @@
 </svg>`;
   }
 
+  function schematicVerdict() {
+    // Ticker -> per-method checks (computed) -> verdict ladder; AI narrative kept apart.
+    const rows = [
+      ["GRAHAM", 1, 0.72], ["BUFFETT", 1, 0.84], ["LYNCH", 0, 0.38],
+      ["GREENBLATT", 1, 0.66], ["PIOTROSKI", 0, 0.44],
+    ];
+    const rowSvg = rows.map(([name, ok, score], i) => {
+      const y = 62 + i * 30;
+      const mark = ok
+        ? `<polyline points="0,5 4,9 11,0" fill="none" stroke="var(--ink)" stroke-width="1.8"/>`
+        : `<g stroke="var(--ink)" stroke-width="1.8"><line x1="1" y1="0" x2="10" y2="9"/><line x1="10" y1="0" x2="1" y2="9"/></g>`;
+      return `
+    <g transform="translate(118,${y})">
+      <g transform="translate(0,-8)">${mark}</g>
+      <text x="20" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1.2" fill="var(--ink)">${name}</text>
+      <rect x="20" y="5" width="96" height="5" fill="var(--bg)" stroke="var(--ink)" stroke-width="0.8"/>
+      <rect x="20" y="5" width="${Math.round(96 * score)}" height="5" fill="var(--ink)"/>
+    </g>`;
+    }).join("");
+    return `
+<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <defs>
+    <pattern id="g-verdict" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--dim)" stroke-width="1"/>
+    </pattern>
+    <pattern id="hatch-ai" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="var(--ink)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="300" fill="url(#g-verdict)"/>
+
+  <!-- TICKER -->
+  <g transform="translate(22,98)">
+    <rect width="70" height="44" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+    <text x="8" y="14" font-family="JetBrains Mono" font-size="7.5" letter-spacing="1.5" fill="var(--muted)">TICKER</text>
+    <text x="8" y="34" font-family="JetBrains Mono" font-size="15" font-weight="700" fill="var(--ink)">AAPL</text>
+  </g>
+  <g stroke="var(--ink)" stroke-width="1.25" fill="none">
+    <line x1="92" y1="120" x2="110" y2="120"/>
+    <polyline points="104,115 110,120 104,125"/>
+  </g>
+
+  <!-- PER-METHOD CHECKS (computed) -->
+  <text x="118" y="40" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">COMPUTED CHECKS</text>
+  ${rowSvg}
+
+  <g stroke="var(--ink)" stroke-width="1.25" fill="none">
+    <line x1="246" y1="120" x2="262" y2="120"/>
+    <polyline points="256,115 262,120 256,125"/>
+  </g>
+
+  <!-- VERDICT LADDER -->
+  <g transform="translate(270,52)">
+    <rect width="110" height="128" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
+    <text x="10" y="16" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
+    <rect x="6" y="27" width="98" height="20" fill="var(--dim-2)" stroke="var(--ink)" stroke-width="2">
+      <animate attributeName="y" values="27;55;55;83;27" keyTimes="0;0.25;0.5;0.75;1" dur="8s" repeatCount="indefinite"/>
+    </rect>
+    <g font-family="JetBrains Mono" font-size="10" font-weight="700" letter-spacing="1.5">
+      <text x="14" y="41" fill="var(--ink)">BUY</text>
+      <text x="14" y="69" fill="var(--ink)">WATCH</text>
+      <text x="14" y="97" fill="var(--ink)">AVOID</text>
+    </g>
+    <text x="10" y="120" font-family="JetBrains Mono" font-size="7.5" letter-spacing="1" fill="var(--muted)">14 / 21 CHECKS</text>
+  </g>
+
+  <!-- AI NARRATIVE (kept apart) -->
+  <g transform="translate(118,214)">
+    <rect width="262" height="30" fill="url(#hatch-ai)" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3,2" opacity="0.55"/>
+    <rect x="8" y="8" width="128" height="14" fill="var(--bg)"/>
+    <text x="14" y="18" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">AI NARRATIVE · AGENT</text>
+  </g>
+
+  <!-- AXIS -->
+  <g stroke="var(--ink)" stroke-width="0.6">
+    <line x1="20" y1="272" x2="380" y2="272"/>
+    <line x1="20" y1="272" x2="20" y2="276"/>
+    <line x1="118" y1="272" x2="118" y2="276"/>
+    <line x1="270" y1="272" x2="270" y2="276"/>
+    <line x1="380" y1="272" x2="380" y2="276"/>
+  </g>
+  <text x="20"  y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">TICKER</text>
+  <text x="118" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">SCORE</text>
+  <text x="270" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
+</svg>`;
+  }
+
   const schematics = {
+    verdict: schematicVerdict,
     scan: schematicScan,
     satellite: schematicSatellite,
     reps: schematicReps,
@@ -285,7 +373,7 @@
     if (!root) return;
     root.innerHTML = "";
 
-    window.AMT.projects.forEach((p) => {
+    window.AMT.projects.forEach((p, i) => {
       const head = el(
         "div",
         { class: "proj-head" },
@@ -296,7 +384,7 @@
       const schemEl = el(
         "div",
         { class: "proj-schematic" },
-        el("span", { class: "sch-label" }, p.lead ? "FIG. 02.A · SYSTEM" : `FIG. 02.${p.id === "proj-fires" ? "B" : "C"} · SYSTEM`)
+        el("span", { class: "sch-label" }, `FIG. 02.${String.fromCharCode(65 + i)} · SYSTEM`)
       );
       schemEl.insertAdjacentHTML("afterbegin", schematics[p.schematic]());
 
