@@ -118,12 +118,13 @@
   }
   html { caret-color: var(--ink); accent-color: var(--ink); }
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+    /* Decorative loops and entrances stop; panels and views still change state,
+       just without sliding. Short colour/hover transitions are kept. */
+    .pulse, .term-input .caret, .typing .dot,
+    .exp-axis.is-revealed::before, .exp-row.is-revealed,
+    .exp-row.is-revealed::before, .exp-row.is-revealed::after { animation: none !important; }
+    .term-wrap, .dossier, .sidebar-toggle, .btn { transition-duration: 0.01ms !important; }
+    html { scroll-behavior: auto !important; }
   }
 
   * { box-sizing: border-box; }
@@ -199,6 +200,11 @@
   .topbar-cell .label { color: var(--muted); }
   .topbar-cell .val { color: var(--ink); font-weight: 500; }
   .topbar-who { gap: 12px; }
+  a.topbar-cell.topbar-mail {
+    text-decoration: none; color: var(--ink); font-weight: 700; letter-spacing: 0.14em;
+    padding: 0 16px; border-left: 1px solid var(--dim);
+  }
+  a.topbar-cell.topbar-mail:hover { background: var(--accent); color: var(--accent-fg); }
   .pal-group { display: inline-flex; align-items: center; }
 
   /* palette swatcher */
@@ -322,6 +328,7 @@
     border-bottom: var(--rule) solid var(--ink);
   }
   .section:last-of-type { border-bottom: var(--rule-bold) solid var(--ink); }
+  #sec-id { padding-top: 36px; }
 
   /* section header */
   .sec-head {
@@ -388,13 +395,17 @@
   .name {
     font-family: var(--display);
     font-weight: 700;
-    font-size: clamp(44px, 12vw, 168px);
+    font-size: clamp(44px, 9vw, 124px);
     line-height: 0.82;
     letter-spacing: -0.045em;
     text-transform: uppercase;
     margin: 0;
   }
   .name span { display: block; }
+  .hero > div:first-child { container-type: inline-size; }
+  @supports (font-size: 1cqi) {
+    .name { font-size: clamp(40px, min(20cqi, 15svh), 124px); }
+  }
   .name .ital { font-style: italic; font-weight: 400; }
 
   .hero-tag {
@@ -410,9 +421,9 @@
   .hero-tag { margin-bottom: 0; }
   .hero-tag .pipe { color: var(--muted); margin: 0 8px; }
   .nw { white-space: nowrap; }
-  @media (max-width: 480px) { .nw { white-space: normal; } }
+  @media (max-width: 480px) { .nw { white-space: normal; } .hero-tag .long { display: none; } }
   .hero-avail {
-    margin: 26px 0 0;
+    margin: 18px 0 0;
     display: flex; align-items: baseline; gap: 10px;
     font-size: 13px; line-height: 1.5; color: var(--ink); font-weight: 500;
     max-width: 560px;
@@ -429,14 +440,14 @@
     font-size: clamp(20px, 2.4vw, 28px);
     line-height: 1.2;
     letter-spacing: -0.015em;
-    margin-top: 40px;
+    margin-top: 28px;
     max-width: 620px;
     color: var(--ink);
   }
-  .hero-blurb b { font-weight: 600; background: var(--accent); color: var(--accent-fg); padding: 0 6px; }
+  .hero-blurb b { font-weight: 600; background: var(--accent); color: var(--accent-fg); padding: 0 6px; white-space: nowrap; }
 
   .hero-ctas {
-    margin-top: 30px;
+    margin-top: 24px;
     display: flex; gap: 14px; flex-wrap: wrap;
   }
 
@@ -495,16 +506,6 @@
   .spec-photo .corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
   .spec-photo .corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
   .spec-photo .corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
-  .spec-photo .ph-tag-unused {
-    position: absolute; bottom: 10px; left: 10px;
-    font-family: var(--mono);
-    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink); background: var(--bg);
-    padding: 4px 8px;
-    border: 1px solid var(--ink);
-    z-index: 2;
-  }
-
   .spec-fields {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
@@ -729,14 +730,8 @@
     overflow: hidden;
   }
   .proj--reg .proj-schematic { aspect-ratio: 16/9; }
+  @media (max-width: 720px) { .proj--reg .proj-schematic, .proj-schematic { aspect-ratio: 4/3; } }
   .proj-schematic svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .proj-schematic .sch-label {
-    position: absolute; top: 8px; right: 8px;
-    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink); background: var(--bg);
-    padding: 3px 6px; border: 1px solid var(--ink);
-    white-space: nowrap;
-  }
 
   /* ============ PUBLICATIONS ============ */
   .pubs-head {
@@ -772,7 +767,12 @@
     line-height: 1.4;
   }
   .pub-year { font-family: var(--display); font-weight: 500; font-feature-settings: "tnum" 1; }
-  .pubs-more { margin-top: 36px; }
+  .pubs-more { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .pubs-toggle { display: none; }
+  @media (max-width: 720px) {
+    #pubs-list:not(.is-expanded) .pub--extra { display: none; }
+    .pubs-toggle { display: inline-flex; }
+  }
   @media (max-width: 800px) {
     .pubs-head { display: none; }
     .pub { grid-template-columns: 60px 1fr; row-gap: 4px; }
@@ -877,6 +877,7 @@
     color: var(--muted);
   }
   .pagefoot .num { font-family: var(--display); color: var(--ink); }
+  @media (max-width: 720px) { .pagefoot { padding-bottom: 96px; } }
 
   /* ============ TERMINAL / SIDEBAR ============ */
   /* The terminal exists in two visual modes driven by body[data-view]:
@@ -935,6 +936,11 @@
     border-width: 0;
   }
 
+  /* Side panel is narrow: tighter side padding so the input has room */
+  body[data-view="dossier"] .term-scroll,
+  body[data-view="dossier"] .term-input,
+  body[data-view="dossier"] .term-foot { padding-left: 18px; padding-right: 18px; }
+
   /* Mobile: sidebar takes the whole screen */
   @media (max-width: 720px) {
     body[data-view="dossier"] .term-wrap {
@@ -981,6 +987,7 @@
   /* Sidebar controls only make sense in dossier (sidebar) mode */
   body[data-view="terminal"] #sidebar-swap,
   body[data-view="terminal"] #sidebar-close { display: none; }
+  @media (max-width: 720px) { #sidebar-swap { display: none; } }
 
   /* ============ SIDEBAR TOGGLE TAB ============ */
   .sidebar-toggle {
@@ -1044,7 +1051,7 @@
   /* CRT scanlines (subtle) */
   .term-scroll::before {
     content: ""; position: absolute; inset: 0;
-    background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(21,19,15,0.04) 3px 4px);
+    background: repeating-linear-gradient(0deg, transparent 0 3px, var(--dim-3) 3px 4px);
     pointer-events: none;
   }
   .term-scroll::-webkit-scrollbar { width: 6px; }
@@ -1094,7 +1101,7 @@
   }
   .term-input .caret { color: var(--ink); font-weight: 700; animation: pulse 1.2s infinite; }
   .term-input input {
-    flex: 1; min-width: 0; appearance: none; background: transparent; border: none;
+    flex: 1; min-width: 0; min-height: 44px; appearance: none; background: transparent; border: none;
     font-family: var(--mono); font-size: 16px; color: var(--ink);
   }
   .term-input input:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
@@ -1111,7 +1118,7 @@
     padding: 6px clamp(20px, 4vw, 56px) 10px;
     font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--muted);
-    display: flex; justify-content: space-between;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 20px;
     flex-shrink: 0;
   }
 
@@ -1138,7 +1145,8 @@
     var view = h === "chat" || h === "terminal" ? "terminal" : h === "profile" || h === "dossier" ? "dossier" : get("amt-view");
     b.dataset.view = view === "terminal" ? "terminal" : "dossier";
     if (get("amt-side") === "left") b.dataset.side = "left";
-    if (h === "ask") { b.dataset.sidebar = "open"; } else if (get("amt-sidebar") === "open") b.dataset.sidebar = "open";
+    var sess = function (k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+    if (h === "ask" || sess("amt-sidebar") === "open") b.dataset.sidebar = "open";
     var pal = get("amt-palette");
     if (!pal && window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) pal = "carbon";
     if (pal) b.dataset.palette = pal;
@@ -1155,10 +1163,11 @@
         <span class="dot"></span><span>PROFILE</span>
       </button>
       <button class="topbar-tab" id="tab-terminal" role="tab" aria-controls="view-terminal" aria-selected="false" tabindex="-1" data-view="terminal">
-        <span class="dot"></span><span>ASK MY AI</span>
+        <span class="dot"></span><span>CHAT</span>
       </button>
     </div>
-    <div class="topbar-cell hide-sm topbar-who"><span class="val">AFONSO TEODORO</span><span class="label">AI ENGINEER · PhD · LISBON</span></div>
+    <div class="topbar-cell hide-md topbar-who"><span class="val">AFONSO TEODORO</span><span class="label">AI ENGINEER · PhD</span></div>
+    <a class="topbar-cell topbar-mail hide-sm" href="mailto:afonso.teodoro91@gmail.com">EMAIL <span aria-hidden="true">↗</span></a>
     <div class="topbar-cell pal-cell hide-sm">
       <span class="label" id="pal-label">THEME</span>
       <span role="group" aria-labelledby="pal-label" class="pal-group">
@@ -1179,7 +1188,7 @@
     <div class="term-frame">
       <h2 class="sr-only">Chat with Afonso's AI assistant</h2>
       <div class="term-titlebar">
-        <span class="term-title-text">AFONSO.AI — ask about my work</span>
+        <span class="term-title-text">AFONSO.AI</span>
         <div class="term-title-right">
           <button class="term-ctrl" id="sidebar-swap"  type="button" aria-label="Move chat to the other side" title="Move to other side">⇄</button>
           <button class="term-ctrl" id="sidebar-close" type="button" aria-label="Close chat"        title="Close">✕</button>
@@ -1188,12 +1197,12 @@
       <div class="term-scroll" id="term-scroll" tabindex="0" role="region" aria-label="Chat conversation"></div>
       <form class="term-input" id="term-form" autocomplete="off">
         <span class="caret" aria-hidden="true">▮</span>
-        <input id="term-input" type="text" maxlength="500" placeholder="Ask about my work, projects or availability…" aria-label="Your question" />
+        <input id="term-input" type="text" maxlength="500" placeholder="Ask about my work…" aria-label="Your question" />
         <button class="send" type="submit" id="term-send">SEND ↵</button>
       </form>
       <div class="term-foot">
-        <span>TYPE 'HELP' FOR COMMANDS · 'CLEAR' TO RESET · 'PROFILE' TO SWITCH</span>
-        <span>ANSWERS FROM MY KNOWLEDGE BASE</span>
+        <span>ANSWERS COME FROM AFONSO'S OWN NOTES</span>
+        <span>TYPE HELP FOR COMMANDS</span>
       </div>
     </div>
   </section>
@@ -1204,20 +1213,12 @@
 
       <!-- 00 / PROFILE -->
       <section class="section" id="sec-id" aria-labelledby="hero-name">
-        <header class="sec-head">
-          <div class="sec-num" aria-hidden="true">00</div>
-          <p class="sec-title">Profile <em>/ Summary</em></p>
-          <div class="sec-meta">
-            <span class="key">BASED</span><span class="val">LISBON · PT</span>
-          </div>
-        </header>
-
         <div class="hero">
           <div>
             <h1 class="name" id="hero-name"><span>AFONSO</span><span>TEODORO.</span></h1>
             <p class="hero-tag">
               <span class="nw">AI ENGINEER · PhD</span><span class="pipe">/</span>
-              <span class="nw">ELECTRICAL &amp; COMPUTER ENGINEERING, IST</span><span class="pipe">/</span>
+              <span class="nw"><span class="long">ELECTRICAL &amp; COMPUTER ENGINEERING, </span>IST</span><span class="pipe">/</span>
               <span class="nw">LISBON · PORTUGAL</span>
             </p>
             <p class="hero-blurb">
@@ -1236,8 +1237,8 @@
           <!-- Profile card -->
           <div class="spec" role="group" aria-label="Profile summary">
             <div class="spec-head">
-              <span>PROFILE</span>
-              <span>LISBON · PT</span>
+              <span>AT A GLANCE</span>
+              <span>2026</span>
             </div>
             <div class="spec-photo">
               <img src="portrait.jpeg" alt="Portrait of Afonso Teodoro" width="800" height="800" decoding="async" fetchpriority="high" />
@@ -1260,9 +1261,6 @@
         <header class="sec-head">
           <div class="sec-num" aria-hidden="true">01</div>
           <h2 class="sec-title" id="h-projects">Selected <em>Projects</em></h2>
-          <div class="sec-meta">
-            <span class="key">SELECTED</span><span class="val">04 PROJECTS</span>
-          </div>
         </header>
 
         <div class="proj-grid" id="proj-grid"><!-- injected --></div>
@@ -1274,7 +1272,7 @@
           <div class="sec-num" aria-hidden="true">02</div>
           <h2 class="sec-title" id="h-history">Work <em>History</em></h2>
           <div class="sec-meta">
-            <span class="key">ENTRIES</span><span class="val">04 · LATEST FIRST</span>
+            <span class="key">SINCE</span><span class="val">2013 · ML</span>
           </div>
         </header>
 
@@ -1308,9 +1306,6 @@
         <header class="sec-head">
           <div class="sec-num" aria-hidden="true">04</div>
           <h2 class="sec-title" id="h-skills">Skills <em>/ Stack</em></h2>
-          <div class="sec-meta">
-            <span class="key">AREAS</span><span class="val">04</span>
-          </div>
         </header>
 
         <div class="patch" id="patch"><!-- injected --></div>
@@ -1322,7 +1317,7 @@
           <div class="sec-num" aria-hidden="true">05</div>
           <h2 class="sec-title" id="h-contact">Get in <em>Touch</em></h2>
           <div class="sec-meta">
-            <span class="key">CHANNELS</span><span class="val">04</span>
+            <span class="key">FASTEST</span><span class="val">EMAIL</span>
           </div>
         </header>
 
@@ -1374,7 +1369,7 @@
 
 </main>
 
-<!-- Chat toggle — vertical edge tab on desktop, corner button on phones; profile view only -->
+<!-- Chat panel toggle — vertical edge tab on desktop, corner button on phones; profile view only -->
 <button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ask my AI assistant" aria-controls="view-terminal">
   <span class="st-glyph" aria-hidden="true">▮</span>
   <span>ASK MY AI</span>

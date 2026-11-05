@@ -8,6 +8,10 @@
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   };
+  // The open chat panel lasts for this visit only; a new visit starts on the profile.
+  const session = {
+    set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
+  };
 
   /* ============ THEME ============ */
   const PALETTES = ["bone", "carbon", "red", "cyan"];
@@ -67,7 +71,9 @@
     body.dataset.view = name;
     syncPanelAccessibility();
     if (persist) store.set("amt-view", name);
-    if (name === "terminal" && window.AMT_terminal) {
+    // Focus the chat input only when the visitor switched views, not on page load
+    // (on phones that would pop the keyboard up uninvited).
+    if (name === "terminal" && persist && window.AMT_terminal) {
       setTimeout(() => window.AMT_terminal.focus(), 50);
     }
     if (name === "dossier" && persist) {
@@ -96,8 +102,8 @@
   });
 
   /* ============ CHAT SIDEBAR ============ */
-  /* data-sidebar ("open"|"closed") and data-side ("left"|"right") persist in
-     localStorage. Side swap: slide out → flip anchor → slide back in. */
+  /* data-sidebar ("open"|"closed") lasts for the visit (sessionStorage);
+     data-side ("left"|"right") persists. Side swap: slide out → flip → slide in. */
   const sidebarToggle = $("#sidebar-toggle");
   function setSidebar(open, opts = {}) {
     const hadTerminalFocus = !!document.activeElement && views.terminal.contains(document.activeElement);
@@ -105,7 +111,7 @@
     if (sidebarToggle) sidebarToggle.setAttribute("aria-expanded", open ? "true" : "false");
     syncPanelAccessibility();
     if (!open && hadTerminalFocus && sidebarToggle) sidebarToggle.focus();
-    if (!opts.silent) store.set("amt-sidebar", open ? "open" : "closed");
+    if (!opts.silent) session.set("amt-sidebar", open ? "open" : "closed");
     if (open && window.AMT_terminal) {
       setTimeout(() => window.AMT_terminal.focus(), 320);
     }
@@ -136,7 +142,7 @@
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             setSidebar(true, { silent: true });
-            store.set("amt-sidebar", "open");
+            session.set("amt-sidebar", "open");
             setTimeout(() => {
               body.removeAttribute("data-swapping");
               swapping = false;
@@ -151,8 +157,13 @@
     }
   }
 
-  /* ============ Keyboard: T = chat, D / P = profile ============ */
+  /* ============ Keyboard: Esc closes the panel, T = chat, D / P = profile ============ */
   window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && body.dataset.view === "dossier" && body.dataset.sidebar === "open") {
+      e.preventDefault();
+      setSidebar(false);
+      return;
+    }
     if (e.ctrlKey || e.metaKey || e.altKey) return; // leave Cmd+D, Ctrl+T… to the browser
     const t = e.target;
     if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
