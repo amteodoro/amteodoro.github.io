@@ -18,7 +18,6 @@ window.AMT = {
         "insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and " +
         "worked on diarization for analytics. My work spans models, review tooling, APIs, and delivery.",
       tag: "INDUSTRY",
-      ref: "01.04",
     },
     {
       id: "exp-phd",
@@ -33,7 +32,6 @@ window.AMT = {
         "image fusion for remote sensing, published in IEEE journals and conferences. " +
         "Awarded the IBM Scientific Prize 2019.",
       tag: "RESEARCH",
-      ref: "01.03",
     },
     {
       id: "exp-fellow",
@@ -45,7 +43,6 @@ window.AMT = {
         "Project PAConvex — non-convex optimization and game-theoretic approaches for " +
         "imaging inverse problems. Improved Gaussian-mixture-based image denoising algorithms.",
       tag: "RESEARCH",
-      ref: "01.02",
     },
     {
       id: "exp-argus",
@@ -56,8 +53,7 @@ window.AMT = {
       desc:
         "Project ARGUS — activity recognition and object tracking. Built an interface " +
         "for trajectory monitoring and abnormal-event detection.",
-      tag: "EARLY",
-      ref: "01.01",
+      tag: "INTERNSHIP",
     },
   ],
 
@@ -65,7 +61,7 @@ window.AMT = {
     {
       id: "proj-intrinsic",
       lead: true,
-      idLabel: "PROJ_01 / AI SYSTEM",
+      idLabel: "AI SYSTEM",
       badge: "LIVE",
       title: "Intrinsic",
       desc:
@@ -74,8 +70,8 @@ window.AMT = {
         "(Graham, Buffett, Lynch, Greenblatt, Piotroski), and a LangGraph tool-calling agent " +
         "writes the analysis, kept visibly separate from the computed figures.",
       specs: [
-        ["CLASS",   "AI research tool · web"],
-        ["DEPLOY",  "Self-hosted · Docker Compose · nginx"],
+        ["TYPE",   "AI research tool · web"],
+        ["RUNS ON", "Self-hosted · Docker Compose · nginx"],
         ["STATUS",  "Public demo · bring your own key"],
       ],
       stack: ["LangGraph", "FastAPI", "Next.js", "PostgreSQL"],
@@ -87,7 +83,7 @@ window.AMT = {
     {
       id: "proj-nomly",
       lead: true,
-      idLabel: "PROJ_02 / PRODUCT",
+      idLabel: "PRODUCT",
       badge: "LIVE",
       title: "Nomly",
       desc:
@@ -96,8 +92,8 @@ window.AMT = {
         "label and let the AI read it for hidden gluten. Restaurant finder and pantry tracker " +
         "included.",
       specs: [
-        ["CLASS",   "Consumer app · mobile-first"],
-        ["DEPLOY",  "Production · installable web app"],
+        ["TYPE",   "Consumer app · mobile-first"],
+        ["RUNS ON", "Production · installable web app"],
         ["STATUS",  "Active"],
       ],
       stack: ["React", "PWA", "AI label reading"],
@@ -109,7 +105,7 @@ window.AMT = {
     {
       id: "proj-fires",
       lead: false,
-      idLabel: "PROJ_03 / REMOTE SENSING",
+      idLabel: "REMOTE SENSING",
       badge: "DEMO",
       title: "Portugal Fire Detection",
       desc:
@@ -117,7 +113,7 @@ window.AMT = {
         "runs a MobileViT classifier over Sentinel-2 tiles, and emails alerts for areas you draw. " +
         "Public demo and source.",
       specs: [
-        ["CLASS",   "Remote sensing · CV"],
+        ["TYPE",   "Remote sensing · CV"],
         ["DATA",    "FIRMS · Meteosat · Sentinel-2/3"],
         ["STATUS",  "Open · demo + source"],
       ],
@@ -131,15 +127,15 @@ window.AMT = {
     {
       id: "proj-reps",
       lead: false,
-      idLabel: "PROJ_04 / SIDE",
+      idLabel: "SIDE PROJECT",
       badge: "SIDE",
       title: "RetroReps.fit",
       desc:
         "Daily bodyweight workouts wrapped in a 100% retro aesthetic. Built for " +
         "practical consistency with minimal equipment.",
       specs: [
-        ["CLASS",   "Web · daily prompt"],
-        ["DEPLOY",  "Production · web"],
+        ["TYPE",   "Web · daily prompt"],
+        ["RUNS ON", "Production · web"],
         ["STATUS",  "Live"],
       ],
       stack: ["Vanilla JS", "Retro UI", "Fitness"],
@@ -166,53 +162,53 @@ window.AMT = {
       bay: "01",
       title: "Vision & Image",
       jacks: [
-        { name: "Object detection",   level: 0.92 },
-        { name: "Segmentation",       level: 0.88 },
-        { name: "Model optimization", level: 0.80 },
-        { name: "OpenCV",             level: 0.85 },
-        { name: "Remote sensing",     level: 0.78 },
+        { name: "Object detection" },
+        { name: "Segmentation" },
+        { name: "Model optimization" },
+        { name: "OpenCV" },
+        { name: "Remote sensing" },
       ],
     },
     {
       bay: "02",
       title: "GenAI & LLMs",
       jacks: [
-        { name: "Fine-tuning (vision, speech)", level: 0.78 },
-        { name: "RAG",              level: 0.90 },
-        { name: "Prompt eng.",      level: 0.92 },
-        { name: "LangChain / LangGraph", level: 0.76 },
-        { name: "Eval pipelines",   level: 0.68 },
+        { name: "Fine-tuning (vision, speech)" },
+        { name: "RAG" },
+        { name: "Prompt eng." },
+        { name: "LangChain / LangGraph" },
+        { name: "Eval pipelines" },
       ],
     },
     {
       bay: "03",
       title: "MLOps & Eng.",
       jacks: [
-        { name: "Docker",     level: 0.85 },
-        { name: "FastAPI",    level: 0.88 },
-        { name: "Git",        level: 0.92 },
-        { name: "HTTP APIs",  level: 0.84 },
-        { name: "CI/CD",      level: 0.70 },
+        { name: "Docker" },
+        { name: "FastAPI" },
+        { name: "Git" },
+        { name: "HTTP APIs" },
+        { name: "CI/CD" },
       ],
     },
     {
       bay: "04",
       title: "Frontend",
       jacks: [
-        { name: "React.js",   level: 0.84 },
-        { name: "JavaScript", level: 0.88 },
-        { name: "HTML / CSS", level: 0.86 },
-        { name: "Gradio",     level: 0.82 },
-        { name: "Streamlit",  level: 0.65 },
+        { name: "React.js" },
+        { name: "JavaScript" },
+        { name: "HTML / CSS" },
+        { name: "Gradio" },
+        { name: "Streamlit" },
       ],
     },
   ],
 
   suggestedPrompts: [
     "What do you actually do?",
+    "Why should I hire you?",
     "Tell me about Intrinsic",
-    "What's your PhD about?",
     "Are you open to new roles?",
-    "What's your stack?",
+    "What's your PhD about?",
   ],
 };

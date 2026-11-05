@@ -47,13 +47,7 @@
           el("div", { class: "exp-org" }, e.org),
           el("p", { class: "exp-desc" }, e.desc)
         ),
-        el(
-          "div",
-          { class: "exp-tag" },
-          "TYPE",
-          el("span", { class: "v" }, e.tag)
-        ),
-        el("div", { class: "exp-id" }, e.ref)
+        el("div", { class: "exp-tag" }, el("span", { class: "v" }, e.tag))
       );
       root.appendChild(row);
     });
@@ -373,7 +367,7 @@
     if (!root) return;
     root.innerHTML = "";
 
-    window.AMT.projects.forEach((p, i) => {
+    window.AMT.projects.forEach((p) => {
       const head = el(
         "div",
         { class: "proj-head" },
@@ -381,11 +375,7 @@
         el("span", { class: "badge" }, p.badge)
       );
 
-      const schemEl = el(
-        "div",
-        { class: "proj-schematic" },
-        el("span", { class: "sch-label" }, `FIG. 02.${String.fromCharCode(65 + i)} · SYSTEM`)
-      );
+      const schemEl = el("div", { class: "proj-schematic" });
       schemEl.insertAdjacentHTML("afterbegin", schematics[p.schematic]());
 
       const specs = el(
@@ -453,7 +443,7 @@
     const root = $("#pubs-list");
     if (!root) return;
     root.innerHTML = "";
-    window.AMT.papers.forEach((p) => {
+    window.AMT.papers.forEach((p, i) => {
       const href =
         "https://scholar.google.com/scholar?q=" +
         encodeURIComponent(p.title);
@@ -461,23 +451,32 @@
       const row = el(
         "a",
         {
-          class: "pub",
+          class: "pub" + (i >= 4 ? " pub--extra" : ""),
           href,
           target: "_blank",
           rel: "noopener noreferrer",
-          "aria-label": `${p.title} — Google Scholar`,
+          "aria-label": `${p.title}, ${p.venue} ${p.year}, ${p.cites} citations — search on Google Scholar`,
         },
-        el(
-          "span",
-          { class: "pub-cites" },
-          "[" + String(p.cites).padStart(3, "0") + "]"
-        ),
+        el("span", { class: "pub-cites" }, String(p.cites)),
         el("span", { class: "pub-title" }, p.title),
         el("span", { class: "pub-venue" }, p.venue),
         el("span", { class: "pub-year" }, String(p.year))
       );
       root.appendChild(row);
     });
+
+    const extra = window.AMT.papers.length - 4;
+    const more = document.querySelector(".pubs-more");
+    if (extra > 0 && more) {
+      const btn = el("button", { class: "btn btn--ghost pubs-toggle", type: "button", "aria-expanded": "false", "aria-controls": "pubs-list" },
+        `SHOW ${extra} MORE`);
+      btn.addEventListener("click", () => {
+        const open = root.classList.toggle("is-expanded");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+        btn.textContent = open ? "SHOW FEWER" : `SHOW ${extra} MORE`;
+      });
+      more.prepend(btn);
+    }
   }
 
   /* ============ SKILLS ============ */
@@ -491,24 +490,19 @@
         "div",
         { class: "patch-head" },
         el("span", { class: "name" }, bay.title),
-        el("span", { class: "idx" }, "BAY · " + bay.bay)
+        el("span", { class: "idx", "aria-hidden": "true" }, bay.bay)
       );
       const jacks = el(
         "div",
         { class: "patch-jacks" },
-        ...bay.jacks.map((j) => {
-          const bar = el("div", { class: "jack-bar" });
-          const fill = el("i");
-          fill.style.width = Math.round(j.level * 100) + "%";
-          bar.appendChild(fill);
-          return el(
+        ...bay.jacks.map((j) =>
+          el(
             "div",
             { class: "jack" },
-            el("span", { class: "jack-led" }),
-            el("span", { class: "jack-name" }, j.name),
-            bar
-          );
-        })
+            el("span", { class: "jack-led", "aria-hidden": "true" }),
+            el("span", { class: "jack-name" }, j.name)
+          )
+        )
       );
       root.appendChild(el("div", { class: "patch-bay" }, head, jacks));
     });
