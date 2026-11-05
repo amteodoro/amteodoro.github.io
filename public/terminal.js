@@ -36,6 +36,15 @@
       .replace(/\*\*(.+?)\*\*/g, "$1");
   }
 
+  // Lines starting with "• " become indented list rows (input is already escaped HTML).
+  function bulletize(html) {
+    let out = "";
+    for (const line of html.split("\n")) {
+      out += line.startsWith("• ") ? `<span class="li">${line.slice(2)}</span>` : line + "\n";
+    }
+    return out.replace(/\n+$/, "");
+  }
+
   function linkify(s) {
     return escapeHtml(s).replace(
       new RegExp(
@@ -80,7 +89,7 @@
     if (m.role === "user") {
       body.textContent = m.content;
     } else {
-      body.innerHTML = linkify(tidy(m.content));
+      body.innerHTML = bulletize(linkify(tidy(m.content)));
     }
     div.appendChild(prefix);
     div.appendChild(body);
@@ -307,14 +316,14 @@
     pending = false;
     send.disabled = false;
     input.disabled = false;
-    input.focus();
+    if (!coarse) input.focus();
   }
 
   /* ============ INIT ============ */
   function greeting() {
     const g =
-      "This assistant answers as Afonso, from a knowledge base of his work, projects and papers. " +
-      "Ask about his experience, projects, the PhD, his stack or availability." +
+      "Hi, I'm Afonso's AI assistant and I answer as him, from his own notes on his work, projects and papers. " +
+      "Ask me about my experience, projects, the PhD, my stack or availability." +
       (apiOnline
         ? ""
         : "\n\nHeads-up: the knowledge base is unreachable right now. The PROFILE has everything, or email afonso.teodoro91@gmail.com.");
@@ -346,7 +355,8 @@
 
   window.AMT_terminal = {
     focus() {
-      if (booted && !pending && terminalIsVisible()) input.focus();
+      // Phones: let the visitor read the suggestions first; they tap the box to type.
+      if (booted && !pending && terminalIsVisible() && !coarse) input.focus();
     },
   };
 })();
