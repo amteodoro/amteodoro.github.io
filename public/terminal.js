@@ -322,9 +322,15 @@
     if (booted && !pending) input.focus();
   });
 
+  // Touch devices: don't pop the keyboard up just because the chat opened on load.
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  form.addEventListener("click", (e) => {
+    if (e.target === form && booted && !pending) input.focus();
+  });
+
   boot(() => {
     booted = true;
-    if (terminalIsVisible()) input.focus();
+    if (terminalIsVisible() && !coarse) input.focus();
     greeting();
   });
 

@@ -213,7 +213,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "cv-pointer",
         category: "contact",
-        content: `My CV is available on this site via the DOWNLOAD CV button in the dossier view, or directly at https://amteodoro.github.io/Afonso_Teodoro_CV.pdf. For my publication record, visit my Google Scholar profile at https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en; it is also linked in the OPEN CHANNEL section.`
+        content: `My CV is available on this site via the DOWNLOAD CV button in the profile view, or directly at https://amteodoro.github.io/Afonso_Teodoro_CV.pdf. For my publication record, visit my Google Scholar profile at https://scholar.google.com/citations?user=TV9RYGAAAAAJ&hl=en; it is also linked in the Get in Touch section.`
     },
     {
         id: "engagement-logistics",
