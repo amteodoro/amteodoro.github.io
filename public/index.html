@@ -833,10 +833,16 @@
   .contact-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 56px;
-    align-items: start;
+    gap: 40px 56px;
+    align-items: stretch;
   }
-  @media (max-width: 880px) { .contact-grid { grid-template-columns: 1fr; gap: 36px; } }
+  .contact-grid .ct-headline { grid-column: 1 / -1; }
+  @media (max-width: 1180px) and (min-width: 1021px) {
+    .contact-grid { grid-template-columns: 1fr 1fr; gap: 40px 40px; }
+    .ct-channels { padding: 12px 20px; }
+    .ct-row { grid-template-columns: 64px 1fr 16px; gap: 10px; }
+  }
+  @media (max-width: 1020px) { .contact-grid { grid-template-columns: 1fr; gap: 32px; } }
   .ct-headline {
     font-family: var(--display);
     font-weight: 500;
@@ -846,14 +852,15 @@
     text-transform: uppercase;
   }
   .ct-headline { margin: 0; }
-  .ct-headline em { font-style: italic; font-weight: 300; color: var(--muted); }
-  .ct-body { margin-top: 26px; max-width: 520px; color: var(--ink-soft); font-family: var(--display); font-size: 17px; line-height: 1.5; }
+  .ct-headline em { font-style: italic; font-weight: 300; color: var(--muted); padding-right: 0.1em; }
+  .ct-body { margin-top: 0; max-width: 560px; color: var(--ink-soft); font-family: var(--display); font-size: 17px; line-height: 1.5; }
   .ct-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
   .ct-addr { font-size: 12.5px; color: var(--ink-soft); user-select: all; }
   .ct-channels {
     border: var(--rule-bold) solid var(--ink);
     background: var(--bg-deep);
-    padding: 24px 26px;
+    padding: 12px 26px;
+    display: flex; flex-direction: column; justify-content: center;
   }
   .ct-row {
     display: grid; grid-template-columns: 90px 1fr 16px;
@@ -1331,8 +1338,8 @@
         </header>
 
         <div class="contact-grid">
-          <div>
-            <p class="ct-headline">Building AI that has to <em>work in production</em>?</p>
+          <p class="ct-headline">Building AI that has to <em>work in production</em>?</p>
+          <div class="ct-main">
             <p class="ct-body">
               I'm looking for a senior, lead or founding AI role — remote from Lisbon, open to relocating.
               Since 2019 I've shipped computer-vision, NLP and speech systems into insurance operations,
