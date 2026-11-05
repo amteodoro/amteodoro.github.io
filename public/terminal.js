@@ -29,6 +29,13 @@
   // ponytail: bare-domain matching is a whitelist, not a general URL parser —
   // extend KNOWN_HOSTS if new domains appear in KB answers.
   const KNOWN_HOSTS = /\b((?:www\.|linkedin\.com|github\.com|scholar\.google\.com|nomly\.xyz|retroreps\.fit|huggingface\.co|amteodoro\.github\.io)[^\s<,)]*)/gi;
+  // The model sometimes answers with markdown; show bullets as bullets and drop ** markers.
+  function tidy(s) {
+    return String(s)
+      .replace(/^[ \t]*[-*][ \t]+/gm, "• ")
+      .replace(/\*\*(.+?)\*\*/g, "$1");
+  }
+
   function linkify(s) {
     return escapeHtml(s).replace(
       new RegExp(
@@ -64,7 +71,7 @@
     prefix.className = "prefix";
     prefix.textContent =
       m.role === "system"
-        ? "// SYSTEM"
+        ? "ABOUT"
         : m.role === "user"
         ? "> YOU"
         : "> AFONSO·AI";
@@ -73,7 +80,7 @@
     if (m.role === "user") {
       body.textContent = m.content;
     } else {
-      body.innerHTML = linkify(m.content);
+      body.innerHTML = linkify(tidy(m.content));
     }
     div.appendChild(prefix);
     div.appendChild(body);
@@ -169,7 +176,7 @@
   /* ============ WORKER CHAT ============ */
   async function askWorker(history) {
     if (!API_URL) {
-      return "// CHATBOT_OFFLINE — knowledge engine not configured. Email afonso.teodoro91@gmail.com.";
+      return "The assistant isn't available right now. The PROFILE has everything, or email afonso.teodoro91@gmail.com.";
     }
     const last = history[history.length - 1];
     const question = last && last.role === "user" ? last.content : "";
@@ -186,18 +193,18 @@
         signal: AbortSignal.timeout(45000),
       });
       if (res.status === 429) {
-        return "// RATE LIMITED — that's a lot of questions. Give it a minute, or email afonso.teodoro91@gmail.com.";
+        return "That's a lot of questions in a short time. Give it a minute, or email afonso.teodoro91@gmail.com.";
       }
       if (res.status === 400) {
         const data = await res.json().catch(() => ({}));
-        return "// " + (data.error || "Couldn't process that question.");
+        return data.error || "I couldn't process that question. Try rephrasing it.";
       }
       if (!res.ok) throw new Error("API returned " + res.status);
       const data = await res.json();
       return data.answer || "";
     } catch (e) {
       console.error(e);
-      return "// LINK ERROR — couldn't reach the knowledge engine. Try again or email afonso.teodoro91@gmail.com.";
+      return "I couldn't reach the assistant. Try again in a moment, or email afonso.teodoro91@gmail.com.";
     }
   }
 
@@ -289,9 +296,13 @@
 
     const reply = await askWorker(messages);
     clearTyping();
-    addMessage({ role: "assistant", content: reply });
+    const answerEl = addMessage({ role: "assistant", content: reply });
     messages.push({ role: "assistant", content: reply });
     addSuggestions();
+    requestAnimationFrame(() => {
+      // .term-scroll is position:relative, so offsetTop is already relative to it.
+      scrollEl.scrollTop = Math.max(0, answerEl.offsetTop - 12);
+    });
 
     pending = false;
     send.disabled = false;
@@ -303,11 +314,10 @@
   function greeting() {
     const g =
       "This assistant answers as Afonso, from a knowledge base of his work, projects and papers. " +
-      "Ask about his experience, projects, the PhD, his stack or availability. " +
-      "Or switch to PROFILE above for the structured version." +
+      "Ask about his experience, projects, the PhD, his stack or availability." +
       (apiOnline
         ? ""
-        : "\n\nHeads-up: the knowledge base is unreachable right now. The PROFILE view has everything, or email afonso.teodoro91@gmail.com.");
+        : "\n\nHeads-up: the knowledge base is unreachable right now. The PROFILE has everything, or email afonso.teodoro91@gmail.com.");
     messages.push({ role: "system", content: g });
     addMessage({ role: "system", content: g });
     addSuggestions();
