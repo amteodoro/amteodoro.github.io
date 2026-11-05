@@ -201,6 +201,11 @@ export const KNOWLEDGE_CHUNKS = [
         content: `How I work: I take ownership of my part of a system from research through to production, rather than handing off at the prototype stage. I prefer to ship a working baseline fast and then harden it, instead of spending months on upfront design. And I will tell you when AI is the wrong tool — if rules, heuristics, or a small classical model will do the job, I would rather say so than oversell a model.`
     },
     {
+        id: "leadership-and-scope",
+        category: "availability",
+        content: `On leadership and team size: I have not held a formal team-lead or people-manager title. What I can point to is scope and ownership. At Nimble Portal I have owned components of client-facing ML systems from model training through to the deployed API, worked directly with client stakeholders and the engineers around me, and designed the human-review process for the invoices the models don't settle automatically. On my own I have designed, built and shipped complete products end to end, such as Intrinsic and Nomly, which is the founding-engineer side of the work. That is why I am looking for a senior, lead or founding role: to take on that scope formally.`
+    },
+    {
         id: "employment-stance",
         category: "availability",
         content: `My main goal right now is a senior, lead, or founding AI role at a company building technically serious products with computer vision, NLP, or LLMs. I prefer working remotely from Lisbon and can relocate for the right role. If you are hiring, email me at afonso.teodoro91@gmail.com with the role and what the team is building.`

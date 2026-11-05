@@ -33,7 +33,8 @@
           "span",
           { class: "end" },
           e.end === "PRESENT" ? "→ PRESENT" : `→ ${e.end}`
-        )
+        ),
+        el("span", { class: "tag" }, e.tag)
       );
 
       const row = el(
@@ -50,8 +51,7 @@
             ? el("ul", { class: "exp-points" },
                 ...e.points.map(([lead, rest]) => el("li", {}, el("b", {}, lead), rest)))
             : null
-        ),
-        el("div", { class: "exp-tag" }, el("span", { class: "v" }, e.tag))
+        )
       );
       root.appendChild(row);
     });
@@ -380,6 +380,7 @@
       );
 
       const schemEl = el("div", { class: "proj-schematic" });
+      const schemWrap = el("div", { class: "sch-wrap" }, schemEl, el("span", { class: "sch-hint", "aria-hidden": "true" }, "SCROLL →"));
       schemEl.insertAdjacentHTML("afterbegin", schematics[p.schematic]());
 
       const specs = el(
@@ -425,9 +426,9 @@
       const body = el("div", { class: "proj-body" });
       if (p.lead) {
         body.appendChild(textBlock);
-        body.appendChild(schemEl);
+        body.appendChild(schemWrap);
       } else {
-        body.appendChild(schemEl);
+        body.appendChild(schemWrap);
         body.appendChild(textBlock);
       }
 
@@ -544,9 +545,14 @@
   // be reachable by keyboard, so make it focusable only while it actually scrolls.
   function setupSchematicScroll() {
     const boxes = [...document.querySelectorAll(".proj-schematic")];
+    const atEnd = (box) => box.parentElement.classList.toggle("at-end", box.scrollLeft + box.clientWidth >= box.scrollWidth - 4);
+    boxes.forEach((box) => box.addEventListener("scroll", () => atEnd(box), { passive: true }));
     const sync = () => boxes.forEach((box) => {
       const title = box.closest(".proj")?.querySelector(".proj-title")?.textContent || "Project";
-      if (box.scrollWidth > box.clientWidth + 1) {
+      const scrolls = box.scrollWidth > box.clientWidth + 1;
+      box.parentElement.classList.toggle("can-scroll", scrolls);
+      atEnd(box);
+      if (scrolls) {
         box.setAttribute("tabindex", "0");
         box.setAttribute("role", "group");
         box.setAttribute("aria-label", `${title} diagram, scrolls sideways`);
