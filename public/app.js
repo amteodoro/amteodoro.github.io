@@ -15,23 +15,27 @@
 
   /* ============ THEME ============ */
   const PALETTES = ["bone", "carbon", "red", "cyan"];
+  const PALETTE_NAMES = { bone: "light", carbon: "dark", red: "red accent", cyan: "cyan accent" };
+  const themeBtn = $("#theme-btn");
   function applyPalette(p, { persist = true } = {}) {
     if (!PALETTES.includes(p)) p = "bone";
     body.dataset.palette = p;
     if (persist) store.set("amt-palette", p);
-    document.querySelectorAll(".sw").forEach((sw) => {
-      sw.setAttribute("aria-pressed", sw.dataset.pal === p ? "true" : "false");
-    });
+    if (themeBtn) {
+      themeBtn.setAttribute("aria-label", `Theme: ${PALETTE_NAMES[p]}. Change theme`);
+      const label = themeBtn.querySelector(".theme-name");
+      if (label) label.textContent = PALETTE_NAMES[p].toUpperCase();
+    }
   }
   // An explicit choice is saved; a system dark-mode default is not, so it keeps
   // following the OS until the visitor picks a theme.
   applyPalette(body.dataset.palette, { persist: false });
-  document.querySelectorAll(".sw").forEach((sw) => {
-    sw.addEventListener("click", (e) => {
-      e.preventDefault();
-      applyPalette(sw.dataset.pal);
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const i = PALETTES.indexOf(body.dataset.palette);
+      applyPalette(PALETTES[(i + 1) % PALETTES.length]);
     });
-  });
+  }
 
   /* ============ VIEW SWITCH ============ */
   const views = {
@@ -59,6 +63,20 @@
       panel.setAttribute("aria-hidden", visible ? "false" : "true");
       panel.inert = !visible;
     });
+
+    // On phones the open panel is a full-screen overlay: announce it as a dialog.
+    const overlay = dossierActive && sidebarOpen && phone.matches;
+    if (overlay) {
+      views.terminal.setAttribute("role", "dialog");
+      views.terminal.setAttribute("aria-modal", "true");
+      views.terminal.setAttribute("aria-label", "Chat with Afonso's AI assistant");
+      views.terminal.removeAttribute("aria-labelledby");
+    } else {
+      views.terminal.setAttribute("role", "tabpanel");
+      views.terminal.removeAttribute("aria-modal");
+      views.terminal.removeAttribute("aria-label");
+      views.terminal.setAttribute("aria-labelledby", "tab-terminal");
+    }
   }
   phone.addEventListener("change", syncPanelAccessibility);
 
@@ -112,7 +130,13 @@
     syncPanelAccessibility();
     if (!open && hadTerminalFocus && sidebarToggle) sidebarToggle.focus();
     if (!opts.silent) session.set("amt-sidebar", open ? "open" : "closed");
-    if (open && window.AMT_terminal) {
+    // A closed panel shouldn't come back on reload just because #ask is still in the URL.
+    if (!open && location.hash.toLowerCase() === "#ask") {
+      history.replaceState(null, "", location.pathname + location.search);
+    }
+    // Focus the input only when the visitor opened the panel (not on page load),
+    // so phones don't raise the keyboard uninvited.
+    if (open && !opts.silent && window.AMT_terminal) {
       setTimeout(() => window.AMT_terminal.focus(), 320);
     }
   }
