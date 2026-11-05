@@ -67,8 +67,8 @@
     // On phones the open panel is a full-screen overlay: announce it as a dialog.
     const overlay = dossierActive && sidebarOpen && phone.matches;
     if (overlay) {
+      // Not aria-modal: the top bar (tabs, theme) stays visible and usable above it.
       views.terminal.setAttribute("role", "dialog");
-      views.terminal.setAttribute("aria-modal", "true");
       views.terminal.setAttribute("aria-label", "Chat with Afonso's AI assistant");
       views.terminal.removeAttribute("aria-labelledby");
     } else {
@@ -195,6 +195,18 @@
     if (k === "t") setView("terminal");
     if (k === "d" || k === "p") setView("dossier");
   });
+
+  /* ============ Phones: floating Ask button only after the hero ============ */
+  // The hero already has Email / CV / LinkedIn; the floating button joins once
+  // the visitor scrolls past them, instead of covering the first screen.
+  const heroCtas = $(".hero-ctas");
+  if (heroCtas && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      body.classList.toggle("past-hero", !entry.isIntersecting && entry.boundingClientRect.top < 0);
+    }).observe(heroCtas);
+  } else {
+    body.classList.add("past-hero");
+  }
 
   /* ============ Deep links: #profile, #chat, #ask ============ */
   window.addEventListener("hashchange", () => {

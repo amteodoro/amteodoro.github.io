@@ -28,11 +28,8 @@ window.AMT = {
       end: "2019",
       desc:
         "PhD in Electrical and Computer Engineering at Instituto Superior Técnico (final grade " +
-        "19/20), supervised by Prof. Mário " +
-        "Figueiredo. Thesis: Mixture Models for Inverse Imaging Problems. ML and optimization " +
-        "methods for image restoration (deblurring, super-resolution), MRI reconstruction and " +
-        "image fusion for remote sensing, published in IEEE journals and conferences. " +
-        "Awarded the IBM Scientific Prize 2019.",
+        "19/20). Image restoration, MRI reconstruction and remote-sensing image fusion, " +
+        "supervised by Prof. Mário Figueiredo. IBM Scientific Prize 2019.",
       tag: "RESEARCH",
     },
     {

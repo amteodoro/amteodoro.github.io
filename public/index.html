@@ -197,6 +197,7 @@
   @media (max-width: 760px) {
     .topbar-cell.hide-sm { display: none; }
     .theme-btn .theme-name { display: none; }
+    body[data-view="dossier"] .topbar-status { display: none; }
   }
   .topbar-cell:first-child { padding-left: 0; }
   .topbar-cell:last-child { border-right: none; margin-left: auto; padding-right: 0; }
@@ -213,15 +214,16 @@
   .theme-btn {
     appearance: none; background: none; border: 0; cursor: pointer;
     font: inherit; color: var(--ink); letter-spacing: 0.12em; text-transform: uppercase;
-    min-width: 44px; min-height: 44px; height: 100%; padding: 0 14px;
+    min-width: 44px; height: var(--topbar-h); padding: 0 14px;
     display: inline-flex; align-items: center; gap: 8px;
   }
   .theme-btn:hover { background: var(--dim-2); }
-  .sw-dot { width: 13px; height: 13px; border: 1.5px solid var(--ink); background: #ffffff; flex: none; }
-  /* fixed colours: the dot previews the current theme */
-  body[data-palette="carbon"] .sw-dot { background: #0a0a0a; }
-  body[data-palette="red"]    .sw-dot { background: #d62839; }
-  body[data-palette="cyan"]   .sw-dot { background: #00b8d4; }
+  /* half-filled circle: reads as "theme" rather than a checkbox */
+  .sw-dot {
+    width: 14px; height: 14px; border-radius: 50%; flex: none;
+    border: 1.5px solid var(--ink);
+    background: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+  }
 
   .topbar-tabs {
     display: flex; align-items: stretch;
@@ -406,7 +408,15 @@
   .avail-text .nw { color: var(--ink-soft); font-weight: 400; }
   .hero-tag .pipe { color: var(--muted); margin: 0 8px; }
   .nw { white-space: nowrap; }
-  @media (max-width: 480px) { .nw { white-space: normal; } .hero-tag .long { display: none; } }
+  @media (max-width: 480px) { .nw { white-space: normal; } }
+  /* very small phones: keep Email / CV / LinkedIn in the first screen */
+  @media (max-width: 400px) {
+    .hero-tag { font-size: 11px; gap: 0 14px; }
+    .hero-blurb { margin-top: 18px; font-size: 18px; }
+    .hero-avail { margin-top: 14px; }
+    .hero-ctas { margin-top: 18px; gap: 10px; }
+    .hero-ctas .btn { padding: 12px 14px; font-size: 11px; }
+  }
   .hero-avail {
     margin: 18px 0 0;
     display: flex; align-items: baseline; gap: 10px;
@@ -539,7 +549,7 @@
     padding: 32px 0;
     border-bottom: 1px dashed var(--dim);
     display: grid;
-    grid-template-columns: 1fr 80px 60px;
+    grid-template-columns: 1fr;
     gap: 24px;
     align-items: start;
   }
@@ -599,12 +609,11 @@
   .exp-points li { position: relative; padding-left: 20px; }
   .exp-points li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 8px; height: 2px; background: var(--ink); }
   .exp-points b { color: var(--ink); font-weight: 600; }
-  .exp-tag {
-    font-size: 9.5px; letter-spacing: 0.16em;
+  .exp-year .tag {
+    display: block; margin-top: 8px;
+    font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
     text-transform: uppercase; color: var(--muted);
-    text-align: right;
   }
-  .exp-tag .v { color: var(--ink); display: block; font-weight: 500; }
 
   @media (max-width: 720px) {
     .exp-axis { padding-left: 0; }
@@ -614,8 +623,7 @@
     .exp-year { position: static; text-align: left; width: auto; margin-bottom: 6px; }
     .exp-year .end { display: inline; margin-left: 8px; }
     .exp-row { padding: 22px 0; gap: 8px; }
-    .exp-tag { text-align: left; }
-    .exp-tag .v { display: inline; margin-left: 6px; }
+    .exp-year .tag { display: inline; margin: 0 0 0 10px; }
   }
 
   /* ============ PROJECTS ============ */
@@ -711,7 +719,21 @@
     overflow: hidden;
   }
   .proj--reg .proj-schematic { aspect-ratio: 16/9; }
+  .sch-wrap { position: relative; }
+  .sch-hint { display: none; }
   @media (max-width: 720px) {
+    .sch-wrap.can-scroll .sch-hint {
+      display: block; position: absolute; right: 8px; top: 8px; z-index: 2; pointer-events: none;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      background: var(--ink); color: var(--bg); padding: 4px 8px;
+      transition: opacity .2s ease;
+    }
+    .sch-wrap.can-scroll::after {
+      content: ""; position: absolute; top: 1px; right: 1px; bottom: 1px; width: 36px; pointer-events: none;
+      background: linear-gradient(to right, transparent, var(--bg-deep));
+      transition: opacity .2s ease;
+    }
+    .sch-wrap.at-end .sch-hint, .sch-wrap.at-end::after { opacity: 0; }
     .proj--reg .proj-schematic, .proj-schematic { aspect-ratio: auto; height: 300px; overflow-x: auto; overscroll-behavior-x: contain; }
     .proj .proj-schematic svg { position: static; width: 400px; height: 300px; max-width: none; }
   }
@@ -785,7 +807,6 @@
     font-family: var(--display); font-weight: 600; font-size: 14px;
     letter-spacing: 0.02em; text-transform: uppercase;
   }
-  .patch-head .idx { font-size: 10px; letter-spacing: 0.18em; color: var(--muted); }
   .patch-jacks { display: flex; flex-direction: column; gap: 10px; }
   .jack {
     display: grid; grid-template-columns: 14px 1fr; align-items: center; gap: 10px;
@@ -826,8 +847,9 @@
   }
   .ct-headline { margin: 0; }
   .ct-headline em { font-style: italic; font-weight: 300; color: var(--muted); }
-  .ct-body { margin-top: 26px; max-width: 480px; color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
-  .ct-cta { margin-top: 32px; }
+  .ct-body { margin-top: 26px; max-width: 520px; color: var(--ink-soft); font-family: var(--display); font-size: 17px; line-height: 1.5; }
+  .ct-cta { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .ct-addr { font-size: 12.5px; color: var(--ink-soft); user-select: all; }
   .ct-channels {
     border: var(--rule-bold) solid var(--ink);
     background: var(--bg-deep);
@@ -863,6 +885,7 @@
   }
   .pagefoot .num { font-family: var(--display); color: var(--ink); text-decoration: none; }
   .pagefoot a.num:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .pagefoot a.num { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; margin: -14px -4px; }
   @media (max-width: 720px) { .pagefoot { padding-bottom: 96px; } }
 
   /* ============ TERMINAL / SIDEBAR ============ */
@@ -1010,8 +1033,12 @@
       top: auto; bottom: 16px; right: 16px; left: auto;
       writing-mode: horizontal-tb; transform: none;
       flex-direction: row; padding: 12px 14px; gap: 8px; min-height: 44px;
+      transition: opacity .2s ease, transform .2s ease, visibility 0s linear;
       box-shadow: 3px 3px 0 var(--accent);
     }
+  }
+  @media (max-width: 720px) {
+    body:not(.past-hero) .sidebar-toggle { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(8px); }
   }
   /* Visible only in dossier view and only when sidebar is closed */
   body:not([data-view="dossier"]) .sidebar-toggle,
@@ -1056,6 +1083,8 @@
   .msg.assist .prefix { background: var(--accent); color: var(--accent-fg); padding: 0 6px; }
   .msg .body  { white-space: pre-wrap; }
   .msg .body a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+  .msg .body .li { display: block; position: relative; padding-left: 1.4em; }
+  .msg .body .li::before { content: "•"; position: absolute; left: 0.3em; }
   .msg .body a:hover { background: var(--ink); color: var(--bg); }
   .msg.system { border-bottom: 1px dashed var(--dim); padding-bottom: 14px; }
   .msg.system .body { color: var(--ink-soft); }
@@ -1159,7 +1188,7 @@
         <span class="sw-dot" aria-hidden="true"></span><span class="theme-name hide-sm" aria-hidden="true">LIGHT</span>
       </button>
     </div>
-    <div class="topbar-cell"><span class="pulse" aria-hidden="true"></span><span class="label">AI</span><span class="val" id="link-state">CONNECTING</span></div>
+    <div class="topbar-cell topbar-status"><span class="pulse" aria-hidden="true"></span><span class="label">AI</span><span class="val" id="link-state">CONNECTING</span></div>
   </div>
 </header>
 
@@ -1206,7 +1235,7 @@
             <h1 class="name" id="hero-name"><span>AFONSO</span><span>TEODORO.</span></h1>
             <p class="hero-tag">
               <span class="nw">AI ENGINEER · <span class="nc">PhD</span></span>
-              <span class="nw"><span class="long">ELECTRICAL &amp; COMPUTER ENGINEERING, </span>IST</span>
+              <span class="nw">ELECTRICAL &amp; COMPUTER ENGINEERING, IST</span>
               <span class="nw">LISBON · PORTUGAL</span>
             </p>
             <p class="hero-blurb">
@@ -1299,9 +1328,6 @@
         <header class="sec-head">
           <div class="sec-num" aria-hidden="true">05</div>
           <h2 class="sec-title" id="h-contact">Get in <em>Touch</em></h2>
-          <div class="sec-meta">
-            <span class="key">FASTEST</span><span class="val">EMAIL</span>
-          </div>
         </header>
 
         <div class="contact-grid">
@@ -1314,16 +1340,12 @@
               Email is the fastest way to reach me.
             </p>
             <div class="ct-cta">
-              <a class="btn" href="mailto:afonso.teodoro91@gmail.com">EMAIL ME <span class="arr" aria-hidden="true">↗</span></a>
+              <a class="btn btn--primary" href="mailto:afonso.teodoro91@gmail.com">EMAIL ME <span class="arr" aria-hidden="true">↗</span></a>
+              <span class="ct-addr">afonso.teodoro91@gmail.com</span>
             </div>
           </div>
 
           <div class="ct-channels">
-            <a class="ct-row" href="mailto:afonso.teodoro91@gmail.com">
-              <span class="k">EMAIL</span>
-              <span class="v">afonso.teodoro91@gmail.com</span>
-              <span class="arr" aria-hidden="true">↗</span>
-            </a>
             <a class="ct-row" href="https://www.linkedin.com/in/afonso-teodoro/" target="_blank" rel="noopener noreferrer">
               <span class="k">LINKEDIN</span>
               <span class="v">linkedin.com/in/afonso-teodoro</span>
