@@ -45,7 +45,11 @@
           {},
           el("h3", { class: "exp-role" }, e.role),
           el("div", { class: "exp-org" }, e.org),
-          el("p", { class: "exp-desc" }, e.desc)
+          el("p", { class: "exp-desc" }, e.desc),
+          e.points
+            ? el("ul", { class: "exp-points" },
+                ...e.points.map(([lead, rest]) => el("li", {}, el("b", {}, lead), rest)))
+            : null
         ),
         el("div", { class: "exp-tag" }, el("span", { class: "v" }, e.tag))
       );
@@ -489,8 +493,7 @@
       const head = el(
         "div",
         { class: "patch-head" },
-        el("span", { class: "name" }, bay.title),
-        el("span", { class: "idx", "aria-hidden": "true" }, bay.bay)
+        el("span", { class: "name" }, bay.title)
       );
       const jacks = el(
         "div",
@@ -537,6 +540,26 @@
     axisObs.observe(axis);
   }
 
+  // On phones the diagrams scroll sideways at full size; a scrollable region must
+  // be reachable by keyboard, so make it focusable only while it actually scrolls.
+  function setupSchematicScroll() {
+    const boxes = [...document.querySelectorAll(".proj-schematic")];
+    const sync = () => boxes.forEach((box) => {
+      const title = box.closest(".proj")?.querySelector(".proj-title")?.textContent || "Project";
+      if (box.scrollWidth > box.clientWidth + 1) {
+        box.setAttribute("tabindex", "0");
+        box.setAttribute("role", "group");
+        box.setAttribute("aria-label", `${title} diagram, scrolls sideways`);
+      } else {
+        box.removeAttribute("tabindex");
+        box.removeAttribute("role");
+        box.removeAttribute("aria-label");
+      }
+    });
+    sync();
+    window.addEventListener("resize", sync, { passive: true });
+  }
+
   function setupSchematicMotion() {
     const svgs = document.querySelectorAll(".proj-schematic svg");
     if (!svgs.length) return;
@@ -568,5 +591,6 @@
     renderSkills();
     setupScrollReveal();
     setupSchematicMotion();
+    setupSchematicScroll();
   });
 })();

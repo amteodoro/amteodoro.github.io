@@ -116,7 +116,9 @@
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
   }
-  html { caret-color: var(--ink); accent-color: var(--ink); }
+  html { caret-color: var(--ink); accent-color: var(--ink); color-scheme: light; }
+  html:has(body[data-palette="carbon"]) { color-scheme: dark; }
+  .nc { text-transform: none; }
   @media (prefers-reduced-motion: reduce) {
     /* Decorative loops and entrances stop; panels and views still change state,
        just without sliding. Short colour/hover transitions are kept. */
@@ -194,6 +196,7 @@
   }
   @media (max-width: 760px) {
     .topbar-cell.hide-sm { display: none; }
+    .theme-btn .theme-name { display: none; }
   }
   .topbar-cell:first-child { padding-left: 0; }
   .topbar-cell:last-child { border-right: none; margin-left: auto; padding-right: 0; }
@@ -205,44 +208,20 @@
     padding: 0 16px; border-left: 1px solid var(--dim);
   }
   a.topbar-cell.topbar-mail:hover { background: var(--accent); color: var(--accent-fg); }
-  .pal-group { display: inline-flex; align-items: center; }
-
-  /* palette swatcher */
-  .pal-cell { gap: 4px !important; }
-  .sw {
-    appearance: none;
-    width: 44px; height: 44px;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    margin: 0;
-    transition: box-shadow .12s ease;
-    position: relative;
-    display: inline-block;
-    font: 0/0 a;
+  /* theme: one button that cycles light → dark → red → cyan */
+  .pal-cell { padding: 0 !important; }
+  .theme-btn {
+    appearance: none; background: none; border: 0; cursor: pointer;
+    font: inherit; color: var(--ink); letter-spacing: 0.12em; text-transform: uppercase;
+    min-width: 44px; min-height: 44px; height: 100%; padding: 0 14px;
+    display: inline-flex; align-items: center; gap: 8px;
   }
-  .sw + .sw { margin-left: 2px; }
-  .sw::before {
-    content: "";
-    position: absolute;
-    inset: 15px;
-    border: 1.5px solid var(--ink);
-    transition: transform .12s ease;
-  }
-  .sw:hover::before { transform: scale(1.18); }
-  .sw[aria-pressed="true"] {
-    box-shadow: none;
-  }
-  .sw[aria-pressed="true"]::before {
-    transform: scale(1.12);
-    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--ink);
-  }
-  /* fixed swatch colors — they describe palettes, not the current palette */
-  .sw--bone::before   { background: #ffffff; border-color: #000000; }
-  .sw--carbon::before { background: #0a0a0a; border-color: #f2f2f2; }
-  .sw--red::before    { background: #d62839; border-color: #000000; }
-  .sw--cyan::before   { background: #00b8d4; border-color: #000000; }
+  .theme-btn:hover { background: var(--dim-2); }
+  .sw-dot { width: 13px; height: 13px; border: 1.5px solid var(--ink); background: #ffffff; flex: none; }
+  /* fixed colours: the dot previews the current theme */
+  body[data-palette="carbon"] .sw-dot { background: #0a0a0a; }
+  body[data-palette="red"]    .sw-dot { background: #d62839; }
+  body[data-palette="cyan"]   .sw-dot { background: #00b8d4; }
 
   .topbar-tabs {
     display: flex; align-items: stretch;
@@ -282,7 +261,7 @@
 
   /* ============ MAIN STAGE ============ */
   main { position: relative; z-index: 3; padding-top: var(--topbar-h); }
-  @media (max-width: 720px) { :root { --topbar-h: 44px; } }
+  @media (max-width: 720px) { :root { --topbar-h: 46px; } }
 
   /* ============ DOSSIER ============ */
   .dossier { display: block; }
@@ -310,11 +289,15 @@
   }
   @media (max-width: 720px) {
     /* On narrow screens the sidebar takes the whole screen — no compression */
-    body[data-view="dossier"][data-sidebar="open"] .dossier {
+    body[data-view="dossier"][data-sidebar="open"][data-side] .dossier {
       margin-left: 0; margin-right: 0;
     }
   }
 
+  @media (min-width: 721px) {
+    body[data-view="dossier"][data-sidebar="closed"][data-side="right"] .doc { padding-right: calc(var(--gutter) + 40px); }
+    body[data-view="dossier"][data-sidebar="closed"][data-side="left"]  .doc { padding-left:  calc(var(--gutter) + 40px); }
+  }
   .doc {
     max-width: var(--maxw); margin: 0 auto;
     padding: 0 var(--gutter);
@@ -418,7 +401,9 @@
     max-width: 540px;
     line-height: 1.55;
   }
-  .hero-tag { margin-bottom: 0; }
+  .hero-tag { margin-bottom: 0; display: flex; flex-wrap: wrap; gap: 2px 22px; }
+  .avail-text { display: flex; flex-wrap: wrap; column-gap: 14px; }
+  .avail-text .nw { color: var(--ink-soft); font-weight: 400; }
   .hero-tag .pipe { color: var(--muted); margin: 0 8px; }
   .nw { white-space: nowrap; }
   @media (max-width: 480px) { .nw { white-space: normal; } .hero-tag .long { display: none; } }
@@ -438,6 +423,7 @@
     font-family: var(--display);
     font-weight: 400;
     font-size: clamp(20px, 2.4vw, 28px);
+    font-size: clamp(19px, 4.3cqi, 28px);
     line-height: 1.2;
     letter-spacing: -0.015em;
     margin-top: 28px;
@@ -468,6 +454,8 @@
   .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); }
   .btn .arr { display: inline-block; }
   @media (max-width: 480px) { .btn { white-space: normal; } }
+  .btn--primary { background: var(--ink); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent); color: var(--accent-fg); border-color: var(--ink); }
   .btn--ghost { box-shadow: none; }
   .btn--ghost:hover { box-shadow: none; background: var(--ink); color: var(--bg); }
 
@@ -479,15 +467,6 @@
     box-shadow: 6px 6px 0 var(--ink);
     align-self: start;
   }
-  .spec-head {
-    background: var(--ink); color: var(--bg);
-    padding: 10px 14px;
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-    white-space: nowrap;
-    gap: 10px;
-  }
-  .spec-head > span:first-child { overflow: hidden; text-overflow: ellipsis; }
   .spec-photo {
     aspect-ratio: 1 / 1;
     background: var(--bg-deep);
@@ -501,11 +480,13 @@
     display: block;
     filter: grayscale(1) contrast(1.05);
   }
-  .spec-photo .corner { position: absolute; width: 18px; height: 18px; border: 2px solid var(--ink); z-index: 2; }
-  .spec-photo .corner.tl { top: 8px; left: 8px; border-right: none; border-bottom: none; }
-  .spec-photo .corner.tr { top: 8px; right: 8px; border-left: none; border-bottom: none; }
-  .spec-photo .corner.bl { bottom: 8px; left: 8px; border-right: none; border-top: none; }
-  .spec-photo .corner.br { bottom: 8px; right: 8px; border-left: none; border-top: none; }
+  @media (max-width: 720px) {
+    /* phones: a small avatar beside the two facts that aren't in the hero */
+    .spec { display: grid; grid-template-columns: 96px 1fr; align-items: stretch; box-shadow: 4px 4px 0 var(--ink); }
+    .spec-photo { aspect-ratio: auto; width: 96px; min-height: 96px; border-bottom: none; border-right: var(--rule) solid var(--ink); }
+    .spec .wide-only { display: none; }
+    .spec-fields { align-content: center; }
+  }
   .spec-fields {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
@@ -605,24 +586,25 @@
     text-transform: uppercase; color: var(--muted);
   }
   .exp-desc {
-    margin-top: 14px;
+    margin: 14px 0 0;
     max-width: 640px;
-    font-size: 13px; line-height: 1.6;
+    font-family: var(--display); font-size: 15.5px; line-height: 1.55;
     color: var(--ink-soft);
   }
+  .exp-points {
+    margin: 12px 0 0; padding: 0; list-style: none; max-width: 640px;
+    font-family: var(--display); font-size: 15.5px; line-height: 1.5; color: var(--ink-soft);
+    display: grid; gap: 10px;
+  }
+  .exp-points li { position: relative; padding-left: 20px; }
+  .exp-points li::before { content: ""; position: absolute; left: 2px; top: 0.6em; width: 8px; height: 2px; background: var(--ink); }
+  .exp-points b { color: var(--ink); font-weight: 600; }
   .exp-tag {
     font-size: 9.5px; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--muted);
     text-align: right;
   }
   .exp-tag .v { color: var(--ink); display: block; font-weight: 500; }
-  .exp-id {
-    font-family: var(--display);
-    font-size: 18px; font-weight: 500;
-    color: var(--muted);
-    text-align: right;
-    font-feature-settings: "tnum" 1;
-  }
 
   @media (max-width: 720px) {
     .exp-axis { padding-left: 0; }
@@ -632,7 +614,6 @@
     .exp-year { position: static; text-align: left; width: auto; margin-bottom: 6px; }
     .exp-year .end { display: inline; margin-left: 8px; }
     .exp-row { padding: 22px 0; gap: 8px; }
-    .exp-id { display: none; }
     .exp-tag { text-align: left; }
     .exp-tag .v { display: inline; margin-left: 6px; }
   }
@@ -687,9 +668,9 @@
   .proj--reg .proj-title { font-size: 28px; }
   .proj-desc {
     margin-top: 14px;
-    font-size: 13.5px; line-height: 1.55;
+    font-family: var(--display); font-size: 15.5px; line-height: 1.55;
     color: var(--ink-soft);
-    max-width: 480px;
+    max-width: 520px;
   }
   .proj-specs {
     border-top: 1px solid var(--dim);
@@ -730,7 +711,10 @@
     overflow: hidden;
   }
   .proj--reg .proj-schematic { aspect-ratio: 16/9; }
-  @media (max-width: 720px) { .proj--reg .proj-schematic, .proj-schematic { aspect-ratio: 4/3; } }
+  @media (max-width: 720px) {
+    .proj--reg .proj-schematic, .proj-schematic { aspect-ratio: auto; height: 300px; overflow-x: auto; overscroll-behavior-x: contain; }
+    .proj .proj-schematic svg { position: static; width: 400px; height: 300px; max-width: none; }
+  }
   .proj-schematic svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 
   /* ============ PUBLICATIONS ============ */
@@ -840,6 +824,7 @@
     letter-spacing: -0.035em;
     text-transform: uppercase;
   }
+  .ct-headline { margin: 0; }
   .ct-headline em { font-style: italic; font-weight: 300; color: var(--muted); }
   .ct-body { margin-top: 26px; max-width: 480px; color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
   .ct-cta { margin-top: 32px; }
@@ -876,7 +861,8 @@
     font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--muted);
   }
-  .pagefoot .num { font-family: var(--display); color: var(--ink); }
+  .pagefoot .num { font-family: var(--display); color: var(--ink); text-decoration: none; }
+  .pagefoot a.num:hover { text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 720px) { .pagefoot { padding-bottom: 96px; } }
 
   /* ============ TERMINAL / SIDEBAR ============ */
@@ -1023,7 +1009,7 @@
     body[data-side] .sidebar-toggle {
       top: auto; bottom: 16px; right: 16px; left: auto;
       writing-mode: horizontal-tb; transform: none;
-      flex-direction: row; padding: 12px 14px; gap: 8px;
+      flex-direction: row; padding: 12px 14px; gap: 8px; min-height: 44px;
       box-shadow: 3px 3px 0 var(--accent);
     }
   }
@@ -1166,20 +1152,22 @@
         <span class="dot"></span><span>CHAT</span>
       </button>
     </div>
-    <div class="topbar-cell hide-md topbar-who"><span class="val">AFONSO TEODORO</span><span class="label">AI ENGINEER · PhD</span></div>
+    <div class="topbar-cell hide-md topbar-who"><span class="val">AFONSO TEODORO</span><span class="label">AI ENGINEER · <span class="nc">PhD</span></span></div>
     <a class="topbar-cell topbar-mail hide-sm" href="mailto:afonso.teodoro91@gmail.com">EMAIL <span aria-hidden="true">↗</span></a>
-    <div class="topbar-cell pal-cell hide-sm">
-      <span class="label" id="pal-label">THEME</span>
-      <span role="group" aria-labelledby="pal-label" class="pal-group">
-        <button class="sw sw--bone"   data-pal="bone"   aria-label="Theme: light" title="Light" type="button">.</button>
-        <button class="sw sw--carbon" data-pal="carbon" aria-label="Theme: dark"  title="Dark"  type="button">.</button>
-        <button class="sw sw--red"    data-pal="red"    aria-label="Theme: red accent"  title="Red accent"  type="button">.</button>
-        <button class="sw sw--cyan"   data-pal="cyan"   aria-label="Theme: cyan accent" title="Cyan accent" type="button">.</button>
-      </span>
+    <div class="topbar-cell pal-cell">
+      <button class="theme-btn" id="theme-btn" type="button" aria-label="Theme: light. Change theme">
+        <span class="sw-dot" aria-hidden="true"></span><span class="theme-name hide-sm" aria-hidden="true">LIGHT</span>
+      </button>
     </div>
     <div class="topbar-cell"><span class="pulse" aria-hidden="true"></span><span class="label">AI</span><span class="val" id="link-state">CONNECTING</span></div>
   </div>
 </header>
+
+<!-- Chat panel toggle — vertical edge tab on desktop, corner button on phones; profile view only -->
+<button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ask my AI assistant" aria-controls="view-terminal">
+  <span class="st-glyph" aria-hidden="true">▮</span>
+  <span>ASK MY AI</span>
+</button>
 
 <main id="main" tabindex="-1">
 
@@ -1217,8 +1205,8 @@
           <div>
             <h1 class="name" id="hero-name"><span>AFONSO</span><span>TEODORO.</span></h1>
             <p class="hero-tag">
-              <span class="nw">AI ENGINEER · PhD</span><span class="pipe">/</span>
-              <span class="nw"><span class="long">ELECTRICAL &amp; COMPUTER ENGINEERING, </span>IST</span><span class="pipe">/</span>
+              <span class="nw">AI ENGINEER · <span class="nc">PhD</span></span>
+              <span class="nw"><span class="long">ELECTRICAL &amp; COMPUTER ENGINEERING, </span>IST</span>
               <span class="nw">LISBON · PORTUGAL</span>
             </p>
             <p class="hero-blurb">
@@ -1227,28 +1215,23 @@
               reimbursements settled without human review. I also build my own
               AI products, from Intrinsic to Nomly.
             </p>
-            <p class="hero-avail"><span class="led" aria-hidden="true"></span>Open to senior, lead and founding AI roles · remote, Lisbon or relocation</p>
+            <p class="hero-avail"><span class="led" aria-hidden="true"></span><span class="avail-text"><span>Open to senior, lead and founding AI roles</span> <span class="nw">Remote, Lisbon or relocation</span></span></p>
             <div class="hero-ctas">
-              <a class="btn" href="mailto:afonso.teodoro91@gmail.com">EMAIL ME <span class="arr" aria-hidden="true">↗</span></a>
-              <a class="btn btn--ghost" href="/Afonso_Teodoro_CV.pdf" download>DOWNLOAD CV <span class="arr" aria-hidden="true">↓</span></a>
+              <a class="btn btn--primary" href="mailto:afonso.teodoro91@gmail.com">EMAIL ME <span class="arr" aria-hidden="true">↗</span></a>
+              <a class="btn" href="/Afonso_Teodoro_CV.pdf" download>DOWNLOAD CV <span class="arr" aria-hidden="true">↓</span></a>
+              <a class="btn btn--ghost" href="https://www.linkedin.com/in/afonso-teodoro/" target="_blank" rel="noopener noreferrer">LINKEDIN <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
 
           <!-- Profile card -->
           <div class="spec" role="group" aria-label="Profile summary">
-            <div class="spec-head">
-              <span>AT A GLANCE</span>
-              <span>2026</span>
-            </div>
             <div class="spec-photo">
-              <img src="portrait.jpeg" alt="Portrait of Afonso Teodoro" width="800" height="800" decoding="async" fetchpriority="high" />
-              <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
-              <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
+              <img src="portrait.jpeg" alt="Portrait of Afonso Teodoro" width="800" height="800" decoding="async" />
             </div>
             <dl class="spec-fields">
-              <dt class="spec-field k">ROLE</dt>        <dd class="spec-field v">AI Engineer / Consultant</dd>
-              <dt class="spec-field k">CURRENT</dt>     <dd class="spec-field v">Nimble Portal, since 2019</dd>
-              <dt class="spec-field k">FOCUS</dt>       <dd class="spec-field v">CV · NLP · LLM systems</dd>
+              <dt class="spec-field k wide-only">ROLE</dt>        <dd class="spec-field v wide-only">AI Engineer / Consultant</dd>
+              <dt class="spec-field k wide-only">CURRENT</dt>     <dd class="spec-field v wide-only">Nimble Portal, since 2019</dd>
+              <dt class="spec-field k wide-only">FOCUS</dt>       <dd class="spec-field v wide-only">CV · NLP · LLM systems</dd>
               <dt class="spec-field k">AWARD</dt>       <dd class="spec-field v">IBM Scientific Prize 2019</dd>
               <dt class="spec-field k">RESEARCH</dt>    <dd class="spec-field v">400+ citations</dd>
             </dl>
@@ -1363,17 +1346,11 @@
 
     <footer class="pagefoot">
       <span>© 2026 AFONSO TEODORO · LISBON, PORTUGAL</span>
-      <span><span class="num">END OF FILE</span></span>
+      <a class="num" href="#main">BACK TO TOP <span aria-hidden="true">↑</span></a>
     </footer>
   </section>
 
 </main>
-
-<!-- Chat panel toggle — vertical edge tab on desktop, corner button on phones; profile view only -->
-<button class="sidebar-toggle" id="sidebar-toggle" type="button" aria-label="Ask my AI assistant" aria-controls="view-terminal">
-  <span class="st-glyph" aria-hidden="true">▮</span>
-  <span>ASK MY AI</span>
-</button>
 
 <script src="./_config.js"></script>
 <script src="./content.js"></script>
