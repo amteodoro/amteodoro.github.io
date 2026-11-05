@@ -366,16 +366,44 @@
   };
 
   /* ============ PROJECTS ============ */
+  // Index + detail: a numbered list of projects (an ARIA tablist) beside one
+  // project panel at a time. Every panel stays in the DOM, so all content is
+  // there for search engines and screen readers; only the selected one shows.
   function renderProjects() {
     const root = $("#proj-grid");
     if (!root) return;
     root.innerHTML = "";
 
-    window.AMT.projects.forEach((p) => {
+    const projects = window.AMT.projects;
+    const pad = (n) => String(n).padStart(2, "0");
+
+    const list = el("div", { class: "proj-index", role: "tablist", "aria-label": "Projects", "aria-orientation": "vertical" });
+    const panels = el("div", { class: "proj-panels" });
+    const tabs = [];
+
+    projects.forEach((p, i) => {
+      const tabId = "tab-" + p.id;
+      const panelId = "panel-" + p.id;
+
+      const tab = el(
+        "button",
+        { class: "proj-tab", id: tabId, type: "button", role: "tab", "aria-controls": panelId, "aria-selected": i === 0 ? "true" : "false", tabindex: i === 0 ? "0" : "-1" },
+        el("span", { class: "proj-tab-n", "aria-hidden": "true" }, pad(i + 1)),
+        el(
+          "span",
+          { class: "proj-tab-text" },
+          el("span", { class: "proj-tab-title" }, p.title),
+          el("span", { class: "proj-tab-sub" }, `${p.idLabel} · ${p.oneLine}`)
+        ),
+        el("span", { class: "proj-tab-badge" }, p.badge)
+      );
+      tabs.push(tab);
+      list.appendChild(tab);
+
       const head = el(
         "div",
         { class: "proj-head" },
-        el("span", { class: "id" }, p.idLabel),
+        el("span", { class: "id" }, `${pad(i + 1)} / ${pad(projects.length)} · ${p.idLabel}`),
         el("span", { class: "badge" }, p.badge)
       );
 
@@ -388,34 +416,18 @@
         { class: "proj-specs" },
         ...p.specs.flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)])
       );
-
-      const stack = el(
-        "div",
-        { class: "stack" },
-        ...p.stack.map((s) => el("span", { class: "chip" }, s))
-      );
-
+      const stack = el("div", { class: "stack" }, ...p.stack.map((t) => el("span", { class: "chip" }, t)));
       const actions = el(
         "div",
         { class: "proj-actions" },
-        ...p.links.map((l) => {
-          const a = el(
-            "a",
-            {
-              class: "btn" + (l.primary ? "" : " btn--ghost"),
-              href: l.href,
-              target: "_blank",
-              rel: "noopener noreferrer",
-            },
-            l.label
-          );
-          return a;
-        })
+        ...p.links.map((l) =>
+          el("a", { class: "btn" + (l.primary ? " btn--primary" : " btn--ghost"), href: l.href, target: "_blank", rel: "noopener noreferrer" }, l.label)
+        )
       );
 
       const textBlock = el(
         "div",
-        {},
+        { class: "proj-text" },
         el("h3", { class: "proj-title" }, p.title),
         el("p", { class: "proj-desc" }, p.desc),
         specs,
@@ -423,24 +435,46 @@
         actions
       );
 
-      const body = el("div", { class: "proj-body" });
-      if (p.lead) {
-        body.appendChild(textBlock);
-        body.appendChild(schemWrap);
-      } else {
-        body.appendChild(schemWrap);
-        body.appendChild(textBlock);
-      }
-
-      const card = el(
-        "article",
-        { class: "proj " + (p.lead ? "proj--lead" : "proj--reg") },
+      const panel = el(
+        "div",
+        { class: "proj", id: panelId, role: "tabpanel", "aria-labelledby": tabId, tabindex: "0" },
         head,
-        body
+        el("div", { class: "proj-body" }, textBlock, schemWrap)
       );
-
-      root.appendChild(card);
+      if (i !== 0) panel.hidden = true;
+      panels.appendChild(panel);
     });
+
+    function select(i, { focus = false } = {}) {
+      tabs.forEach((t, j) => {
+        const on = j === i;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+      // the newly shown diagram may now need its phone scroll cue
+      window.dispatchEvent(new Event("resize"));
+    }
+
+    tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+    list.addEventListener("keydown", (e) => {
+      const cur = tabs.indexOf(document.activeElement);
+      if (cur < 0) return;
+      const last = tabs.length - 1;
+      const next =
+        e.key === "ArrowDown" || e.key === "ArrowRight" ? (cur === last ? 0 : cur + 1) :
+        e.key === "ArrowUp" || e.key === "ArrowLeft" ? (cur === 0 ? last : cur - 1) :
+        e.key === "Home" ? 0 : e.key === "End" ? last : -1;
+      if (next < 0) return;
+      e.preventDefault();
+      select(next, { focus: true });
+    });
+
+    root.appendChild(
+      el("div", { class: "proj-index-wrap" }, list, el("p", { class: "proj-index-hint" }, "Select a project · one at a time"))
+    );
+    root.appendChild(panels);
   }
 
   /* ============ PUBLICATIONS ============ */
