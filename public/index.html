@@ -409,10 +409,16 @@
   .hero-tag .pipe { color: var(--muted); margin: 0 8px; }
   .nw { white-space: nowrap; }
   @media (max-width: 480px) { .nw { white-space: normal; } }
+  @media (max-width: 340px) {
+    #sec-id { padding-top: 22px; }
+    .hero-blurb { margin-top: 12px !important; }
+    .hero-avail { margin-top: 10px !important; }
+    .hero-ctas { margin-top: 14px !important; }
+  }
   /* very small phones: keep Email / CV / LinkedIn in the first screen */
   @media (max-width: 400px) {
     .hero-tag { font-size: 11px; gap: 0 14px; }
-    .hero-blurb { margin-top: 18px; font-size: 18px; }
+    .hero-blurb { margin-top: 16px; font-size: 16.5px; }
     .hero-avail { margin-top: 14px; }
     .hero-ctas { margin-top: 18px; gap: 10px; }
     .hero-ctas .btn { padding: 12px 14px; font-size: 11px; }
@@ -433,14 +439,14 @@
     font-family: var(--display);
     font-weight: 400;
     font-size: clamp(20px, 2.4vw, 28px);
-    font-size: clamp(19px, 4.3cqi, 28px);
+    font-size: clamp(18px, 3.9cqi, 26px);
     line-height: 1.2;
     letter-spacing: -0.015em;
     margin-top: 28px;
     max-width: 620px;
     color: var(--ink);
   }
-  .hero-blurb b { font-weight: 600; background: var(--accent); color: var(--accent-fg); padding: 0 6px; white-space: nowrap; }
+  .hero-blurb b { font-weight: 600; background: var(--accent); color: var(--accent-fg); padding: 0 6px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
   .hero-ctas {
     margin-top: 24px;
@@ -1278,10 +1284,11 @@
               <span class="nw">LISBON · PORTUGAL</span>
             </p>
             <p class="hero-blurb">
-              Since 2019 I've shipped <b>production ML</b> for insurance operations:
-              document understanding at ~150k invoices a month, with 70%+ of
-              reimbursements settled without human review. I also build my own
-              AI products, from Intrinsic to Nomly.
+              I build <b>ML systems that hold up in production</b>: vehicle-damage
+              detection for underwriting, document understanding at ~150k invoices
+              a month, fine-tuned speech-to-text for call centres. Lately I've also
+              been building my own AI products, like Intrinsic and Nomly. PhD in
+              image processing, IBM Scientific Prize 2019.
             </p>
             <p class="hero-avail"><span class="led" aria-hidden="true"></span><span class="avail-text"><span>Open to senior, lead and founding AI roles</span> <span class="nw">Remote, Lisbon or relocation</span></span></p>
             <div class="hero-ctas">
