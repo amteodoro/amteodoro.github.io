@@ -10,13 +10,14 @@ window.AMT = {
       start: "2019",
       end: "PRESENT",
       desc:
-        "Applied ML for enterprise insurance clients. For one anonymized insurance-operations " +
-        "client, I helped build a document-understanding workflow processing around 150k invoices " +
-        "per month, with 70%+ of reimbursements handled automatically. I also built the annotation " +
-        "platform for a vehicle-photo damage detector, trained the models supporting insurance " +
-        "underwriting and fraud-prevention workflows, and built a service around them. In an " +
-        "insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and " +
-        "worked on diarization for analytics. My work spans models, review tooling, APIs, and delivery.",
+        "Owned components of client-facing computer-vision, document-understanding and " +
+        "speech systems for insurance and healthcare operations.",
+      points: [
+        ["Document understanding", " for medical-expense reimbursement: ~150k invoices a month, 70%+ settled without human review. PyTorch models behind FastAPI; I designed the human-review path for the rest."],
+        ["Vehicle-damage detection", " for underwriting and fraud prevention: trained the detection models, built the annotation platform the labelling team ran on, and shipped the inference service."],
+        ["Call-centre speech", ": fine-tuned Whisper for domain-specific transcription, with speaker diarization and LLM summarisation for call analytics."],
+        ["Also", ": consulting on a medical-imaging data platform, from 2D/3D labelling to integrated model training."],
+      ],
       tag: "INDUSTRY",
     },
     {
@@ -26,7 +27,8 @@ window.AMT = {
       start: "2015",
       end: "2019",
       desc:
-        "PhD in Electrical and Computer Engineering (IST, 19/20), supervised by Prof. Mário " +
+        "PhD in Electrical and Computer Engineering at Instituto Superior Técnico (final grade " +
+        "19/20), supervised by Prof. Mário " +
         "Figueiredo. Thesis: Mixture Models for Inverse Imaging Problems. ML and optimization " +
         "methods for image restoration (deblurring, super-resolution), MRI reconstruction and " +
         "image fusion for remote sensing, published in IEEE journals and conferences. " +
@@ -162,44 +164,40 @@ window.AMT = {
       bay: "01",
       title: "Vision & Image",
       jacks: [
-        { name: "Object detection" },
-        { name: "Segmentation" },
-        { name: "Model optimization" },
-        { name: "OpenCV" },
+        { name: "Detection & segmentation" },
+        { name: "OCR & document understanding" },
         { name: "Remote sensing" },
+        { name: "Model optimization" },
       ],
     },
     {
       bay: "02",
-      title: "GenAI & LLMs",
+      title: "LLM Systems",
       jacks: [
-        { name: "Fine-tuning (vision, speech)" },
-        { name: "RAG" },
-        { name: "Prompt eng." },
-        { name: "LangChain / LangGraph" },
-        { name: "Eval pipelines" },
+        { name: "RAG & retrieval" },
+        { name: "Tool-calling agents (LangGraph)" },
+        { name: "Evaluation pipelines" },
+        { name: "Speech: Whisper fine-tuning" },
       ],
     },
     {
       bay: "03",
-      title: "MLOps & Eng.",
+      title: "ML Engineering",
       jacks: [
-        { name: "Docker" },
-        { name: "FastAPI" },
-        { name: "Git" },
-        { name: "HTTP APIs" },
-        { name: "CI/CD" },
+        { name: "PyTorch / TensorFlow" },
+        { name: "FastAPI services" },
+        { name: "Docker & CI/CD" },
+        { name: "PostgreSQL / PostGIS" },
       ],
     },
     {
       bay: "04",
-      title: "Frontend",
+      title: "Product Delivery",
       jacks: [
-        { name: "React.js" },
-        { name: "JavaScript" },
-        { name: "HTML / CSS" },
-        { name: "Gradio" },
-        { name: "Streamlit" },
+        { name: "Human-review & annotation tooling" },
+        { name: "React / Next.js" },
+        { name: "Client handover" },
+        { name: "Shipping solo products" },
       ],
     },
   ],
