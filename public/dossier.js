@@ -564,7 +564,7 @@
             played = true;
             axis.classList.add("is-revealed");
             rows.forEach((r, i) => {
-              setTimeout(() => r.classList.add("is-revealed"), 100 + i * 180);
+              setTimeout(() => r.classList.add("is-revealed"), i * 60);
             });
             axisObs.disconnect();
           }
