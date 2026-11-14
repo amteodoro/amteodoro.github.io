@@ -31,7 +31,7 @@ window.AMT = {
         "PhD in Electrical and Computer Engineering at Instituto Superior Técnico (final grade " +
         "19/20). Image restoration, MRI reconstruction and remote-sensing image fusion, " +
         "supervised by Prof. Mário Figueiredo. IBM Scientific Prize 2019.",
-      stats: [["19/20", "final grade"], ["400+", "citations"]],
+      stats: [["400+", "citations"], ["IBM", "Scientific Prize 2019"]],
       tag: "RESEARCH",
     },
     {
