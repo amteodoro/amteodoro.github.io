@@ -1,6 +1,7 @@
 /* Signature: the portrait is briefly corrupted with Gaussian noise and then
    restored, and hovering shows the noisy observation under a lens.
-   It is the problem my PhD was about (y = x + n, recover x).
+   Denoising (y = x + n, recover x) was my MSc thesis topic, and the start of
+   the image-restoration research that continued through the PhD.
    Purely decorative: the <img> underneath is always the real content. */
 (function () {
   "use strict";
@@ -21,7 +22,7 @@
   const cap = document.createElement("span");
   cap.className = "spec-cap";
   cap.setAttribute("aria-hidden", "true");
-  const REST = "FIG. 1 · DENOISING, MY PHD TOPIC";
+  const REST = "FIG. 1 · DENOISING, WHERE MY RESEARCH BEGAN";
   cap.textContent = REST;
 
   let ctx, base, noise, out, ready = false;
