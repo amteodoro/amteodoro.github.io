@@ -51,7 +51,11 @@
             ? el("ul", { class: "exp-points" },
                 ...e.points.map(([lead, rest]) => el("li", {}, el("b", {}, lead), rest)))
             : null
-        )
+        ),
+        e.stats
+          ? el("dl", { class: "exp-stats" },
+              ...e.stats.map(([n, l]) => el("div", { class: "exp-stat" }, el("dt", {}, l), el("dd", {}, n))))
+          : null
       );
       root.appendChild(row);
     });
@@ -525,24 +529,9 @@
     root.innerHTML = "";
 
     window.AMT.skills.forEach((bay) => {
-      const head = el(
-        "div",
-        { class: "patch-head" },
-        el("span", { class: "name" }, bay.title)
-      );
-      const jacks = el(
-        "div",
-        { class: "patch-jacks" },
-        ...bay.jacks.map((j) =>
-          el(
-            "div",
-            { class: "jack" },
-            el("span", { class: "jack-led", "aria-hidden": "true" }),
-            el("span", { class: "jack-name" }, j.name)
-          )
-        )
-      );
-      root.appendChild(el("div", { class: "patch-bay" }, head, jacks));
+      root.appendChild(el("div", { class: "sk-row" },
+        el("dt", {}, bay.title),
+        el("dd", {}, ...bay.jacks.flatMap((j, i) => (i ? [el("span", { class: "sk-sep", "aria-hidden": "true" }, " · "), j.name] : [j.name])))));
     });
   }
 
