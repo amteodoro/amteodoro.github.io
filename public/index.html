@@ -126,7 +126,7 @@
   @media (prefers-reduced-motion: reduce) {
     /* Decorative loops and entrances stop; panels and views still change state,
        just without sliding. Short colour/hover transitions are kept. */
-    .pulse, .typing .dot,
+    .pulse, .pipe-step.is-active .pipe-box,
     .exp-axis.is-revealed::before, .exp-row.is-revealed,
     .exp-row.is-revealed::before, .exp-row.is-revealed::after { animation: none !important; }
     .term-wrap, .dossier, .sidebar-toggle, .btn { transition-duration: 0.01ms !important; }
@@ -1131,13 +1131,25 @@
   .msg.system { border-bottom: 1px dashed var(--dim); padding-bottom: 14px; }
   .msg.system .body { color: var(--ink-soft); }
 
-  .typing .dot {
-    display: inline-block; width: 8px; height: 11px; background: var(--ink);
-    margin-right: 3px; animation: blink 1s infinite;
+  /* Chat pipeline: the retrieval steps, ticked off as the API reports them */
+  .pipe { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; max-width: 420px; }
+  .pipe-step {
+    display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    font-size: 11px; letter-spacing: .14em; color: var(--muted);
   }
-  .typing .dot:nth-child(2) { animation-delay: .15s; }
-  .typing .dot:nth-child(3) { animation-delay: .30s; }
-  .typing .typing-lbl { color: var(--muted); font-size: 11px; letter-spacing: .18em; }
+  .pipe-box { width: 10px; height: 10px; border: 1.5px solid currentColor; }
+  .pipe-step.is-active { color: var(--ink); }
+  .pipe-step.is-active .pipe-box { background: var(--ink); animation: pulse 1s ease-in-out infinite; }
+  .pipe-step.is-done { color: var(--ink); }
+  .pipe-step.is-done .pipe-box { background: var(--ink); }
+  .pipe-ms { font-feature-settings: "tnum" 1; color: var(--muted); }
+  .msg-meta {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;
+    margin: -4px 0 14px; padding-top: 8px; max-width: 920px;
+    border-top: 1px dashed var(--dim);
+    font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  .msg-meta-stat { text-transform: none; font-feature-settings: "tnum" 1; }
 
   .suggestions { margin-top: 10px; }
   .suggestions .lbl { font-size: 10px; letter-spacing: 0.18em; color: var(--muted); text-transform: uppercase; margin-bottom: 10px; }
