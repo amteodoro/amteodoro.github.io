@@ -144,6 +144,8 @@
   const linkState = document.getElementById("link-state");
   function setLinkState(text) {
     if (linkState) linkState.textContent = text;
+    const cell = linkState && linkState.closest(".topbar-status");
+    if (cell) cell.dataset.state = String(text).toLowerCase();
   }
   let apiOnline = Boolean(API_URL);
   const healthCheck = !API_URL
