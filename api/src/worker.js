@@ -47,6 +47,35 @@ function retrieveContext(queryEmbedding, topK = 5) {
     return scored.slice(0, topK);
 }
 
+// ── Human-readable source labels for the chat UI ───────────────
+// Chunk ids are internal; the UI shows which part of the profile an answer drew on.
+const SOURCE_LABELS = {
+    'evidence-why-hire': 'Track record',
+    'exp-nimble': 'Nimble Portal',
+    'exp-phd': 'PhD', 'edu-phd': 'PhD',
+    'exp-msc-fellowship': 'MSc & fellowship', 'edu-msc': 'MSc & fellowship',
+    'exp-inesc': 'INESC-ID internship',
+    'award-ibm': 'IBM prize',
+    'stack-summary': 'Skills',
+    'project-nomly': 'Nomly', 'project-fire': 'Fire detection',
+    'project-retroreps': 'RetroReps', 'project-intrinsic': 'Intrinsic',
+    'methodology': 'How I work',
+    'leadership-and-scope': 'Leadership & scope',
+    'cv-pointer': 'CV', 'contact-info': 'Contact',
+};
+const SOURCE_PREFIXES = [
+    ['identity-', 'Profile'], ['pub-', 'Publications'], ['skills-', 'Skills'],
+    ['domains-', 'Domains'], ['research-', 'Research'], ['hobbies-', 'Interests'],
+];
+function sourceLabel(id) {
+    if (SOURCE_LABELS[id]) return SOURCE_LABELS[id];
+    const hit = SOURCE_PREFIXES.find(([prefix]) => id.startsWith(prefix));
+    return hit ? hit[1] : 'Availability';
+}
+function describeSources(chunks) {
+    return chunks.map(c => ({ id: c.id, label: sourceLabel(c.id), score: Math.round(c.score * 1000) / 1000 }));
+}
+
 // ── Get embedding for user query via OpenRouter ────────────────
 async function embedQuery(query, apiKey) {
     const res = await fetch('https://openrouter.ai/api/v1/embeddings', {
@@ -132,7 +161,7 @@ ${contextText}`;
     const data = await res.json();
     const answer = data.choices?.[0]?.message?.content;
     if (!answer) throw new Error('LLM returned an empty answer');
-    return answer;
+    return { answer, model: typeof data.model === 'string' ? data.model : '' };
 }
 
 // ── CORS headers ───────────────────────────────────────────────
@@ -212,7 +241,7 @@ export default {
             } catch {
                 return json({ error: 'Invalid JSON.' }, 400);
             }
-            const { question, history } = parsed || {};
+            const { question, history, stream } = parsed || {};
             if (!question || typeof question !== 'string' || question.trim().length === 0) {
                 return new Response(
                     JSON.stringify({ error: 'Please provide a "question" field.' }),
@@ -232,26 +261,51 @@ export default {
                 );
             }
 
-            // 1. Embed the user's question
-            const queryEmbedding = await embedQuery(question.trim(), apiKey);
-
-            // 2. Retrieve relevant context chunks
-            const topChunks = retrieveContext(queryEmbedding, 6);
-
-            // 3. Generate answer using LLM + context + recent history
+            const q = question.trim();
             const safeHistory = sanitizeHistory(history);
-            const answer = await generateAnswer(question.trim(), topChunks, safeHistory, apiKey);
 
-            return new Response(
-                JSON.stringify({
-                    answer,
-                    sources: topChunks.map(c => ({ id: c.id, score: Math.round(c.score * 1000) / 1000 })),
-                }),
-                {
+            // The three pipeline steps, reporting each one as it finishes.
+            const run = async (report) => {
+                let t = Date.now();
+                const queryEmbedding = await embedQuery(q, apiKey);
+                await report({ stage: 'embed', ms: Date.now() - t });
+
+                t = Date.now();
+                const topChunks = retrieveContext(queryEmbedding, 6);
+                const sources = describeSources(topChunks);
+                await report({ stage: 'retrieve', ms: Date.now() - t, used: topChunks.length, total: EMBEDDINGS.length, sources });
+
+                t = Date.now();
+                const { answer, model } = await generateAnswer(q, topChunks, safeHistory, apiKey);
+                await report({ stage: 'generate', ms: Date.now() - t, model, answer });
+                return { answer, model, sources };
+            };
+
+            // Streaming clients get one JSON line per finished step, so the UI can
+            // show real progress. Everyone else gets the single JSON response.
+            if (stream === true) {
+                const { readable, writable } = new TransformStream();
+                const writer = writable.getWriter();
+                const enc = new TextEncoder();
+                const report = (event) => writer.write(enc.encode(JSON.stringify(event) + '\n'));
+                ctx.waitUntil((async () => {
+                    try {
+                        await run(report);
+                    } catch (err) {
+                        console.error('Error:', err);
+                        await report({ error: 'Something went wrong. Please try again.' }).catch(() => {});
+                    } finally {
+                        await writer.close().catch(() => {});
+                    }
+                })());
+                return new Response(readable, {
                     status: 200,
-                    headers: { ...cors, 'Content-Type': 'application/json' },
-                }
-            );
+                    headers: { ...cors, 'Content-Type': 'application/x-ndjson', 'Cache-Control': 'no-store' },
+                });
+            }
+
+            const { answer, sources } = await run(async () => {});
+            return json({ answer, sources }, 200);
         } catch (err) {
             console.error('Error:', err);
             return new Response(
