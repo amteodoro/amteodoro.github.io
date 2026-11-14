@@ -185,7 +185,9 @@
   }
 
   /* ============ WORKER CHAT ============ */
-  async function askWorker(history) {
+  // Resolves to the answer text. onStage is called once per finished pipeline step
+  // when the API streams them; an API that answers in one piece simply never calls it.
+  async function askWorker(history, onStage) {
     if (!API_URL) {
       return "The assistant isn't available right now. The PROFILE has everything, or email afonso.teodoro91@gmail.com.";
     }
@@ -200,7 +202,7 @@
       const res = await fetch(API_URL.replace(/\/$/, "") + "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, history: prior }),
+        body: JSON.stringify({ question, history: prior, stream: true }),
         signal: AbortSignal.timeout(45000),
       });
       if (res.status === 429) {
@@ -211,8 +213,29 @@
         return data.error || "I couldn't process that question. Try rephrasing it.";
       }
       if (!res.ok) throw new Error("API returned " + res.status);
-      const data = await res.json();
-      return data.answer || "";
+      if (!(res.headers.get("Content-Type") || "").includes("ndjson") || !res.body) {
+        const data = await res.json();
+        return data.answer || "";
+      }
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let buf = "", answer = "";
+      for (;;) {
+        const { value, done } = await reader.read();
+        buf += dec.decode(value || new Uint8Array(), { stream: !done });
+        const lines = buf.split("\n");
+        buf = done ? "" : lines.pop();
+        for (const line of lines) {
+          if (!line.trim()) continue;
+          const ev = JSON.parse(line);
+          if (ev.error) throw new Error(ev.error);
+          if (ev.stage && onStage) onStage(ev);
+          if (ev.answer) answer = ev.answer;
+        }
+        if (done) break;
+      }
+      if (!answer) throw new Error("Stream ended without an answer");
+      return answer;
     } catch (e) {
       console.error(e);
       return "I couldn't reach the assistant. Try again in a moment, or email afonso.teodoro91@gmail.com.";
@@ -220,24 +243,61 @@
   }
 
   /* ============ FLOW ============ */
-  function showTypingIndicator() {
+  // While waiting, show the real pipeline: each step is ticked off when the API
+  // reports it finished, with its duration.
+  const STEPS = [["embed", "EMBED QUESTION"], ["retrieve", "RETRIEVE NOTES"], ["generate", "WRITE ANSWER"]];
+  const fmtMs = (ms) => (ms < 1 ? "<1 ms" : ms < 1000 ? Math.round(ms) + " ms" : (ms / 1000).toFixed(1) + " s");
+
+  function showPipeline() {
     const div = document.createElement("div");
     div.className = "msg assist typing";
     div.id = "typing-ind";
     const prefix = document.createElement("span");
     prefix.className = "prefix";
     prefix.textContent = "> AFONSO·AI";
-    const body = document.createElement("span");
-    body.className = "body";
-    body.innerHTML = '<span class="dot">▓</span><span class="dot">▓</span><span class="dot">▓</span> <span class="typing-lbl">THINKING…</span>';
+    const list = document.createElement("ol");
+    list.className = "pipe";
+    STEPS.forEach(([key, label], i) => {
+      const li = document.createElement("li");
+      li.className = "pipe-step" + (i === 0 ? " is-active" : "");
+      li.dataset.step = key;
+      li.innerHTML = `<span class="pipe-box" aria-hidden="true"></span><span class="pipe-name">${label}</span><span class="pipe-ms"></span>`;
+      list.appendChild(li);
+    });
     div.appendChild(prefix);
-    div.appendChild(body);
+    div.appendChild(list);
     scrollEl.appendChild(div);
     scrollDown();
+  }
+  function markStage(ev) {
+    const steps = Array.from(document.querySelectorAll("#typing-ind .pipe-step"));
+    const i = steps.findIndex((li) => li.dataset.step === ev.stage);
+    if (i < 0) return;
+    steps[i].classList.remove("is-active");
+    steps[i].classList.add("is-done");
+    steps[i].querySelector(".pipe-ms").textContent = fmtMs(ev.ms);
+    if (ev.stage === "retrieve" && ev.used && ev.total) {
+      steps[i].querySelector(".pipe-name").textContent = `RETRIEVE ${ev.used} OF ${ev.total} NOTES`;
+    }
+    if (steps[i + 1]) steps[i + 1].classList.add("is-active");
   }
   function clearTyping() {
     const t = document.getElementById("typing-ind");
     if (t) t.remove();
+  }
+  // "SOURCES · Nimble Portal · Intrinsic   1.8 s · model" under an answer.
+  function addSourcesLine(run) {
+    const labels = [...new Set((run.sources || []).map((s) => s.label).filter(Boolean))].slice(0, 3);
+    if (!labels.length) return;
+    const div = document.createElement("div");
+    div.className = "msg-meta";
+    const src = document.createElement("span");
+    src.textContent = "SOURCES · " + labels.join(" · ");
+    const stat = document.createElement("span");
+    stat.className = "msg-meta-stat";
+    stat.textContent = [fmtMs(run.ms), (run.model || "").split("/").pop()].filter(Boolean).join(" · ");
+    div.append(src, stat);
+    scrollEl.appendChild(div);
   }
 
   async function submit(text) {
@@ -303,11 +363,19 @@
     pending = true;
     send.disabled = true;
     input.disabled = true;
-    showTypingIndicator();
+    showPipeline();
 
-    const reply = await askWorker(messages);
+    const run = { ms: 0, sources: [], model: "" };
+    const reply = await askWorker(messages, (ev) => {
+      markStage(ev);
+      run.ms += ev.ms || 0;
+      if (ev.sources) run.sources = ev.sources;
+      if (ev.model) run.model = ev.model;
+      if (ev.stage === "generate") run.done = true;
+    });
     clearTyping();
     const answerEl = addMessage({ role: "assistant", content: reply });
+    if (run.done) addSourcesLine(run);
     messages.push({ role: "assistant", content: reply });
     addSuggestions();
     requestAnimationFrame(() => {
