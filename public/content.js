@@ -18,6 +18,7 @@ window.AMT = {
         ["Call-centre speech", ": fine-tuned Whisper for domain-specific transcription, with speaker diarization and LLM summarisation for call analytics."],
         ["Also", ": consulting on a medical-imaging data platform, from 2D/3D labelling to integrated model training."],
       ],
+      stats: [["~150k", "invoices a month"], ["70%+", "settled without human review"]],
       tag: "INDUSTRY",
     },
     {
@@ -30,6 +31,7 @@ window.AMT = {
         "PhD in Electrical and Computer Engineering at Instituto Superior Técnico (final grade " +
         "19/20). Image restoration, MRI reconstruction and remote-sensing image fusion, " +
         "supervised by Prof. Mário Figueiredo. IBM Scientific Prize 2019.",
+      stats: [["400+", "citations"], ["IBM", "Scientific Prize 2019"]],
       tag: "RESEARCH",
     },
     {
