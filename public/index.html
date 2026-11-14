@@ -503,11 +503,28 @@
     display: block;
     filter: grayscale(1) contrast(1.05);
   }
+  /* Signature: noise canvas sits over the portrait only while it is in use */
+  .spec-noise {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+    opacity: 0; pointer-events: none;
+    transition: opacity .15s var(--ease-out);
+  }
+  .spec-photo.is-noisy .spec-noise { opacity: 1; transition-duration: 0s; }
+  .spec-cap {
+    position: absolute; left: 0; bottom: 0; z-index: 1; pointer-events: none;
+    background: var(--ink); color: var(--bg);
+    font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em;
+    padding: 6px 10px; white-space: nowrap;
+    font-feature-settings: "tnum" 1;
+  }
+  @media (hover: hover) and (pointer: fine) { .spec-photo { cursor: crosshair; } }
   @media (max-width: 720px) {
     /* phones: a small avatar beside the two facts that aren't in the hero */
     .spec { display: grid; grid-template-columns: 96px 1fr; align-items: stretch; box-shadow: 4px 4px 0 var(--ink); }
     .spec-photo { aspect-ratio: auto; width: 96px; min-height: 96px; border-bottom: none; border-right: var(--rule) solid var(--ink); }
     .spec .wide-only { display: none; }
+    .spec-cap { display: none; }
     .spec-fields { align-content: center; }
   }
   .spec-fields {
@@ -676,6 +693,10 @@
     position: relative;
   }
   .proj[hidden] { display: none; }
+  /* Switching project: the new panel settles in instead of snapping */
+  .proj { transition: opacity .2s var(--ease-out), transform .2s var(--ease-out); }
+  @starting-style { .proj { opacity: 0; transform: translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .proj { transition: none; } }
   .proj, .proj-body > * { min-width: 0; }
   .proj:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
   @media (max-width: 1100px) {
@@ -1431,6 +1452,7 @@
 <script src="./dossier.js"></script>
 <script src="./terminal.js"></script>
 <script src="./app.js"></script>
+<script src="./signature.js"></script>
 
 </body>
 </html>
