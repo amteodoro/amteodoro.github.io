@@ -1,5 +1,6 @@
 /* Signature: the portrait is briefly corrupted with Gaussian noise and then
-   restored, and hovering shows the noisy observation under a lens.
+   restored. Hovering shows a degraded observation under a lens, and clicking
+   cycles the degradations I worked on: noise, blur, low resolution, missing pixels.
    Denoising (y = x + n, recover x) was my MSc thesis topic, and the start of
    the image-restoration research that continued through the PhD.
    Purely decorative: the <img> underneath is always the real content. */
@@ -22,7 +23,15 @@
   const cap = document.createElement("span");
   cap.className = "spec-cap";
   cap.setAttribute("aria-hidden", "true");
-  const REST = "FIG. 1 · DENOISING, WHERE MY RESEARCH BEGAN";
+  const REST = "FIG. 1 · IMAGE RESTORATION, MY RESEARCH FIELD";
+  const MODES = [
+    ["noise",  "NOISE · y = x + n"],
+    ["blur",   "BLUR · y = h * x"],
+    ["lowres", "LOW RESOLUTION · y = D(x)"],
+    ["holes",  "MISSING PIXELS · y = m · x"],
+  ];
+  let mode = 0, last = null;
+  const deg = {};
   cap.textContent = REST;
 
   let ctx, base, noise, out, ready = false;
@@ -66,6 +75,35 @@
     }
   }
 
+  // Degraded copies of the photo, built on first use.
+  function resample(scale, smooth) {
+    const small = document.createElement("canvas"), big = document.createElement("canvas");
+    const n = Math.max(1, Math.round(N / scale));
+    small.width = small.height = n; big.width = big.height = N;
+    const src = document.createElement("canvas"); src.width = src.height = N;
+    src.getContext("2d").putImageData(base, 0, 0);
+    const sc = small.getContext("2d"); sc.imageSmoothingEnabled = true; sc.imageSmoothingQuality = "high";
+    sc.drawImage(src, 0, 0, n, n);
+    const bc = big.getContext("2d"); bc.imageSmoothingEnabled = smooth; bc.imageSmoothingQuality = "high";
+    bc.drawImage(small, 0, 0, N, N);
+    return bc.getImageData(0, 0, N, N);
+  }
+  function degraded(kind) {
+    if (deg[kind]) return deg[kind];
+    let d;
+    if (kind === "blur") d = resample(9, true);
+    else if (kind === "lowres") d = resample(15, false);
+    else {
+      d = new ImageData(new Uint8ClampedArray(base.data), N, N);
+      const o = d.data;
+      for (let k = 0, p = 0; k < noise.length; k++, p += 4) {
+        if (kind === "noise") { const n = noise[k] * SIGMA; o[p] += n; o[p + 1] += n; o[p + 2] += n; }
+        else if (noise[k] > -0.5) { o[p] = o[p + 1] = o[p + 2] = 18; }   // ~70% of pixels missing
+      }
+    }
+    return (deg[kind] = d);
+  }
+
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
   let raf = 0;
 
@@ -92,23 +130,27 @@
   function lens(e) {
     if (!prepare()) return;
     cancelAnimationFrame(raf);
+    last = e;
     const r = box.getBoundingClientRect();
     const s = Math.round(N * LENS);
     const cx = ((e.clientX - r.left) / r.width) * N, cy = ((e.clientY - r.top) / r.height) * N;
     const x = Math.max(0, Math.min(N - s, Math.round(cx - s / 2)));
     const y = Math.max(0, Math.min(N - s, Math.round(cy - s / 2)));
-    draw(SIGMA, { x, y, s });
+    ctx.putImageData(degraded(MODES[mode][0]), 0, 0, x, y, s, s);
+    ctx.lineWidth = 2; ctx.strokeStyle = "#0e0d0a";
+    ctx.strokeRect(x + 1, y + 1, s - 2, s - 2);
     // Show the canvas only inside the lens so the full-resolution photo stays crisp around it.
     const pc = (v) => (v / N * 100).toFixed(2) + "%";
     canvas.style.clipPath = `inset(${pc(y)} ${pc(N - x - s)} ${pc(N - y - s)} ${pc(x)})`;
     box.classList.add("is-noisy");
-    cap.textContent = "y = x + n · σ " + SIGMA + " · NOISY INPUT";
+    cap.textContent = MODES[mode][1] + " · CLICK FOR NEXT";
   }
 
   function start() {
     box.append(canvas, cap);
     if (canHover) {
       box.addEventListener("pointermove", lens);
+      box.addEventListener("click", (e) => { mode = (mode + 1) % MODES.length; lens(e); });
       box.addEventListener("pointerleave", () => { box.classList.remove("is-noisy"); cap.textContent = REST; });
     }
     if (reduced) return;

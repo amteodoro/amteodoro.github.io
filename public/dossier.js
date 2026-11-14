@@ -51,7 +51,11 @@
             ? el("ul", { class: "exp-points" },
                 ...e.points.map(([lead, rest]) => el("li", {}, el("b", {}, lead), rest)))
             : null
-        )
+        ),
+        e.stats
+          ? el("dl", { class: "exp-stats" },
+              ...e.stats.map(([n, l]) => el("div", { class: "exp-stat" }, el("dt", {}, l), el("dd", {}, n))))
+          : null
       );
       root.appendChild(row);
     });
@@ -478,6 +482,43 @@
   }
 
   /* ============ PUBLICATIONS ============ */
+  // Tiny before/after figure per paper: a test pattern, degraded the way the
+  // paper's problem degrades it, next to the clean version.
+  const FIG = { denoise: "DENOISING", deblur: "DEBLURRING", inpaint: "INPAINTING", fusion: "FUSION" };
+  function paperFigure(kind) {
+    const S = 16;
+    const clean = new Float32Array(S * S);
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const d = Math.hypot(x - 7.5, y - 7.5);
+      clean[y * S + x] = d < 5.2 ? 26 : (x + y > 24 ? 120 : 218);
+    }
+    let seed = 7 + kind.length * 13;
+    const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+    const tile = (fn) => {
+      const c = el("canvas", { width: String(S), height: String(S), class: "pub-fig-tile" });
+      const ctx = c.getContext("2d"); const im = ctx.createImageData(S, S);
+      for (let i = 0; i < S * S; i++) {
+        const v = fn(i % S, (i / S) | 0, i);
+        im.data[i * 4] = im.data[i * 4 + 1] = im.data[i * 4 + 2] = v; im.data[i * 4 + 3] = 255;
+      }
+      ctx.putImageData(im, 0, 0);
+      return c;
+    };
+    const at = (x, y) => clean[Math.max(0, Math.min(S - 1, y)) * S + Math.max(0, Math.min(S - 1, x))];
+    const blur = (x, y) => { let a = 0; for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++) a += at(x + i, y + j); return a / 25; };
+    const before = [];
+    if (kind === "denoise") before.push(tile((x, y, i) => clean[i] + (rnd() + rnd() + rnd() - 1.5) * 150));
+    else if (kind === "deblur") before.push(tile(blur));
+    else if (kind === "inpaint") before.push(tile((x, y, i) => (rnd() < 0.5 ? 128 : clean[i])));
+    else {
+      before.push(tile((x, y) => at((x >> 2) * 4 + 1, (y >> 2) * 4 + 1)));   // low resolution
+      before.push(tile((x, y, i) => 128 + (clean[i] - 128) * 0.3));          // sharp but low contrast
+    }
+    return el("span", { class: "pub-fig", "aria-hidden": "true" },
+      ...before, el("span", { class: "pub-fig-arrow" }, "→"), tile((x, y, i) => clean[i]),
+      el("span", { class: "pub-fig-label" }, FIG[kind]));
+  }
+
   function renderPapers() {
     const root = $("#pubs-list");
     if (!root) return;
@@ -498,7 +539,7 @@
         },
         el("span", { class: "pub-cites" }, String(p.cites)),
         el("span", { class: "pub-title" }, p.title),
-        el("span", { class: "pub-venue" }, p.venue),
+        el("span", { class: "pub-venue" }, p.venue, p.kind ? paperFigure(p.kind) : null),
         el("span", { class: "pub-year" }, String(p.year))
       );
       root.appendChild(row);
@@ -525,24 +566,9 @@
     root.innerHTML = "";
 
     window.AMT.skills.forEach((bay) => {
-      const head = el(
-        "div",
-        { class: "patch-head" },
-        el("span", { class: "name" }, bay.title)
-      );
-      const jacks = el(
-        "div",
-        { class: "patch-jacks" },
-        ...bay.jacks.map((j) =>
-          el(
-            "div",
-            { class: "jack" },
-            el("span", { class: "jack-led", "aria-hidden": "true" }),
-            el("span", { class: "jack-name" }, j.name)
-          )
-        )
-      );
-      root.appendChild(el("div", { class: "patch-bay" }, head, jacks));
+      root.appendChild(el("div", { class: "sk-row" },
+        el("dt", {}, bay.title),
+        el("dd", {}, ...bay.jacks.flatMap((j, i) => (i ? [el("span", { class: "sk-sep", "aria-hidden": "true" }, " · "), j.name] : [j.name])))));
     });
   }
 
