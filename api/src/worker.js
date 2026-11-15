@@ -25,6 +25,10 @@ const MAX_QUESTION_CHARS = 500;
 // larger before reading or parsing it.
 const MAX_BODY_BYTES = 32 * 1024;
 const UPSTREAM_TIMEOUT_MS = 25000;
+// The embedding call normally returns in well under a second, but the free endpoint
+// sometimes hangs. Give up quickly and retry rather than making the visitor wait.
+const EMBED_TIMEOUT_MS = 3500;
+const EMBED_ATTEMPTS = 2;
 
 // ── Cosine similarity ──────────────────────────────────────────
 function cosineSimilarity(a, b) {
@@ -77,10 +81,10 @@ function describeSources(chunks) {
 }
 
 // ── Get embedding for user query via OpenRouter ────────────────
-async function embedQuery(query, apiKey) {
+async function embedOnce(query, apiKey) {
     const res = await fetch('https://openrouter.ai/api/v1/embeddings', {
         method: 'POST',
-        signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS),
+        signal: AbortSignal.timeout(EMBED_TIMEOUT_MS),
         headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
@@ -96,7 +100,55 @@ async function embedQuery(query, apiKey) {
     }
 
     const data = await res.json();
-    return data.data[0].embedding;
+    const embedding = data?.data?.[0]?.embedding;
+    if (!Array.isArray(embedding)) throw new Error('Embedding response had no vector');
+    return embedding;
+}
+
+// Returns the query vector, or null if every attempt failed.
+async function embedQuery(query, apiKey) {
+    for (let attempt = 1; attempt <= EMBED_ATTEMPTS; attempt++) {
+        try {
+            return await embedOnce(query, apiKey);
+        } catch (err) {
+            console.error(`Embedding attempt ${attempt} failed:`, err?.message || err);
+        }
+    }
+    return null;
+}
+
+// ── Keyword retrieval, used only when the embedding service is down ──
+const STOPWORDS = new Set('the and for are you your with what was from that this have has had about can did does how who why when where which will would into out any tell more than then them they their our not but his her its also been were being use used using'.split(' '));
+function tokens(text) {
+    return (text.toLowerCase().match(/[a-z0-9][a-z0-9+#.-]*[a-z0-9+#]|[a-z0-9]{3,}/g) || [])
+        .filter(t => t.length >= 3 && !STOPWORDS.has(t));
+}
+let KEYWORD_INDEX = null;
+function retrieveByKeywords(query, topK = 5) {
+    if (!KEYWORD_INDEX) {
+        const docs = EMBEDDINGS.map(chunk => new Set(tokens(`${chunk.id.replace(/-/g, ' ')} ${chunk.content}`)));
+        const df = new Map();
+        for (const doc of docs) for (const t of doc) df.set(t, (df.get(t) || 0) + 1);
+        KEYWORD_INDEX = { docs, df };
+    }
+    const { docs, df } = KEYWORD_INDEX;
+    const q = [...new Set(tokens(query))];
+    const scored = EMBEDDINGS.map((chunk, i) => {
+        let score = 0;
+        const idTokens = chunk.id.split('-');
+        for (const t of q) {
+            if (!docs[i].has(t)) continue;
+            const idf = Math.log(1 + EMBEDDINGS.length / df.get(t));
+            // A chunk named after the term is the one written about it.
+            score += idTokens.includes(t) ? idf * 3 : idf;
+        }
+        return { ...chunk, score };
+    });
+    scored.sort((a, b) => b.score - a.score);
+    const max = scored[0].score || 1;
+    // No keyword overlap at all: fall back to the overview chunks so the model has context.
+    if (!scored[0].score) return EMBEDDINGS.slice(0, topK).map(c => ({ ...c, score: 0 }));
+    return scored.slice(0, topK).map(c => ({ ...c, score: c.score / max }));
 }
 
 // ── Sanitize incoming conversation history ─────────────────────
@@ -268,10 +320,12 @@ export default {
             const run = async (report) => {
                 let t = Date.now();
                 const queryEmbedding = await embedQuery(q, apiKey);
-                await report({ stage: 'embed', ms: Date.now() - t });
+                await report({ stage: 'embed', ms: Date.now() - t, ...(queryEmbedding ? {} : { fallback: 'keywords' }) });
 
                 t = Date.now();
-                const topChunks = retrieveContext(queryEmbedding, 6);
+                const topChunks = queryEmbedding
+                    ? retrieveContext(queryEmbedding, 6)
+                    : retrieveByKeywords(q, 6);
                 const sources = describeSources(topChunks);
                 await report({ stage: 'retrieve', ms: Date.now() - t, used: topChunks.length, total: EMBEDDINGS.length, sources });
 

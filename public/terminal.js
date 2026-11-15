@@ -276,6 +276,9 @@
     steps[i].classList.remove("is-active");
     steps[i].classList.add("is-done");
     steps[i].querySelector(".pipe-ms").textContent = fmtMs(ev.ms);
+    if (ev.stage === "embed" && ev.fallback) {
+      steps[i].querySelector(".pipe-name").textContent = "EMBEDDING DOWN · USING KEYWORDS";
+    }
     if (ev.stage === "retrieve" && ev.used && ev.total) {
       steps[i].querySelector(".pipe-name").textContent = `RETRIEVE ${ev.used} OF ${ev.total} NOTES`;
     }
