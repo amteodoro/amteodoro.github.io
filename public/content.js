@@ -14,7 +14,8 @@ window.AMT = {
         "speech systems for insurance and healthcare operations.",
       points: [
         ["Document understanding", " for medical-expense reimbursement: ~150k invoices a month, 70%+ settled without human review. PyTorch models behind FastAPI; I designed the human-review path for the rest."],
-        ["Vehicle-damage detection", " for underwriting and fraud prevention: trained the detection models, built the annotation platform the labelling team ran on, and shipped the inference service."],
+        ["Vehicle-damage detection", " for underwriting and fraud prevention: trained the detection models, built the annotation platform the labelling team ran on (annotations stored in MongoDB), and shipped the inference service."],
+        ["Deployment", ": packaged the document-understanding and damage-detection models as Docker services for Azure Kubernetes deployment, validated them in-container and optimised inference for GPU and multi-threaded CPU. Currently evaluating NVIDIA Triton Inference Server to consolidate model serving."],
         ["Call-centre speech", ": fine-tuned Whisper for domain-specific transcription, with speaker diarization and LLM summarisation for call analytics."],
         ["Also", ": consulting on a medical-imaging data platform, from 2D/3D labelling to integrated model training."],
       ],
@@ -77,7 +78,7 @@ window.AMT = {
         ["RUNS ON", "Self-hosted · Docker Compose · nginx"],
         ["STATUS",  "Public demo · bring your own key"],
       ],
-      stack: ["LangGraph", "FastAPI", "Next.js", "PostgreSQL"],
+      stack: ["LangGraph", "FastAPI", "Next.js"],
       links: [
         { href: "https://192-227-212-42.sslip.io/", label: "TRY APP ↗", primary: true },
       ],
@@ -124,7 +125,7 @@ window.AMT = {
         ["DATA",    "FIRMS · Meteosat · Sentinel-2/3"],
         ["STATUS",  "Open · demo + source"],
       ],
-      stack: ["PyTorch", "FastAPI", "PostGIS"],
+      stack: ["PyTorch", "FastAPI", "MobileViT"],
       links: [
         { href: "https://huggingface.co/spaces/ateodoro/portugal-fires", label: "TRY DEMO ↗", primary: true },
         { href: "https://github.com/amteodoro/portugal-fire-detection", label: "VIEW CODE ↗", primary: false },
@@ -193,8 +194,9 @@ window.AMT = {
       jacks: [
         { name: "PyTorch / TensorFlow" },
         { name: "FastAPI services" },
-        { name: "Docker & CI/CD" },
-        { name: "PostgreSQL / PostGIS" },
+        { name: "Docker on Azure Kubernetes" },
+        { name: "CI/CD" },
+        { name: "MongoDB" },
       ],
     },
     {

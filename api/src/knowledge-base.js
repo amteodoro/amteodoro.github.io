@@ -25,7 +25,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "exp-nimble",
         category: "experience",
-        content: `Since 2019 I have been an AI consultant at Nimble Portal, working with client stakeholders and delivery teams to put machine-learning systems into use. In one anonymized insurance-operations engagement, I helped build a document-understanding workflow processing around 150,000 invoices per month, with 70%+ of reimbursements handled automatically. I also built the annotation platform for a vehicle-photo damage detector, trained the models that supported insurance underwriting and fraud-prevention workflows, and exposed them through a service. In an insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and worked on diarization for analytics. My work spans data, modelling, annotation/review tooling, APIs, and delivery.`
+        content: `Since 2019 I have been an AI consultant at Nimble Portal, working with client stakeholders and delivery teams to put machine-learning systems into use. In one anonymized insurance-operations engagement, I helped build a document-understanding workflow processing around 150,000 invoices per month, with 70%+ of reimbursements handled automatically. I also built the annotation platform for a vehicle-photo damage detector (annotations are stored in MongoDB, a document database), trained the models that supported insurance underwriting and fraud-prevention workflows, and exposed them through a service. In an insurance call-centre pilot, I fine-tuned Whisper for domain-specific speech-to-text and worked on diarization for analytics. On deployment: the document-understanding pipeline and the vehicle-damage detection models run on Azure with Kubernetes. I did not own the cluster itself; my part was packaging the models as Docker services, making sure they behaved as expected inside the containers, and optimising inference to run on GPU or multi-threaded CPU. I am currently evaluating NVIDIA Triton Inference Server as a way to consolidate model serving and handle model load better. My work spans data, modelling, annotation/review tooling, APIs, and delivery.`
     },
     {
         id: "exp-phd",
@@ -102,7 +102,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "skills-mlops",
         category: "skills",
-        content: `On the engineering side I work with Docker for packaging, FastAPI for Python services, and Git for everything. I have experience wiring up CI/CD pipelines and serving models behind HTTP APIs.`
+        content: `On the engineering side I work with Docker for packaging, FastAPI for Python services, and Git for everything. I have experience wiring up CI/CD pipelines and serving models behind HTTP APIs. In production my model services are packaged as Docker containers and deployed on Azure Kubernetes; I optimise them for GPU or multi-threaded CPU inference, and I am evaluating NVIDIA Triton Inference Server for model serving. For document storage I have used MongoDB.`
     },
     {
         id: "skills-frontend",
@@ -114,7 +114,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "stack-summary",
         category: "skills",
-        content: `My current working stack is Python, primarily PyTorch with TensorFlow where projects require it, FastAPI, Docker, and Git. For LLM applications I use RAG, prompt design, workflow orchestration, Hugging Face Transformers, LangChain when useful, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. On the frontend I use React or vanilla JavaScript, depending on the product.`
+        content: `My current working stack is Python, primarily PyTorch with TensorFlow where projects require it, FastAPI, Docker, MongoDB, and Git. For LLM applications I use RAG, prompt design, workflow orchestration, Hugging Face Transformers, LangChain when useful, and hosted model APIs such as OpenAI, Anthropic, and OpenRouter. On the frontend I use React or vanilla JavaScript, depending on the product.`
     },
 
     // === DOMAINS / PROBLEM AREAS ===
@@ -143,7 +143,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "project-fire",
         category: "projects",
-        content: `Portugal Fire Detection is a personal project that monitors fires over Portugal, motivated by the country's fire seasons. It ingests active-fire data from NASA FIRMS (VIIRS and MODIS), Meteosat and Sentinel-3, searches Sentinel-2 imagery, and runs a MobileViT classifier (PyTorch, Hugging Face Transformers) over Sentinel-2 tiles to flag burning vegetation. Users can draw areas of interest and get email alerts; the backend uses FastAPI and PostGIS. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
+        content: `Portugal Fire Detection is a personal project that monitors fires over Portugal, motivated by the country's fire seasons. It ingests active-fire data from NASA FIRMS (VIIRS and MODIS), Meteosat and Sentinel-3, searches Sentinel-2 imagery, and runs a MobileViT classifier (PyTorch, Hugging Face Transformers) over Sentinel-2 tiles to flag burning vegetation. Users can draw areas of interest and get email alerts; the backend uses FastAPI. The demo is available at https://huggingface.co/spaces/ateodoro/portugal-fires, and the source is at https://github.com/amteodoro/portugal-fire-detection.`
     },
     {
         id: "project-retroreps",
@@ -154,7 +154,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "project-shinkachi",
         category: "projects",
-        content: `Shinkachi is my lead personal project: a web app for explainable value-investing research. I built it out of my passion for investing, and it is the tool I use myself to analyse stocks and opportunities. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI, PostgreSQL, SQLAlchemy and Alembic on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
+        content: `Shinkachi is my lead personal project: a web app for explainable value-investing research. I built it out of my passion for investing, and it is the tool I use myself to analyse stocks and opportunities. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
     },
 
     // === RESEARCH AREAS ===
