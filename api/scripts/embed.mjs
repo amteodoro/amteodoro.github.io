@@ -43,9 +43,28 @@ console.log(`Found ${chunks.length} chunks to embed`);
 const EMBED_URL = 'https://openrouter.ai/api/v1/embeddings';
 const EMBED_MODEL = 'nvidia/llama-nemotron-embed-vl-1b-v2:free';
 
+// The free endpoint sometimes hangs, so each batch gets a short timeout and a few retries.
+const BATCH_TIMEOUT_MS = 20000;
+const BATCH_ATTEMPTS = 6;
+
 async function getEmbeddings(texts) {
+    let lastError;
+    for (let attempt = 1; attempt <= BATCH_ATTEMPTS; attempt++) {
+        try {
+            return await getEmbeddingsOnce(texts);
+        } catch (err) {
+            lastError = err;
+            console.warn(`  attempt ${attempt}/${BATCH_ATTEMPTS} failed: ${err.message}`);
+            await new Promise(r => setTimeout(r, 2000 * attempt));
+        }
+    }
+    throw lastError;
+}
+
+async function getEmbeddingsOnce(texts) {
     const response = await fetch(EMBED_URL, {
         method: 'POST',
+        signal: AbortSignal.timeout(BATCH_TIMEOUT_MS),
         headers: {
             'Authorization': `Bearer ${API_KEY}`,
             'Content-Type': 'application/json',
