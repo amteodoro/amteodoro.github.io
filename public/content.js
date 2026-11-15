@@ -41,7 +41,7 @@ window.AMT = {
       start: "2014",
       end: "2015",
       desc:
-        "Project PAConvex — non-convex optimization and game-theoretic approaches for " +
+        "Project PAConvex: non-convex optimization and game-theoretic approaches for " +
         "imaging inverse problems. Improved Gaussian-mixture-based image denoising algorithms.",
       tag: "RESEARCH",
     },
@@ -52,7 +52,7 @@ window.AMT = {
       start: "2013",
       end: "2013",
       desc:
-        "Project ARGUS — activity recognition and object tracking. Built an interface " +
+        "Project ARGUS: activity recognition and object tracking. Built an interface " +
         "for trajectory monitoring and abnormal-event detection.",
       tag: "INTERNSHIP",
     },
@@ -68,7 +68,7 @@ window.AMT = {
       short: "Intrinsic",
       oneLine: "Value-investing verdicts",
       desc:
-        "Born from my passion for investing — it's the tool I use to analyse stocks and " +
+        "Born from my passion for investing. It's the tool I use to analyse stocks and " +
         "opportunities. Scores each stock criterion by criterion against published methods " +
         "(Graham, Buffett, Lynch, Greenblatt, Piotroski), and a LangGraph tool-calling agent " +
         "writes the analysis, kept visibly separate from the computed figures.",

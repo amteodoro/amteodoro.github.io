@@ -95,7 +95,7 @@
     <line x1="92"  y1="0" x2="92"  y2="88" stroke-width="3"/>
     <line x1="100" y1="0" x2="100" y2="88"/>
   </g>
-  <text x="36" y="160" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--ink)">5 901234 567893</text>
+  <text x="36" y="160" font-family="JetBrains Mono" font-size="12.2" letter-spacing="0.5" fill="var(--ink)">5 901234 567893</text>
 
   <!-- SCAN BEAM -->
   <rect x="30" y="60" width="112" height="2" fill="var(--ink)">
@@ -112,7 +112,6 @@
   <!-- VERDICT PANEL -->
   <g transform="translate(232,40)">
     <rect x="0" y="0" width="140" height="120" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
-    <text x="10" y="16" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
 
     <!-- 3-state vertical switch -->
     <g transform="translate(14,28)">
@@ -127,7 +126,7 @@
     </g>
 
     <!-- 3 labels with dot LEDs -->
-    <g transform="translate(38,30)" font-family="JetBrains Mono" font-size="10" letter-spacing="1" fill="var(--ink)">
+    <g transform="translate(38,30)" font-family="JetBrains Mono" font-size="13.5" letter-spacing="0.5" fill="var(--ink)">
       <!-- GLUTEN FREE -->
       <g>
         <circle cx="0" cy="8" r="3.5" fill="var(--ink)" stroke="var(--ink)" stroke-width="1">
@@ -160,9 +159,6 @@
     <line x1="232" y1="272" x2="232" y2="276"/>
     <line x1="380" y1="272" x2="380" y2="276"/>
   </g>
-  <text x="20"  y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">SCAN</text>
-  <text x="154" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">LOOKUP</text>
-  <text x="252" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
 </svg>`;
   }
 
@@ -184,13 +180,13 @@
     <rect x="-8" y="-8" width="16" height="16" fill="var(--ink)"/>
     <rect x="-22" y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
     <rect x="10"  y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
-    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">SENTINEL-2</text>
+    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="10.8" letter-spacing="0.5" fill="var(--ink)">SENTINEL-2</text>
   </g>
   <g transform="translate(260,42)">
     <rect x="-8" y="-8" width="16" height="16" fill="var(--ink)"/>
     <rect x="-22" y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
     <rect x="10"  y="-3" width="12" height="6" fill="var(--bg)" stroke="var(--ink)"/>
-    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">SENTINEL-3</text>
+    <text x="0" y="-14" text-anchor="middle" font-family="JetBrains Mono" font-size="10.8" letter-spacing="0.5" fill="var(--ink)">SENTINEL-3</text>
   </g>
 
   <!-- downlink cones -->
@@ -202,7 +198,7 @@
   </g>
 
   <!-- source tags: FIRMS + MODIS -->
-  <g font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">
+  <g font-family="JetBrains Mono" font-size="10.8" letter-spacing="0.5" fill="var(--ink)">
     <rect x="30" y="95" width="54" height="16" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>
     <text x="57" y="106" text-anchor="middle">FIRMS</text>
     <rect x="316" y="95" width="54" height="16" fill="var(--bg)" stroke="var(--ink)" stroke-width="1"/>
@@ -233,7 +229,6 @@
       <line x1="80"  y1="35" x2="80"  y2="75"/>
     </g>
   </g>
-  <text x="120" y="292" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">DETECT · FUSED · S2 + S3 + FIRMS + MODIS</text>
 </svg>`;
   }
 
@@ -270,8 +265,7 @@
     <rect x="340" y="230" width="14" height="40"/>
   </g>
   <line x1="20" y1="275" x2="380" y2="275" stroke="var(--ink)" stroke-width="1"/>
-  <text x="20" y="40" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--ink)">DAILY · BODYWEIGHT · NO EQUIPMENT</text>
-  <text x="20" y="55" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="var(--muted)">REPS / DAY · 28-DAY ROLLING WINDOW</text>
+  <text x="20" y="40" font-family="JetBrains Mono" font-size="12.2" letter-spacing="0.5" fill="var(--ink)">DAILY · BODYWEIGHT · NO EQUIPMENT</text>
 </svg>`;
   }
 
@@ -289,7 +283,7 @@
       return `
     <g transform="translate(118,${y})">
       <g transform="translate(0,-8)">${mark}</g>
-      <text x="20" y="0" font-family="JetBrains Mono" font-size="8.5" letter-spacing="1.2" fill="var(--ink)">${name}</text>
+      <text x="20" y="0" font-family="JetBrains Mono" font-size="11.5" letter-spacing="0.5" fill="var(--ink)">${name}</text>
       <rect x="20" y="5" width="96" height="5" fill="var(--bg)" stroke="var(--ink)" stroke-width="0.8"/>
       <rect x="20" y="5" width="${Math.round(96 * score)}" height="5" fill="var(--ink)"/>
     </g>`;
@@ -309,7 +303,6 @@
   <!-- TICKER -->
   <g transform="translate(22,98)">
     <rect width="70" height="44" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
-    <text x="8" y="14" font-family="JetBrains Mono" font-size="7.5" letter-spacing="1.5" fill="var(--muted)">TICKER</text>
     <text x="8" y="34" font-family="JetBrains Mono" font-size="15" font-weight="700" fill="var(--ink)">AAPL</text>
   </g>
   <g stroke="var(--ink)" stroke-width="1.25" fill="none">
@@ -318,7 +311,6 @@
   </g>
 
   <!-- PER-METHOD CHECKS (computed) -->
-  <text x="118" y="40" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">COMPUTED CHECKS</text>
   ${rowSvg}
 
   <g stroke="var(--ink)" stroke-width="1.25" fill="none">
@@ -329,23 +321,21 @@
   <!-- VERDICT LADDER -->
   <g transform="translate(270,52)">
     <rect width="110" height="128" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
-    <text x="10" y="16" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
     <rect x="6" y="27" width="98" height="20" fill="var(--dim-2)" stroke="var(--ink)" stroke-width="2">
       <animate attributeName="y" values="27;55;55;83;27" keyTimes="0;0.25;0.5;0.75;1" dur="8s" repeatCount="indefinite"/>
     </rect>
-    <g font-family="JetBrains Mono" font-size="10" font-weight="700" letter-spacing="1.5">
+    <g font-family="JetBrains Mono" font-size="13.5" font-weight="700" letter-spacing="0.5">
       <text x="14" y="41" fill="var(--ink)">BUY</text>
       <text x="14" y="69" fill="var(--ink)">WATCH</text>
       <text x="14" y="97" fill="var(--ink)">AVOID</text>
     </g>
-    <text x="10" y="120" font-family="JetBrains Mono" font-size="7.5" letter-spacing="1" fill="var(--muted)">14 / 21 CHECKS</text>
   </g>
 
   <!-- AI NARRATIVE (kept apart) -->
   <g transform="translate(118,214)">
     <rect width="262" height="30" fill="url(#hatch-ai)" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3,2" opacity="0.55"/>
     <rect x="8" y="8" width="128" height="14" fill="var(--bg)"/>
-    <text x="14" y="18" font-family="JetBrains Mono" font-size="8" letter-spacing="1.5" fill="var(--ink)">AI NARRATIVE · AGENT</text>
+    <text x="14" y="18" font-family="JetBrains Mono" font-size="10.8" letter-spacing="0.5" fill="var(--ink)">AI NARRATIVE · AGENT</text>
   </g>
 
   <!-- AXIS -->
@@ -356,9 +346,6 @@
     <line x1="270" y1="272" x2="270" y2="276"/>
     <line x1="380" y1="272" x2="380" y2="276"/>
   </g>
-  <text x="20"  y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">TICKER</text>
-  <text x="118" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">SCORE</text>
-  <text x="270" y="288" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="var(--muted)">VERDICT</text>
 </svg>`;
   }
 
@@ -407,7 +394,7 @@
       const head = el(
         "div",
         { class: "proj-head" },
-        el("span", { class: "id" }, `${pad(i + 1)} / ${pad(projects.length)} · ${p.idLabel}`),
+        el("span", { class: "id" }, p.idLabel),
         el("span", { class: "badge" }, p.badge)
       );
 
@@ -415,11 +402,6 @@
       const schemWrap = el("div", { class: "sch-wrap" }, schemEl, el("span", { class: "sch-hint", "aria-hidden": "true" }, "SCROLL →"));
       schemEl.insertAdjacentHTML("afterbegin", schematics[p.schematic]());
 
-      const specs = el(
-        "dl",
-        { class: "proj-specs" },
-        ...p.specs.flatMap(([k, v]) => [el("dt", {}, k), el("dd", {}, v)])
-      );
       const stack = el("div", { class: "stack" }, ...p.stack.map((t) => el("span", { class: "chip" }, t)));
       const actions = el(
         "div",
@@ -434,7 +416,6 @@
         { class: "proj-text" },
         el("h3", { class: "proj-title" }, p.title),
         el("p", { class: "proj-desc" }, p.desc),
-        specs,
         stack,
         actions
       );
@@ -476,7 +457,7 @@
     });
 
     root.appendChild(
-      el("div", { class: "proj-index-wrap" }, list, el("p", { class: "proj-index-hint" }, "Select a project · one at a time"))
+      el("div", { class: "proj-index-wrap" }, list)
     );
     root.appendChild(panels);
   }
@@ -498,7 +479,7 @@
           href,
           target: "_blank",
           rel: "noopener noreferrer",
-          "aria-label": `${p.title}, ${p.venue} ${p.year}, ${p.cites} citations — search on Google Scholar`,
+          "aria-label": `${p.title}, ${p.venue} ${p.year}, ${p.cites} citations, search on Google Scholar`,
         },
         el("span", { class: "pub-cites" }, String(p.cites)),
         el("span", { class: "pub-title" }, p.title),
