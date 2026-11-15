@@ -131,17 +131,20 @@
     if (!prepare()) return;
     cancelAnimationFrame(raf);
     last = e;
+    // The canvas is drawn object-fit: cover, so map the pointer through that crop.
     const r = box.getBoundingClientRect();
-    const s = Math.round(N * LENS);
-    const cx = ((e.clientX - r.left) / r.width) * N, cy = ((e.clientY - r.top) / r.height) * N;
+    const k = Math.max(r.width, r.height) / N;                 // CSS px per canvas px
+    const ox = (r.width - N * k) / 2, oy = (r.height - N * k) / 2;
+    const s = Math.round((LENS * Math.min(r.width, r.height)) / k);
+    const cx = (e.clientX - r.left - ox) / k, cy = (e.clientY - r.top - oy) / k;
     const x = Math.max(0, Math.min(N - s, Math.round(cx - s / 2)));
     const y = Math.max(0, Math.min(N - s, Math.round(cy - s / 2)));
     ctx.putImageData(degraded(MODES[mode][0]), 0, 0, x, y, s, s);
     ctx.lineWidth = 2; ctx.strokeStyle = "#0e0d0a";
     ctx.strokeRect(x + 1, y + 1, s - 2, s - 2);
     // Show the canvas only inside the lens so the full-resolution photo stays crisp around it.
-    const pc = (v) => (v / N * 100).toFixed(2) + "%";
-    canvas.style.clipPath = `inset(${pc(y)} ${pc(N - x - s)} ${pc(N - y - s)} ${pc(x)})`;
+    const px = (v) => v.toFixed(1) + "px";
+    canvas.style.clipPath = `inset(${px(y * k + oy)} ${px(r.width - (x + s) * k - ox)} ${px(r.height - (y + s) * k - oy)} ${px(x * k + ox)})`;
     box.classList.add("is-noisy");
     cap.textContent = MODES[mode][1] + " · CLICK FOR NEXT";
   }

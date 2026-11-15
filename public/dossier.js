@@ -151,14 +151,6 @@
     </g>
   </g>
 
-  <!-- AXIS -->
-  <g stroke="var(--ink)" stroke-width="0.6">
-    <line x1="20" y1="272" x2="380" y2="272"/>
-    <line x1="20"  y1="272" x2="20"  y2="276"/>
-    <line x1="140" y1="272" x2="140" y2="276"/>
-    <line x1="232" y1="272" x2="232" y2="276"/>
-    <line x1="380" y1="272" x2="380" y2="276"/>
-  </g>
 </svg>`;
   }
 
@@ -322,7 +314,7 @@
   <g transform="translate(270,52)">
     <rect width="110" height="128" fill="var(--bg)" stroke="var(--ink)" stroke-width="1.5"/>
     <rect x="6" y="27" width="98" height="20" fill="var(--dim-2)" stroke="var(--ink)" stroke-width="2">
-      <animate attributeName="y" values="27;55;55;83;27" keyTimes="0;0.25;0.5;0.75;1" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="y" values="27;55;83" calcMode="discrete" dur="7.5s" repeatCount="indefinite"/>
     </rect>
     <g font-family="JetBrains Mono" font-size="13.5" font-weight="700" letter-spacing="0.5">
       <text x="14" y="41" fill="var(--ink)">BUY</text>
