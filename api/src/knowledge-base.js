@@ -18,7 +18,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "evidence-why-hire",
         category: "about",
-        content: `Why hire me, and the evidence behind it: since 2019 I have shipped production machine learning for insurance operations. I helped build a document-understanding pipeline that processes around 150,000 invoices a month, with 70%+ of reimbursements settled without human review. For a vehicle-damage detection system used in underwriting and fraud prevention, I trained the detection models and built the annotation platform and the inference service. In a call-centre pilot I fine-tuned Whisper for domain-specific speech-to-text. On my own I designed, built and shipped Intrinsic (an explainable value-investing research app with a LangGraph agent), Nomly (a gluten-free safety app that uses AI to read ingredient labels) and a satellite fire-detection service. My PhD at IST (19/20) won the IBM Scientific Prize 2019, and my research has 400+ citations. That track record of research depth plus shipped production systems is what I bring to a senior, lead or founding AI role.`
+        content: `Why hire me, and the evidence behind it: since 2019 I have shipped production machine learning for insurance operations. I helped build a document-understanding pipeline that processes around 150,000 invoices a month, with 70%+ of reimbursements settled without human review. For a vehicle-damage detection system used in underwriting and fraud prevention, I trained the detection models and built the annotation platform and the inference service. In a call-centre pilot I fine-tuned Whisper for domain-specific speech-to-text. On my own I designed, built and shipped Shinkachi (an explainable value-investing research app with a LangGraph agent), Nomly (a gluten-free safety app that uses AI to read ingredient labels) and a satellite fire-detection service. My PhD at IST (19/20) won the IBM Scientific Prize 2019, and my research has 400+ citations. That track record of research depth plus shipped production systems is what I bring to a senior, lead or founding AI role.`
     },
 
     // === PROFESSIONAL EXPERIENCE ===
@@ -131,7 +131,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "domains-personal",
         category: "domains",
-        content: `Outside client work, I build my own products: Intrinsic, an explainable value-investing research app with a LangGraph agent; Nomly, an app for safer gluten-free living; a satellite-imagery fire-detection service; and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
+        content: `Outside client work, I build my own products: Shinkachi, an explainable value-investing research app with a LangGraph agent; Nomly, an app for safer gluten-free living; a satellite-imagery fire-detection service; and RetroReps.fit, a bodyweight-workout site. These are projects I chose to build independently, not client commissions.`
     },
 
     // === PROJECTS ===
@@ -152,9 +152,9 @@ export const KNOWLEDGE_CHUNKS = [
     },
 
     {
-        id: "project-intrinsic",
+        id: "project-shinkachi",
         category: "projects",
-        content: `Intrinsic is my lead personal project: a web app for explainable value-investing research. I built it out of my passion for investing, and it is the tool I use myself to analyse stocks and opportunities. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI, PostgreSQL, SQLAlchemy and Alembic on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
+        content: `Shinkachi is my lead personal project: a web app for explainable value-investing research. I built it out of my passion for investing, and it is the tool I use myself to analyse stocks and opportunities. It scores each stock criterion by criterion against published methods — Benjamin Graham, Warren Buffett, Peter Lynch, Joel Greenblatt's Magic Formula, and the Piotroski F-score — plus a combined house verdict (BUY, WATCH, or AVOID), and shows which checks passed and failed. A LangGraph tool-calling agent with financial analysis tools (deep dives, competitor analysis, price projections) writes the AI narrative, which the interface keeps visibly separate from computed figures. It is built with Next.js and TypeScript on the frontend and FastAPI, PostgreSQL, SQLAlchemy and Alembic on the backend, with data from yfinance, Financial Modeling Prep, SEC EDGAR and FRED, and LLMs via OpenRouter with model fallbacks. It runs as a public demo where visitors bring their own API keys, with Cloudflare Turnstile sign-up, email verification and per-user rate limits, self-hosted with Docker Compose and nginx. It is research and education, not investment advice. The live demo is at https://192-227-212-42.sslip.io/.`
     },
 
     // === RESEARCH AREAS ===
@@ -203,7 +203,7 @@ export const KNOWLEDGE_CHUNKS = [
     {
         id: "leadership-and-scope",
         category: "availability",
-        content: `On leadership and team size: I have not held a formal team-lead or people-manager title. What I can point to is scope and ownership. At Nimble Portal I have owned components of client-facing ML systems from model training through to the deployed API, worked directly with client stakeholders and the engineers around me, and designed the human-review process for the invoices the models don't settle automatically. On my own I have designed, built and shipped complete products end to end, such as Intrinsic and Nomly, which is the founding-engineer side of the work. That is why I am looking for a senior, lead or founding role: to take on that scope formally.`
+        content: `On leadership and team size: I have not held a formal team-lead or people-manager title. What I can point to is scope and ownership. At Nimble Portal I have owned components of client-facing ML systems from model training through to the deployed API, worked directly with client stakeholders and the engineers around me, and designed the human-review process for the invoices the models don't settle automatically. On my own I have designed, built and shipped complete products end to end, such as Shinkachi and Nomly, which is the founding-engineer side of the work. That is why I am looking for a senior, lead or founding role: to take on that scope formally.`
     },
     {
         id: "employment-stance",

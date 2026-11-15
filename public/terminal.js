@@ -288,7 +288,7 @@
     const t = document.getElementById("typing-ind");
     if (t) t.remove();
   }
-  // "SOURCES · Nimble Portal · Intrinsic   1.8 s · model" under an answer.
+  // "SOURCES · Nimble Portal · Shinkachi   1.8 s · model" under an answer.
   function addSourcesLine(run) {
     const labels = [...new Set((run.sources || []).map((s) => s.label).filter(Boolean))].slice(0, 3);
     if (!labels.length) return;

@@ -62,7 +62,7 @@ const SOURCE_LABELS = {
     'award-ibm': 'IBM prize',
     'stack-summary': 'Skills',
     'project-nomly': 'Nomly', 'project-fire': 'Fire detection',
-    'project-retroreps': 'RetroReps', 'project-intrinsic': 'Intrinsic',
+    'project-retroreps': 'RetroReps', 'project-shinkachi': 'Shinkachi',
     'methodology': 'How I work',
     'leadership-and-scope': 'Leadership & scope',
     'cv-pointer': 'CV', 'contact-info': 'Contact',

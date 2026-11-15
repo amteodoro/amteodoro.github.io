@@ -60,12 +60,12 @@ window.AMT = {
 
   projects: [
     {
-      id: "proj-intrinsic",
+      id: "proj-shinkachi",
       lead: true,
       idLabel: "AI SYSTEM",
       badge: "LIVE",
-      title: "Intrinsic",
-      short: "Intrinsic",
+      title: "Shinkachi",
+      short: "Shinkachi",
       oneLine: "Value-investing verdicts",
       desc:
         "Born from my passion for investing. It's the tool I use to analyse stocks and " +
@@ -212,7 +212,7 @@ window.AMT = {
   suggestedPrompts: [
     "What do you actually do?",
     "Why should I hire you?",
-    "Tell me about Intrinsic",
+    "Tell me about Shinkachi",
     "Are you open to new roles?",
     "What's your PhD about?",
   ],
